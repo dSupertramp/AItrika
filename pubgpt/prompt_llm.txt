@@ -1,0 +1,15 @@
+According to this abstract:
+
+Glaucoma is one of the leading causes of blindness characterized by progressive loss of retinal ganglion cells (RGCs) and their axons. We reported that glutamate/aspartate transporter (GLAST) knockout mice showed progressive RGC loss and optic nerve degeneration that are similar to glaucoma. To explore the possibility that rare variants in the EAAT1 gene (the human homolog of GLAST) cause susceptibility to glaucoma, we performed targeted sequencing of EAAT1 in 440 patients with glaucoma and 450 control subjects. We identified 8 rare variants in 20 out of 440 patients, including 4 synonymous and 4 missense variants located at protein coding regions. One of these rare variants (rs117295512) showed significant association with the risk of glaucoma (OR = 10.44, P = 0.005). Furthermore, the allele frequency for loss-of-function EAAT1 variants, pAla169Gly and pAla329Thr, was 5.5 folds higher in the glaucoma (1.1%) compared with the control cohort (0.2%). These findings suggest that these rare variants may contribute to the pathogenesis of glaucoma and that loss-of-function variants in EAAT1 are present in a small number of patients with glaucoma. 
+
+Can you tell me if:
+1) glaucoma is associated with EAAT1?
+2) glaucoma is associated with transporter?
+3) blindness is associated with EAAT1?
+4) blindness is associated with transporter?
+5) loss of retinal ganglion is associated with EAAT1?
+6) loss of retinal ganglion is associated with transporter?
+7) RGC loss and optic nerve degeneration is associated with EAAT1?
+8) RGC loss and optic nerve degeneration is associated with transporter?
+
+Give me each answer in a bullet list, and provide me a boolean result (only 'Yes' or 'No')
