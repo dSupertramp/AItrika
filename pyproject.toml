@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "pubgpt"
+version = "0.1.0"
+description = "Extract relevant informations in PubMed papers in a simple way."
+authors = ["Danilo Palumbo"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+bio = "^1.5.9"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

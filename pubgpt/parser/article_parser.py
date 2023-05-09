@@ -9,7 +9,7 @@ import pathlib
 
 
 def create_id_folder(document_id: str) -> None:
-    pathlib.Path(document_id).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(f"output/{document_id}").mkdir(parents=True, exist_ok=True)
 
 
 def search_on_pubmed(query: str) -> list:
@@ -35,7 +35,7 @@ def parse_article(document_id: str) -> Tuple[str, str, str, str]:
         mesh = record.get("MH", "")
         other_terms = record.get("OT", "")
     document = title + " " + abstract
-    with open(f"{document_id}/document.txt", "w") as f:
+    with open(f"output/{document_id}/document.txt", "w") as f:
         f.write(document)
     return pubmed_id, title, abstract, document
 
@@ -47,7 +47,7 @@ def pubtator(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     time.sleep(0.5)
     doc = ElementTree.fromstring(response.content)
     tree = ElementTree.ElementTree(doc)
-    tree.write("content.xml", encoding="utf-8")
+    tree.write(f"output/{document_id}/content.xml", encoding="utf-8")
     root = tree.getroot()
     doc = root[3]
     passage = doc[1:]
@@ -79,6 +79,8 @@ def pubtator(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     df = df.drop_duplicates("identifier")
     disease_df = df[df.type == "Disease"]
     gene_df = df[df.type == "Gene"]
-    gene_df.to_csv(f"{document_id}/genes.csv", encoding="utf-8", index=False)
-    disease_df.to_csv(f"{document_id}/diseases.csv", encoding="utf-8", index=False)
+    gene_df.to_csv(f"output/{document_id}/genes.csv", encoding="utf-8", index=False)
+    disease_df.to_csv(
+        f"output/{document_id}/diseases.csv", encoding="utf-8", index=False
+    )
     return gene_df, disease_df
