@@ -50,14 +50,13 @@ def extract_other_terms(document_id: str) -> pd.DataFrame:
     df.to_csv(f"output/{document_id}/other_terms.csv", encoding="utf-8", index=False)
 
 
-def pubtator(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def extract_genes_and_diseases(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     create_id_folder(document_id=document_id)
     url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={document_id}&concepts=gene,disease"
     response = requests.get(url)
     time.sleep(0.5)
     doc = ElementTree.fromstring(response.content)
     tree = ElementTree.ElementTree(doc)
-    tree.write(f"output/{document_id}/content.xml", encoding="utf-8")
     root = tree.getroot()
     doc = root[3]
     passage = doc[1:]
@@ -95,15 +94,11 @@ def pubtator(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     gene_df = df[df.type == "Gene"]
     disease_df = disease_df.drop("type", axis=1)
     gene_df = gene_df.drop("type", axis=1)
+    a = list(gene_df[["element", "identifier"]].itertuples(index=False, name=None))
+    b = list(disease_df[["element", "identifier"]].itertuples(index=False, name=None))
+    pairs = list(set([(i, j) for i in a for j in b]))
     gene_df.to_csv(f"output/{document_id}/genes.csv", encoding="utf-8", index=False)
     disease_df.to_csv(
         f"output/{document_id}/diseases.csv", encoding="utf-8", index=False
     )
-    return gene_df, disease_df
-
-
-def get_pairs(gene_df, disease_df):
-    a = list(gene_df[["element", "identifier"]].itertuples(index=False, name=None))
-    b = list(disease_df[["element", "identifier"]].itertuples(index=False, name=None))
-    pairs = list(set([(i, j) for i in a for j in b]))
-    return pairs
+    return gene_df, disease_df, pairs

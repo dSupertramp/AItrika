@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 
-def get_associations(document: str, pairs: List[Tuple[str, str]]):
+def get_associations(document: str, document_id: str, pairs: List[Tuple[str, str]]):
     temperature, max_tokens = (0, 500)
     gene_id, disease_id, disease_umls = ([] for _ in range(3))
     pre_prompt: list = []
@@ -18,15 +18,16 @@ def get_associations(document: str, pairs: List[Tuple[str, str]]):
     pre_prompt = "\n".join(pre_prompt)
     prompt = f"""
     According to this abstract:\n
-    {document}\n
-    Can you tell me if:\n
-    {pre_prompt}\n
-    As result, provide me a CSV with:
-    - Boolean result (only 'Yes' or 'No')
-    - The parte before "is associated with"
-    - The part after "is associated with"
-    For instance:
-    'Yes,X,Y'
+{document.strip()}\n
+Can you tell me if:\n
+{pre_prompt.strip()}\n
+As result, provide me only CSV with:
+- Boolean result (only 'Yes' or 'No')
+- The entire part before the sentence "is associated with"
+- The entire part after the sentence "is associated with"
+For instance:
+'Yes,X,Y'
+Also, remove the numbers list (like 1)) from the CSV
     """.strip()
     co = cohere.Client(os.getenv("COHERE_API_KEY"))
     response = (
@@ -39,4 +40,6 @@ def get_associations(document: str, pairs: List[Tuple[str, str]]):
         .generations[0]
         .text
     )
-    print(response)
+    with open(f"output/{document_id}/cohere_results.csv", "w") as f:
+        f.write("result,gene,disease")
+        f.write(response)
