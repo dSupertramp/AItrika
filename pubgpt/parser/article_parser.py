@@ -84,3 +84,10 @@ def pubtator(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
         f"output/{document_id}/diseases.csv", encoding="utf-8", index=False
     )
     return gene_df, disease_df
+
+
+def get_pairs(gene_df, disease_df):
+    a = list(gene_df[["element", "identifier"]].itertuples(index=False, name=None))
+    b = list(disease_df[["element", "identifier"]].itertuples(index=False, name=None))
+    pairs = list(set([(i, j) for i in a for j in b]))
+    return pairs
