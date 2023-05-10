@@ -11,10 +11,13 @@ python = "^3.10"
 bio = "^1.5.9"
 cohere = "^4.4.1"
 python-dotenv = "^1.0.0"
+openai = "^0.27.6"
 
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
+pylint = "^2.17.4"
+pytest = "^7.3.1"
 
 [build-system]
 requires = ["poetry-core"]

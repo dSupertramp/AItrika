@@ -71,6 +71,10 @@ def pubtator(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
             except Exception:
                 typex = infos[0].text
             type_list.append(typex)
+    text_list = [i.strip() for i in text_list]
+    element_list = [i.strip() for i in element_list]
+    identifier_list = [i.strip() for i in identifier_list]
+    type_list = [i.strip() for i in type_list]
     df = pd.DataFrame(
         data=zip(element_list, identifier_list, type_list),
         columns=["element", "identifier", "type"],

@@ -5,7 +5,7 @@ from parser.article_parser import (
     pubtator,
     get_pairs,
 )
-import cohere
+import openai
 import pandas as pd
 import os
 
@@ -14,7 +14,14 @@ load_dotenv()
 
 
 def get_associations(document: str, pairs: List[Tuple[str, str]]):
-    temperature, max_tokens = (0, 500)
+    temperature, frequency_penalty, presence_penalty, max_tokens, top_p, engine = (
+        0,
+        0,
+        0,
+        500,
+        1,
+        "text-curie-001",
+    )
     data = pd.DataFrame(columns=["geneId", "diseaseId"])
     gene_id, disease_id, disease_umls = ([] for _ in range(3))
     pre_prompt: list = []
@@ -30,11 +37,14 @@ def get_associations(document: str, pairs: List[Tuple[str, str]]):
     {pre_prompt} \n
     Give me each answer in a bullet list, and provide me a boolean result (only 'Yes' or 'No')
     """.strip()
-    co = cohere.Client(os.getenv("COHERE_API_KEY"))
-    response = co.generate(
-        model="command-xlarge-nightly",
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    response = openai.Completion.create(
+        engine=engine,
         prompt=prompt,
-        max_tokens=max_tokens,
         temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        frequency_penalty=frequency_penalty,
+        presence_penalty=presence_penalty,
     )
-    print(response.generations[0].text)
+    return response["choices"]
