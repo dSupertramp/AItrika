@@ -16,5 +16,5 @@ PubGPT is licensed under the MIT License. See the LICENSE file for more details.
 
 ### Todo
 
-- [ ] Add more LLMs
+- [ ] Add more LLMs for associations extraction
 - [ ] Add the extraction of more informations
