@@ -19,10 +19,15 @@ Give me each answer in a bullet list, and provide me a boolean result (only 'Yes
 ## Python
 
 
-  prompt = f"""
-  According to this abstract: \n
-  {document} \n
-  Can you tell me if: \n
-  {pre_prompt} \n
-  Give me each answer in a bullet list, and provide me a boolean result (only 'Yes' or 'No')
-  """.strip()
+prompt = f"""
+According to this abstract:\n
+{document}\n
+Can you tell me if:\n
+{pre_prompt}\n
+As result, provide me a CSV with:
+- Boolean result (only 'Yes' or 'No')
+- The parte before "is associated with"
+- The part after "is associated with"
+For instance:
+'Yes,X,Y'
+""".strip()

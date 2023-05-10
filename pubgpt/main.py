@@ -6,9 +6,9 @@ from parser.article_parser import (
     extract_other_terms,
 )
 
-from parser.cohere import get_associations
 
-# from parser.openai import get_associations
+# from llm.openai import get_associations
+from llm.cohere import get_associations
 
 
 if __name__ == "__main__":
@@ -18,5 +18,6 @@ if __name__ == "__main__":
     mesh_terms = extract_mesh_terms(document_id=document_id)
     other_terms = extract_other_terms(document_id=document_id)
     pairs = get_pairs(gene_df, disease_df)
-    ## result_cohere = get_associations(document=document, pairs=pairs)
     ## result_openai = get_associations(document=document, pairs=pairs)
+    result_cohere = get_associations(document=document, pairs=pairs)
+    print(result_cohere)
