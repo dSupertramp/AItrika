@@ -6,7 +6,7 @@ PubGPT is a tool that can extract lots of relevant informations inside PubMed pa
 - Full text (when available)
 - Genes
 - Diseases 
-- Associations between genes and diseases
+- Associations between genes and diseases (powered by LLMs)
 
 
 ## License
@@ -16,5 +16,6 @@ PubGPT is licensed under the MIT License. See the LICENSE file for more details.
 
 ### Todo
 
+- [ ] Improve code
 - [ ] Add more LLMs for associations extraction
 - [ ] Add the extraction of more informations
