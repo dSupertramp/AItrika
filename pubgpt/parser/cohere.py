@@ -31,10 +31,13 @@ def get_associations(document: str, pairs: List[Tuple[str, str]]):
     Give me each answer in a bullet list, and provide me a boolean result (only 'Yes' or 'No')
     """.strip()
     co = cohere.Client(os.getenv("COHERE_API_KEY"))
-    response = co.generate(
-        model="command-xlarge-nightly",
-        prompt=prompt,
-        max_tokens=max_tokens,
-        temperature=temperature,
+    response = (
+        co.generate(
+            model="command-xlarge-nightly",
+            prompt=prompt,
+            max_tokens=max_tokens,
+            temperature=temperature,
+        )
+        .generations[0]
+        .text
     )
-    print(response.generations[0].text)

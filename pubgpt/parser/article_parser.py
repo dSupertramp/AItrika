@@ -5,11 +5,7 @@ import numpy as np
 import requests
 import time
 from xml.etree import ElementTree
-import pathlib
-
-
-def create_id_folder(document_id: str) -> None:
-    pathlib.Path(f"output/{document_id}").mkdir(parents=True, exist_ok=True)
+from utils.utils import create_id_folder
 
 
 def search_on_pubmed(query: str) -> list:
@@ -32,12 +28,26 @@ def parse_article(document_id: str) -> Tuple[str, str, str, str]:
         title = record.get("TI", "")
         abstract = record.get("AB", "")
         pubmed_id = record.get("PMID", "")
-        mesh = record.get("MH", "")
-        other_terms = record.get("OT", "")
     document = title + " " + abstract
     with open(f"output/{document_id}/document.txt", "w") as f:
         f.write(document)
     return pubmed_id, title, abstract, document
+
+
+def extract_mesh_terms(document_id: str) -> pd.DataFrame:
+    create_id_folder(document_id=document_id)
+    for record in search_on_pubmed(query=document_id):
+        mesh_terms = record.get("MH", "")
+    df = pd.DataFrame(data=zip(mesh_terms), columns=["element"])
+    df.to_csv(f"output/{document_id}/mesh_terms.csv", encoding="utf-8", index=False)
+
+
+def extract_other_terms(document_id: str) -> pd.DataFrame:
+    create_id_folder(document_id=document_id)
+    for record in search_on_pubmed(query=document_id):
+        other_terms = record.get("OT", "")
+    df = pd.DataFrame(data=zip(other_terms), columns=["element"])
+    df.to_csv(f"output/{document_id}/other_terms.csv", encoding="utf-8", index=False)
 
 
 def pubtator(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -83,6 +93,8 @@ def pubtator(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     df = df.drop_duplicates("identifier")
     disease_df = df[df.type == "Disease"]
     gene_df = df[df.type == "Gene"]
+    disease_df = disease_df.drop("type", axis=1)
+    gene_df = gene_df.drop("type", axis=1)
     gene_df.to_csv(f"output/{document_id}/genes.csv", encoding="utf-8", index=False)
     disease_df.to_csv(
         f"output/{document_id}/diseases.csv", encoding="utf-8", index=False
