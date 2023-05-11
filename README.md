@@ -11,6 +11,10 @@ PubGPT is a tool that can extract lots of relevant informations inside PubMed pa
 - Other terms
 
 
+## Local PDF parsing architecture
+![](https://bennycheung.github.io/images/ask-a-book-questions-with-langchain-openai/Ask_Book_Questions_Workflow.jpg)
+
+
 ## License
 
 PubGPT is licensed under the MIT License. See the LICENSE file for more details.
