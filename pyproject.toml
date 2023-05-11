@@ -12,6 +12,7 @@ bio = "^1.5.9"
 cohere = "^4.4.1"
 python-dotenv = "^1.0.0"
 openai = "^0.27.6"
+pypdf2 = "^3.0.1"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -1,4 +1,4 @@
-from parser.article_parser import (
+from online_parser.article_parser import (
     parse_article,
     extract_genes_and_diseases,
     extract_mesh_terms,
