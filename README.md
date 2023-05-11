@@ -6,7 +6,7 @@ PubGPT is a tool that can extract lots of relevant informations inside PubMed pa
 - Full text (when available)
 - Genes
 - Diseases
-- Associations between genes and diseases (powered by LLMs)
+- Associations between genes and diseases (powered by LLMs and LangChain)
 - MESH terms
 - Other terms
 
