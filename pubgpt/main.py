@@ -6,11 +6,22 @@ from online_parser.article_parser import (
 )
 
 
+from pdf_parser.article_parser import (
+    read_pdf,
+    extract_pdf_content,
+    split_pdf_content,
+    create_embeddings_cohere,
+    retriever_cohere,
+    create_embeddings_openai,
+    retriever_openai,
+)
+
+
 # from llm.openai import get_associations
 from llm.cohere import get_associations
 
 
-if __name__ == "__main__":
+def online_parser():
     document_id = "32819603"
     paper_id, title, abstract, document = parse_article(document_id=document_id)
     gene_df, disease_df, pairs = extract_genes_and_diseases(document_id=document_id)
@@ -21,3 +32,20 @@ if __name__ == "__main__":
         document=document, document_id=document_id, pairs=pairs
     )
     print(result_cohere)
+
+
+def pdf_parser():
+    pdf_path = "input/Breast cancer genes: beyond BRCA1 and BRCA2.pdf"
+    pdf = read_pdf(pdf_path)
+    pdf_content = extract_pdf_content(pdf=pdf)
+    splitted_text_from_pdf = split_pdf_content(pdf_content=pdf_content)
+    query = """
+    Is BRCA1 associated with breast cancer?
+    """
+    embeddings = create_embeddings_cohere(splitted_text_from_pdf=splitted_text_from_pdf)
+    print(retriever_cohere(query=query, embeddings=embeddings))
+
+
+if __name__ == "__main__":
+    # online_parser()
+    pdf_parser()
