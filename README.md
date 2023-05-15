@@ -7,7 +7,7 @@ PubGPT is a tool that can extract lots of relevant informations inside PubMed pa
 - Genes
 - Diseases
 - Associations between genes and diseases (powered by LLMs and LangChain)
-- MESH terms
+- MeSH terms
 - Other terms
 
 
@@ -26,4 +26,5 @@ PubGPT is licensed under the MIT License. See the LICENSE file for more details.
 - [ ] Add more LLMs for associations extraction
 - [ ] Add the extraction of more informations
 - [ ] Create Python package
+- [x] Add webapp
 - [x] Add LangChain for PDFs
