@@ -49,3 +49,4 @@ Also, remove the numbers list (like 1)) from the CSV
     with open(f"output/{document_id}/openai_results.csv", "w") as f:
         f.write("result,gene,disease")
         f.write(response)
+    return response

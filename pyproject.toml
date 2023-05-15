@@ -15,6 +15,7 @@ openai = "^0.27.6"
 pypdf2 = "^3.0.1"
 langchain = "^0.0.165"
 faiss-cpu = "^1.7.4"
+streamlit = "^1.22.0"
 
 
 [tool.poetry.group.dev.dependencies]
