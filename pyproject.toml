@@ -17,6 +17,7 @@ langchain = "^0.0.165"
 faiss-cpu = "^1.7.4"
 streamlit = "^1.22.0"
 petals = "^1.1.5"
+altair = "*"
 
 
 [tool.poetry.group.dev.dependencies]

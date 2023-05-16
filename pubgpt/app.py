@@ -6,8 +6,12 @@ from online_parser.article_parser import (
     extract_mesh_terms,
     extract_other_terms,
 )
+from pdf_parser.article_parser import read_pdf, extract_pdf_content, split_pdf_content
 
-from llm.cohere import get_associations
+# from pdf_parser.openai import create_embeddings_openai, retriever_openai
+from pdf_parser.cohere import create_embeddings_cohere, retriever_cohere
+
+from llm_parser.cohere import get_associations
 
 
 st.set_page_config(page_title="PubGPT", initial_sidebar_state="auto")
@@ -27,7 +31,8 @@ def convert_df(df):
     return df.to_csv().encode("utf-8")
 
 
-if __name__ == "__main__":
+def online_parser():
+    st.markdown("""## Online parser""")
     document_id = st.text_input("PubMed ID", "32819603")
     parse_paper = st.button("Parse paper")
     if parse_paper:
@@ -82,3 +87,26 @@ if __name__ == "__main__":
             document=document, document_id=document_id, pairs=pairs
         )
         st.write(result_cohere)
+
+
+def local_parser():
+    st.markdown("""## Local parser""")
+    uploaded_file = st.file_uploader("Choose a file")
+    if uploaded_file:
+        pdf = read_pdf(uploaded_file)
+        pdf_content = extract_pdf_content(pdf=pdf)
+        splitted_text_from_pdf = split_pdf_content(pdf_content=pdf_content)
+        embeddings = create_embeddings_cohere(
+            splitted_text_from_pdf=splitted_text_from_pdf
+        )
+        query = st.text_input(
+            "Insert query here:",
+            "Es: Is BRCA1 associated with breast cancer?",
+        )
+        if st.button("Query document"):
+            st.write(retriever_cohere(query=query, embeddings=embeddings))
+
+
+if __name__ == "__main__":
+    online_parser()
+    local_parser()

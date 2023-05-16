@@ -1,6 +1,6 @@
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
-from typing import List, Any
+from typing import List
 
 
 def read_pdf(pdf_path: str) -> None:
