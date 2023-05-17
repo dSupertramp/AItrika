@@ -6,7 +6,7 @@ from online_parser.article_parser import (
     extract_mesh_terms,
     extract_other_terms,
 )
-from pdf_parser.article_parser import read_pdf, extract_pdf_content, split_pdf_content
+from pdf_parser.utils import read_pdf, extract_pdf_content, split_pdf_content
 
 # from pdf_parser.openai import create_embeddings_openai, retriever_openai
 from pdf_parser.cohere import create_embeddings_cohere, retriever_cohere
@@ -95,7 +95,9 @@ def local_parser():
     if uploaded_file:
         pdf = read_pdf(uploaded_file)
         pdf_content = extract_pdf_content(pdf=pdf)
-        splitted_text_from_pdf = split_pdf_content(pdf_content=pdf_content)
+        splitted_text_from_pdf = split_pdf_content(
+            pdf_content=pdf_content, chunk_size=1000, chunk_overlap=200
+        )
         embeddings = create_embeddings_cohere(
             splitted_text_from_pdf=splitted_text_from_pdf
         )

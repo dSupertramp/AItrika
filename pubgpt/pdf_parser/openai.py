@@ -10,18 +10,44 @@ load_dotenv()
 
 
 def create_embeddings_openai(splitted_text_from_pdf: List) -> Any:
+    """
+    Create embeddings from chunks for OpenAI.
+
+    Args:
+        splitted_text_from_pdf (List): List of chunks
+
+    Returns:
+        Any: Embeddings
+    """
     embeddings = OpenAIEmbeddings()
     documents = FAISS.from_texts(texts=splitted_text_from_pdf, embedding=embeddings)
     return documents
 
 
 def create_opeanai_chain(query: str, embeddings: Any) -> None:
+    """
+    Create chain for OpenAI.
+
+    Args:
+        query (str): Query
+        embeddings (Any): Embeddings
+    """
     chain = load_qa_chain(llm=OpenAI(), chain_type="stuff")
     docs = embeddings.similarity_search(query)
     chain.run(input_documents=docs, question=query)
 
 
 def retriever_openai(query: str, embeddings: Any) -> str:
+    """
+    Create retriever for OpenAI.
+
+    Args:
+        query (str): Query
+        embeddings (Any): Embeddings
+
+    Returns:
+        str: Result of retriever
+    """
     retriever = embeddings.as_retriever(search_type="similarity")
     result = RetrievalQA.from_chain_type(
         llm=OpenAI,

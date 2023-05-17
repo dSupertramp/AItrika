@@ -6,7 +6,7 @@ from online_parser.article_parser import (
 )
 
 
-from pdf_parser.article_parser import (
+from pdf_parser.utils import (
     read_pdf,
     extract_pdf_content,
     split_pdf_content,
@@ -35,7 +35,9 @@ def online_parser(document_id: str):
 def pdf_parser(pdf_path: str, query: str):
     pdf = read_pdf(pdf_path)
     pdf_content = extract_pdf_content(pdf=pdf)
-    splitted_text_from_pdf = split_pdf_content(pdf_content=pdf_content)
+    splitted_text_from_pdf = split_pdf_content(
+        pdf_content=pdf_content, chunk_size=1000, chunk_overlap=200
+    )
 
     # embeddings = create_embeddings_openai(splitted_text_from_pdf=splitted_text_from_pdf)
     # print(retriever_openai(query=query, embeddings=embeddings))

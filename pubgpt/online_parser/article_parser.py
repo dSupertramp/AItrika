@@ -8,10 +8,19 @@ from xml.etree import ElementTree
 from utils.utils import create_id_folder
 
 
-def search_on_pubmed(query: str) -> list:
+def search_on_pubmed(pubmed_id: str) -> list:
+    """
+    Search on PubMed using a PubMed ID.
+
+    Args:
+        pubmed_id (str): PubMed ID
+
+    Returns:
+        list: List of records of the article
+    """
     Entrez.email = "random@example.com"
     handle = Entrez.esearch(
-        db="pubmed", sort="relevance", retmax=1, retmode="text", term=query
+        db="pubmed", sort="relevance", retmax=1, retmode="text", term=pubmed_id
     )
     result = Entrez.read(handle)
     ids = result["IdList"]
@@ -22,37 +31,73 @@ def search_on_pubmed(query: str) -> list:
     return records
 
 
-def parse_article(document_id: str) -> Tuple[str, str, str, str]:
-    create_id_folder(document_id=document_id)
-    for record in search_on_pubmed(query=document_id):
+def parse_article(pubmed_id: str) -> Tuple[str, str, str, str]:
+    """
+    Parse the article.
+
+    Args:
+        pubmed_id (str): PubMed ID
+
+    Returns:
+        Tuple[str, str, str, str]: PubMed ID, title, abstract, title+abstract
+    """
+    create_id_folder(pubmed_id=pubmed_id)
+    for record in search_on_pubmed(pubmed_id=pubmed_id):
         title = record.get("TI", "")
         abstract = record.get("AB", "")
         pubmed_id = record.get("PMID", "")
     document = title + " " + abstract
-    with open(f"output/{document_id}/document.txt", "w") as f:
+    with open(f"output/{pubmed_id}/document.txt", "w") as f:
         f.write(document)
     return pubmed_id, title, abstract, document
 
 
-def extract_mesh_terms(document_id: str) -> pd.DataFrame:
-    create_id_folder(document_id=document_id)
-    for record in search_on_pubmed(query=document_id):
+def extract_mesh_terms(pubmed_id: str) -> pd.DataFrame:
+    """
+    Extract MeSH terms from article.
+
+    Args:
+        pubmed_id (str): PubMed ID
+
+    Returns:
+        pd.DataFrame: DataFrame with MeSH terms
+    """
+    create_id_folder(pubmed_id=pubmed_id)
+    for record in search_on_pubmed(pubmed_id=pubmed_id):
         mesh_terms = record.get("MH", "")
     df = pd.DataFrame(data=zip(mesh_terms), columns=["element"])
-    df.to_csv(f"output/{document_id}/mesh_terms.csv", encoding="utf-8", index=False)
+    df.to_csv(f"output/{pubmed_id}/mesh_terms.csv", encoding="utf-8", index=False)
 
 
-def extract_other_terms(document_id: str) -> pd.DataFrame:
-    create_id_folder(document_id=document_id)
-    for record in search_on_pubmed(query=document_id):
+def extract_other_terms(pubmed_id: str) -> pd.DataFrame:
+    """
+    Extract other terms from article.
+
+    Args:
+        pubmed_id (str): PubMed ID
+
+    Returns:
+        pd.DataFrame: DataFrame with other terms
+    """
+    create_id_folder(pubmed_id=pubmed_id)
+    for record in search_on_pubmed(pubmed_id=pubmed_id):
         other_terms = record.get("OT", "")
     df = pd.DataFrame(data=zip(other_terms), columns=["element"])
-    df.to_csv(f"output/{document_id}/other_terms.csv", encoding="utf-8", index=False)
+    df.to_csv(f"output/{pubmed_id}/other_terms.csv", encoding="utf-8", index=False)
 
 
-def extract_genes_and_diseases(document_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    create_id_folder(document_id=document_id)
-    url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={document_id}&concepts=gene,disease"
+def extract_genes_and_diseases(pubmed_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Extract genes and disease from article.
+
+    Args:
+        pubmed_id (str): PubMed ID
+
+    Returns:
+        Tuple[pd.DataFrame, pd.DataFrame]: DataFrame with genes and DataFrame with diseases
+    """
+    create_id_folder(pubmed_id=pubmed_id)
+    url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=gene,disease"
     response = requests.get(url)
     time.sleep(0.5)
     doc = ElementTree.fromstring(response.content)
@@ -94,11 +139,13 @@ def extract_genes_and_diseases(document_id: str) -> Tuple[pd.DataFrame, pd.DataF
     gene_df = df[df.type == "Gene"]
     disease_df = disease_df.drop("type", axis=1)
     gene_df = gene_df.drop("type", axis=1)
-    a = list(gene_df[["element", "identifier"]].itertuples(index=False, name=None))
-    b = list(disease_df[["element", "identifier"]].itertuples(index=False, name=None))
-    pairs = list(set([(i, j) for i in a for j in b]))
-    gene_df.to_csv(f"output/{document_id}/genes.csv", encoding="utf-8", index=False)
-    disease_df.to_csv(
-        f"output/{document_id}/diseases.csv", encoding="utf-8", index=False
+    genes_pairs = list(
+        gene_df[["element", "identifier"]].itertuples(index=False, name=None)
     )
+    disease_pairs = list(
+        disease_df[["element", "identifier"]].itertuples(index=False, name=None)
+    )
+    pairs = list(set([(i, j) for i in genes_pairs for j in disease_pairs]))
+    gene_df.to_csv(f"output/{pubmed_id}/genes.csv", encoding="utf-8", index=False)
+    disease_df.to_csv(f"output/{pubmed_id}/diseases.csv", encoding="utf-8", index=False)
     return gene_df, disease_df, pairs
