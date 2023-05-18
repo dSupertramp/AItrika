@@ -8,7 +8,17 @@ load_dotenv()
 
 
 def get_associations(document: str, pubmed_id: str, pairs: List[Tuple[str, str]]):
-    temperature, max_tokens = (0, 500)
+    """
+    Get associations using Starcoder LLM.
+
+    Args:
+        document (str): Text (abstract or full text)
+        pubmed_id (str): PubMed ID
+        pairs (List[Tuple[str, str]]): Gene-disease pairs
+
+    Returns:
+        str: Response
+    """
     gene_id, disease_id, disease_umls = ([] for _ in range(3))
     pre_prompt: list = []
     for index, item in enumerate(pairs, 1):

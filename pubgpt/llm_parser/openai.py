@@ -7,7 +7,20 @@ import os
 load_dotenv()
 
 
-def get_associations(document: str, pubmed_id: str, pairs: List[Tuple[str, str]]):
+def get_associations(
+    document: str, pubmed_id: str, pairs: List[Tuple[str, str]]
+) -> str:
+    """
+    Get associations using OpenAI LLM.
+
+    Args:
+        document (str): Text (abstract or full text)
+        pubmed_id (str): PubMed ID
+        pairs (List[Tuple[str, str]]): Gene-disease pairs
+
+    Returns:
+        str: Response
+    """
     temperature, frequency_penalty, presence_penalty, max_tokens, top_p, engine = (
         0,
         0,

@@ -7,7 +7,20 @@ import os
 load_dotenv()
 
 
-def get_associations(document: str, pubmed_id: str, pairs: List[Tuple[str, str]]):
+def get_associations(
+    document: str, pubmed_id: str, pairs: List[Tuple[str, str]]
+) -> str:
+    """
+    Get associations using Cohere LLM.
+
+    Args:
+        document (str): Text (abstract or full text)
+        pubmed_id (str): PubMed ID
+        pairs (List[Tuple[str, str]]): Gene-disease pairs
+
+    Returns:
+        str: Response
+    """
     temperature, max_tokens = (0, 500)
     gene_id, disease_id, disease_umls = ([] for _ in range(3))
     pre_prompt: list = []

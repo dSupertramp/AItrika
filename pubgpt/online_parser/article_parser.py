@@ -149,3 +149,141 @@ def extract_genes_and_diseases(pubmed_id: str) -> Tuple[pd.DataFrame, pd.DataFra
     gene_df.to_csv(f"output/{pubmed_id}/genes.csv", encoding="utf-8", index=False)
     disease_df.to_csv(f"output/{pubmed_id}/diseases.csv", encoding="utf-8", index=False)
     return gene_df, disease_df, pairs
+
+
+def extract_chemicals(pubmed_id: str):
+    create_id_folder(pubmed_id=pubmed_id)
+    url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=chemical"
+    response = requests.get(url)
+    time.sleep(0.5)
+    doc = ElementTree.fromstring(response.content)
+    tree = ElementTree.ElementTree(doc)
+    root = tree.getroot()
+    doc = root[3]
+    passage = doc[1:]
+    text_list, element_list, identifier_list, type_list = [], [], [], []
+    for i in passage:
+        for text in i.iterfind("text"):
+            text = text.text
+            text_list.append(text)
+        for annotation in i.iterfind("annotation"):
+            for text in annotation.iterfind("text"):
+                element = text.text
+                element_list.append(element)
+            infos = annotation.findall("infon")
+            try:
+                identifier = infos[0].text
+            except Exception:
+                identifier = ""
+            identifier_list.append(identifier.replace("MESH:", ""))
+            try:
+                typex = infos[1].text
+            except Exception:
+                typex = infos[0].text
+            type_list.append(typex)
+    text_list = [i.strip() for i in text_list]
+    element_list = [i.strip() for i in element_list]
+    identifier_list = [i.strip() for i in identifier_list]
+    type_list = [i.strip() for i in type_list]
+    df = pd.DataFrame(
+        data=zip(element_list, identifier_list, type_list),
+        columns=["element", "identifier", "type"],
+    )
+    df["element"] = df["element"].astype(str)
+    df["identifier"] = df["identifier"].astype(str)
+    df["type"] = df["type"].astype(str)
+    df = df.drop_duplicates("identifier")
+    df.to_csv(f"output/{pubmed_id}/chemicals.csv", sep=",", index=False)
+    return df
+
+
+def extract_mutations(pubmed_id: str):
+    create_id_folder(pubmed_id=pubmed_id)
+    url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=mutation"
+    response = requests.get(url)
+    time.sleep(0.5)
+    doc = ElementTree.fromstring(response.content)
+    tree = ElementTree.ElementTree(doc)
+    root = tree.getroot()
+    doc = root[3]
+    passage = doc[1:]
+    text_list, element_list, identifier_list, type_list = [], [], [], []
+    for i in passage:
+        for text in i.iterfind("text"):
+            text = text.text
+            text_list.append(text)
+        for annotation in i.iterfind("annotation"):
+            for text in annotation.iterfind("text"):
+                element = text.text
+                element_list.append(element)
+            infos = annotation.findall("infon")
+            try:
+                identifier = infos[0].text
+            except Exception:
+                identifier = ""
+            identifier_list.append(identifier.replace("MESH:", ""))
+            try:
+                typex = infos[1].text
+            except Exception:
+                typex = infos[0].text
+            type_list.append(typex)
+    text_list = [i.strip() for i in text_list]
+    element_list = [i.strip() for i in element_list]
+    identifier_list = [i.strip() for i in identifier_list]
+    type_list = [i.strip() for i in type_list]
+    df = pd.DataFrame(
+        data=zip(element_list, identifier_list, type_list),
+        columns=["element", "identifier", "type"],
+    )
+    df["element"] = df["element"].astype(str)
+    df["identifier"] = df["identifier"].astype(str)
+    df["type"] = df["type"].astype(str)
+    df = df.drop_duplicates("identifier")
+    df.to_csv(f"output/{pubmed_id}/mutation.csv", sep=",", index=False)
+    return df
+
+
+def extract_species(pubmed_id: str):
+    create_id_folder(pubmed_id=pubmed_id)
+    url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=species"
+    response = requests.get(url)
+    time.sleep(0.5)
+    doc = ElementTree.fromstring(response.content)
+    tree = ElementTree.ElementTree(doc)
+    root = tree.getroot()
+    doc = root[3]
+    passage = doc[1:]
+    text_list, element_list, identifier_list, type_list = [], [], [], []
+    for i in passage:
+        for text in i.iterfind("text"):
+            text = text.text
+            text_list.append(text)
+        for annotation in i.iterfind("annotation"):
+            for text in annotation.iterfind("text"):
+                element = text.text
+                element_list.append(element)
+            infos = annotation.findall("infon")
+            try:
+                identifier = infos[0].text
+            except Exception:
+                identifier = ""
+            identifier_list.append(identifier.replace("MESH:", ""))
+            try:
+                typex = infos[1].text
+            except Exception:
+                typex = infos[0].text
+            type_list.append(typex)
+    text_list = [i.strip() for i in text_list]
+    element_list = [i.strip() for i in element_list]
+    identifier_list = [i.strip() for i in identifier_list]
+    type_list = [i.strip() for i in type_list]
+    df = pd.DataFrame(
+        data=zip(element_list, identifier_list, type_list),
+        columns=["element", "identifier", "type"],
+    )
+    df["element"] = df["element"].astype(str)
+    df["identifier"] = df["identifier"].astype(str)
+    df["type"] = df["type"].astype(str)
+    df = df.drop_duplicates("identifier")
+    df.to_csv(f"output/{pubmed_id}/species.csv", sep=",", index=False)
+    return df
