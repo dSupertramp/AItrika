@@ -1,6 +1,6 @@
 from typing import List, Tuple
 from dotenv import load_dotenv
-import openai
+import requests
 import os
 
 
@@ -8,14 +8,7 @@ load_dotenv()
 
 
 def get_associations(document: str, pubmed_id: str, pairs: List[Tuple[str, str]]):
-    temperature, frequency_penalty, presence_penalty, max_tokens, top_p, engine = (
-        0,
-        0,
-        0,
-        500,
-        1,
-        "gpt-3.5-turbo",
-    )
+    temperature, max_tokens = (0, 500)
     gene_id, disease_id, disease_umls = ([] for _ in range(3))
     pre_prompt: list = []
     for index, item in enumerate(pairs, 1):
@@ -36,17 +29,11 @@ For instance:
 'Yes,X,Y'
 Also, remove the numbers list (like 1)) from the CSV
     """.strip()
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-    response = openai.Completion.create(
-        engine=engine,
-        prompt=prompt,
-        temperature=temperature,
-        max_tokens=max_tokens,
-        top_p=top_p,
-        frequency_penalty=frequency_penalty,
-        presence_penalty=presence_penalty,
-    )["choices"]
-    with open(f"output/{pubmed_id}/openai_results.csv", "w") as f:
+    headers = {"Authorization": f"Bearer {os.getenv('HUGGINFACE_API_KEY')}"}
+    api_url: str = "https://api-inference.huggingface.co/models/"
+    response = requests.post(api_url, headers=headers, json=prompt, timeout=60)
+    result = response.json()[0]["generated_text"]
+    with open(f"output/{pubmed_id}/starcoder_results.csv", "w") as f:
         f.write("result,gene,disease")
-        f.write(response)
-    return response
+        f.write(result)
+    return result

@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 
-def get_associations(document: str, document_id: str, pairs: List[Tuple[str, str]]):
+def get_associations(document: str, pubmed_id: str, pairs: List[Tuple[str, str]]):
     temperature, max_tokens = (0, 500)
     gene_id, disease_id, disease_umls = ([] for _ in range(3))
     pre_prompt: list = []
@@ -40,7 +40,7 @@ Also, remove the numbers list (like 1)) from the CSV
         .generations[0]
         .text
     )
-    with open(f"output/{document_id}/cohere_results.csv", "w") as f:
+    with open(f"output/{pubmed_id}/cohere_results.csv", "w") as f:
         f.write("result,gene,disease")
         f.write(response)
     return response
