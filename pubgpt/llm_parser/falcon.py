@@ -9,7 +9,7 @@ load_dotenv()
 
 def get_associations(document: str, pubmed_id: str, pairs: List[Tuple[str, str]]):
     """
-    Get associations using Starcoder LLM.
+    Get associations using Falcon LLM.
 
     Args:
         document (str): Text (abstract or full text)
@@ -40,12 +40,14 @@ For instance:
 Also, remove the numbers list (like 1)) from the CSV
     """.strip()
     headers = {"Authorization": f"Bearer {os.getenv('HUGGINGFACE_API_KEY')}"}
-    api_url: str = "https://api-inference.huggingface.co/models/bigcode/starcoder"
+    api_url: str = (
+        "https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct"
+    )
     response = requests.post(
         api_url, headers=headers, json={"inputs": f"{prompt}"}, timeout=60
     )
     result = response.json()[0]["generated_text"]
-    with open(f"output/{pubmed_id}/starcoder_results.csv", "w") as f:
+    with open(f"output/{pubmed_id}/falcon_results.csv", "w") as f:
         f.write("result,gene,disease")
         f.write(result)
     return result
