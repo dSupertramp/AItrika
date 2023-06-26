@@ -5,7 +5,7 @@ import numpy as np
 import requests
 import time
 from xml.etree import ElementTree
-from utils.utils import create_id_folder
+from utils.utils import create_log_folder
 
 
 def search_on_pubmed(pubmed_id: str) -> list:
