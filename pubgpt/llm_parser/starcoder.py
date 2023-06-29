@@ -39,13 +39,42 @@ For instance:
 'Yes,X,Y'
 Also, remove the numbers list (like 1)) from the CSV
     """.strip()
-    headers = {"Authorization": f"Bearer {os.getenv('HUGGINGFACE_API_KEY')}"}
+    headers: dict = {"Authorization": f"Bearer {os.getenv('HUGGINGFACE_API_KEY')}"}
     api_url: str = "https://api-inference.huggingface.co/models/bigcode/starcoder"
     response = requests.post(
         api_url, headers=headers, json={"inputs": f"{prompt}"}, timeout=60
     )
-    result = response.json()[0]["generated_text"]
+    result: str = response.json()[0]["generated_text"]
     with open(f"output/{pubmed_id}/starcoder_results.csv", "w") as f:
         f.write("result,gene,disease")
+        f.write(result)
+    return result
+
+
+def summarize(document: str, pubmed_id: str) -> str:
+    """
+    Summarize the paper.
+
+    Args:
+        document (str): Text (abstract or full text)
+        pubmed_id (str): PubMed ID
+
+    Returns:
+        str: Digest
+    """
+    prompt = f"""
+Summarize this text, trying to keep all relevant informations:
+{document.strip()}
+    """
+    headers: dict = {"Authorization": f"Bearer {os.getenv('HUGGINGFACE_API_KEY')}"}
+    api_url: str = "https://api-inference.huggingface.co/models/bigcode/starcoder"
+    response = requests.post(
+        api_url,
+        headers=headers,
+        json={"inputs": f"{prompt}", "max_tokens": 1024},
+        timeout=60,
+    )
+    result: str = response.json()[0]["generated_text"]
+    with open(f"output/{pubmed_id}/starcoder_digest.txt", "w") as f:
         f.write(result)
     return result

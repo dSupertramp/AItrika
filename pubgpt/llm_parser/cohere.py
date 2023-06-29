@@ -57,3 +57,25 @@ Also, remove the numbers list (like 1)) from the CSV
         f.write("result,gene,disease")
         f.write(response)
     return response
+
+
+def summarize(document: str, pubmed_id: str) -> str:
+    prompt = f"""
+Summarize this text, trying to keep all relevant informations:
+{document.strip()}
+    """
+    co = cohere.Client(os.getenv("COHERE_API_KEY"))
+    temperature, max_tokens = (0, 500)
+    response = (
+        co.generate(
+            model="command-xlarge-nightly",
+            prompt=prompt,
+            max_tokens=max_tokens,
+            temperature=temperature,
+        )
+        .generations[0]
+        .text
+    )
+    with open(f"output/{pubmed_id}/cohere_digest.txt", "w") as f:
+        f.write(response)
+    return response

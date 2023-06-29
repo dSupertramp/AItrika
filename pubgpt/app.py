@@ -8,10 +8,17 @@ from online_parser.article_parser import (
 )
 from pdf_parser.utils import read_pdf, extract_pdf_content, split_pdf_content
 
+
+## PDF PARSER
 # from pdf_parser.openai import create_embeddings_openai, retriever_openai
 from pdf_parser.cohere import create_embeddings_cohere, retriever_cohere
 
-from llm_parser.cohere import get_associations
+
+## LLM
+# from llm.openai import get_associations, summarize
+# from llm_parser.cohere import get_associations, summarize
+# from llm_parser.starcoder import get_associations, summarize
+from llm_parser.falcon import get_associations, summarize
 
 
 st.set_page_config(page_title="PubGPT", initial_sidebar_state="auto")
@@ -33,30 +40,30 @@ def convert_df(df):
 
 def online_parser():
     st.markdown("""## Online parser""")
-    document_id = st.text_input("PubMed ID", "32819603")
+    pubmed_id = st.text_input("PubMed ID", "32819603")
     parse_paper = st.button("Parse paper")
     if parse_paper:
-        paper_id, title, abstract, document = parse_article(document_id=document_id)
+        paper_id, title, abstract, document = parse_article(pubmed_id=pubmed_id)
         st.write(f"Paper ID: {paper_id}")
         st.write(f"Title: {title}")
         st.write(f"Abstract: {abstract}")
-        gene_df, disease_df, pairs = extract_genes_and_diseases(document_id=document_id)
-        mesh_terms = extract_mesh_terms(document_id=document_id)
-        other_terms = extract_other_terms(document_id=document_id)
+        gene_df, disease_df, pairs = extract_genes_and_diseases(pubmed_id=pubmed_id)
+        mesh_terms = extract_mesh_terms(pubmed_id=pubmed_id)
+        other_terms = extract_other_terms(pubmed_id=pubmed_id)
         first_row = st.columns(2)
         first_row[0].markdown("### Genes")
         first_row[0].dataframe(gene_df)
         st.download_button(
             label="Download genes as CSV",
             data=convert_df(df=gene_df),
-            file_name=f"{document_id}_genes.csv",
+            file_name=f"{pubmed_id}_genes.csv",
         )
         first_row[1].markdown("### Diseases")
         first_row[1].dataframe(disease_df)
         st.download_button(
             label="Download diseases as CSV",
             data=convert_df(df=disease_df),
-            file_name=f"{document_id}_diseases.csv",
+            file_name=f"{pubmed_id}_diseases.csv",
         )
 
         second_row = st.columns(2)
@@ -66,7 +73,7 @@ def online_parser():
             st.download_button(
                 label="Download MeSH terms as CSV",
                 data=convert_df(df=mesh_terms),
-                file_name=f"{document_id}_mesh_terms.csv",
+                file_name=f"{pubmed_id}_mesh_terms.csv",
             )
 
         if other_terms is not None:
@@ -75,16 +82,16 @@ def online_parser():
             st.download_button(
                 label="Download other terms as CSV",
                 data=convert_df(df=other_terms),
-                file_name=f"{document_id}_other_terms.csv",
+                file_name=f"{pubmed_id}_other_terms.csv",
             )
 
     st.warning("May produce incorrect informations", icon="⚠️")
     extract_associations = st.button("Extract associations between genes and diseases")
     if extract_associations:
-        paper_id, title, abstract, document = parse_article(document_id=document_id)
-        gene_df, disease_df, pairs = extract_genes_and_diseases(document_id=document_id)
+        paper_id, title, abstract, document = parse_article(pubmed_id=pubmed_id)
+        gene_df, disease_df, pairs = extract_genes_and_diseases(pubmed_id=pubmed_id)
         result_cohere = get_associations(
-            document=document, document_id=document_id, pairs=pairs
+            document=document, pubmed_id=pubmed_id, pairs=pairs
         )
         st.write(result_cohere)
 

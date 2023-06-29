@@ -6,13 +6,13 @@ from online_parser.article_parser import (
 )
 
 
-# from llm.openai import get_associations
+# from llm.openai import get_associations, summarize
 
-# from llm_parser.cohere import get_associations
+from llm_parser.cohere import get_associations, summarize
 
-# from llm_parser.starcoder import get_associations
+# from llm_parser.starcoder import get_associations, summarize
 
-from llm_parser.falcon import get_associations
+# from llm_parser.falcon import get_associations, summarize
 
 
 if __name__ == "__main__":
@@ -21,6 +21,6 @@ if __name__ == "__main__":
     gene_df, disease_df, pairs = extract_genes_and_diseases(pubmed_id=pubmed_id)
     mesh_terms = extract_mesh_terms(pubmed_id=pubmed_id)
     other_terms = extract_other_terms(pubmed_id=pubmed_id)
-    ######################################################
-    result = get_associations(document=document, pubmed_id=pubmed_id, pairs=pairs)
-    print(result)
+    #####################################################
+    associations = get_associations(document=document, pubmed_id=pubmed_id, pairs=pairs)
+    digest = summarize(document=document, pubmed_id=pubmed_id)
