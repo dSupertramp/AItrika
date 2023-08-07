@@ -11,7 +11,8 @@ from pdf_parser.utils import read_pdf, extract_pdf_content, split_pdf_content
 
 ## PDF PARSER
 # from pdf_parser.openai import create_embeddings_openai, retriever_openai
-from pdf_parser.cohere import create_embeddings_cohere, retriever_cohere
+# from pdf_parser.cohere import create_embeddings_cohere, retriever_cohere
+from pdf_parser.starcoder import create_embeddings, retriever
 
 
 ## LLM
@@ -84,9 +85,8 @@ def online_parser():
                 data=convert_df(df=other_terms),
                 file_name=f"{pubmed_id}_other_terms.csv",
             )
-
-    st.warning("May produce incorrect informations", icon="⚠️")
     extract_associations = st.button("Extract associations between genes and diseases")
+    st.warning("May produce incorrect informations", icon="⚠️")
     if extract_associations:
         paper_id, title, abstract, document = parse_article(pubmed_id=pubmed_id)
         gene_df, disease_df, pairs = extract_genes_and_diseases(pubmed_id=pubmed_id)
@@ -105,15 +105,13 @@ def local_parser():
         splitted_text_from_pdf = split_pdf_content(
             pdf_content=pdf_content, chunk_size=1000, chunk_overlap=200
         )
-        embeddings = create_embeddings_cohere(
-            splitted_text_from_pdf=splitted_text_from_pdf
-        )
+        embeddings = create_embeddings(splitted_text_from_pdf=splitted_text_from_pdf)
         query = st.text_input(
             "Insert query here:",
             "Es: Is BRCA1 associated with breast cancer?",
         )
         if st.button("Query document"):
-            st.write(retriever_cohere(query=query, embeddings=embeddings))
+            st.write(retriever(query=query, embeddings=embeddings))
 
 
 if __name__ == "__main__":
