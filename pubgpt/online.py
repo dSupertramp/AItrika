@@ -7,14 +7,11 @@ from online_parser.article_parser import (
 
 
 # from llm.openai import get_associations, summarize
-
 # from llm_parser.cohere import get_associations, summarize
-
 # from llm_parser.starcoder import get_associations, summarize
-
 # from llm_parser.falcon import get_associations, summarize
-
-from llm_parser.llama2 import get_associations, summarize
+# from llm_parser.llama2 import get_associations, summarize
+from llm_parser.ollama import get_associations, summarize
 
 
 if __name__ == "__main__":
@@ -26,3 +23,6 @@ if __name__ == "__main__":
     #####################################################
     associations = get_associations(document=document, pubmed_id=pubmed_id, pairs=pairs)
     digest = summarize(document=document, pubmed_id=pubmed_id)
+
+    print(associations)
+    print(summarize)
