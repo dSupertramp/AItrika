@@ -12,7 +12,8 @@ from pdf_parser.utils import read_pdf, extract_pdf_content, split_pdf_content
 ## PDF PARSER
 # from pdf_parser.openai import create_embeddings_openai, retriever_openai
 # from pdf_parser.cohere import create_embeddings_cohere, retriever_cohere
-from pdf_parser.starcoder import create_embeddings, retriever
+# from pdf_parser.starcoder import create_embeddings, retriever
+from pdf_parser.falcon import create_embeddings, retriever
 
 
 ## LLM
@@ -21,7 +22,8 @@ from pdf_parser.starcoder import create_embeddings, retriever
 # from llm_parser.starcoder import get_associations, summarize
 # from llm_parser.falcon import get_associations, summarize
 # from llm_parser.llama2 import get_associations, summarize
-from llm_parser.ollama import get_associations, summarize
+# from llm_parser.ollama import get_associations, summarize
+from llm_parser.falcon import get_associations, summarize
 
 st.set_page_config(page_title="PubGPT", initial_sidebar_state="auto")
 

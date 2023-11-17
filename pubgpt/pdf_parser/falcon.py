@@ -13,7 +13,7 @@ load_dotenv()
 
 def create_embeddings(splitted_text_from_pdf: List) -> Any:
     """
-    Create embeddings from chunks for Starcoder.
+    Create embeddings from chunks for Falcon.
 
     Args:
         splitted_text_from_pdf (List): List of chunks
@@ -32,7 +32,7 @@ def create_embeddings(splitted_text_from_pdf: List) -> Any:
 
 def create_chain(query: str, embeddings: Any) -> None:
     """
-    Create chain for Starcoder.
+    Create chain for Falcon.
 
     Args:
         query (str): Query
@@ -40,7 +40,7 @@ def create_chain(query: str, embeddings: Any) -> None:
     """
     chain = load_qa_chain(
         llm=HuggingFaceHub(
-            repo_id="bigcode/starcoder",
+            repo_id="tiiuae/falcon-7b-instruct",
             huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
         ),
         chain_type="stuff",
@@ -63,7 +63,7 @@ def retriever(query: str, embeddings: Any) -> str:
     retriever = embeddings.as_retriever(search_type="similarity")
     result = RetrievalQA.from_chain_type(
         llm=HuggingFaceHub(
-            repo_id="bigcode/starcoder",
+            repo_id="tiiuae/falcon-7b-instruct",
             huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
         ),
         chain_type="stuff",
