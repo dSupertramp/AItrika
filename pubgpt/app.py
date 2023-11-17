@@ -22,8 +22,9 @@ from pdf_parser.falcon import create_embeddings, retriever
 # from llm_parser.starcoder import get_associations, summarize
 # from llm_parser.falcon import get_associations, summarize
 # from llm_parser.llama2 import get_associations, summarize
-# from llm_parser.ollama import get_associations, summarize
-from llm_parser.falcon import get_associations, summarize
+from llm_parser.ollama import get_associations, summarize
+
+# from llm_parser.falcon import get_associations, summarize
 
 st.set_page_config(page_title="PubGPT", initial_sidebar_state="auto")
 
