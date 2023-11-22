@@ -1,17 +1,19 @@
-from langchain.embeddings import CohereEmbeddings
+from langchain.embeddings import HuggingFaceHubEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain.chains.question_answering import load_qa_chain
-from langchain.llms import Cohere
+from langchain.llms import HuggingFaceHub
 from typing import List, Any
 from dotenv import load_dotenv
+import os
+
 
 load_dotenv()
 
 
 def create_embeddings(splitted_text_from_pdf: List) -> Any:
     """
-    Create embeddings from chunks for Cohere.
+    Create embeddings from chunks for Falcon.
 
     Args:
         splitted_text_from_pdf (List): List of chunks
@@ -19,7 +21,10 @@ def create_embeddings(splitted_text_from_pdf: List) -> Any:
     Returns:
         Any: Embeddings
     """
-    embeddings = CohereEmbeddings()
+    embeddings = HuggingFaceHubEmbeddings(
+        repo_id="sentence-transformers/all-mpnet-base-v2",
+        huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
+    )
     vectorstore = FAISS.from_texts(texts=splitted_text_from_pdf, embedding=embeddings)
     vectorstore.save_local("vector_db")
     persisted_vectorstore = FAISS.load_local("vector_db", embeddings)
@@ -28,20 +33,26 @@ def create_embeddings(splitted_text_from_pdf: List) -> Any:
 
 def create_chain(query: str, embeddings: Any) -> None:
     """
-    Create chain for Cohere.
+    Create chain for Falcon.
 
     Args:
         query (str): Query
         embeddings (Any): Embeddings
     """
-    chain = load_qa_chain(llm=Cohere(), chain_type="stuff")
+    chain = load_qa_chain(
+        llm=HuggingFaceHub(
+            repo_id="tiiuae/falcon-7b-instruct",
+            huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
+        ),
+        chain_type="stuff",
+    )
     docs = embeddings.similarity_search(query)
     chain.run(input_documents=docs, question=query)
 
 
-def retriver(query: str, embeddings: Any) -> str:
+def retriever(query: str, embeddings: Any) -> str:
     """
-    Create retriever for Cohere.
+    Create retriever for Falcon.
 
     Args:
         query (str): Query
@@ -52,7 +63,10 @@ def retriver(query: str, embeddings: Any) -> str:
     """
     retriever = embeddings.as_retriever(search_type="similarity")
     result = RetrievalQA.from_chain_type(
-        llm=Cohere(),
+        llm=HuggingFaceHub(
+            repo_id="HuggingFaceH4/zephyr-7b-alpha",
+            huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
+        ),
         chain_type="stuff",
         retriever=retriever,
         return_source_documents=True,

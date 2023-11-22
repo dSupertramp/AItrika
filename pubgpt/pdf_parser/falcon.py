@@ -23,11 +23,12 @@ def create_embeddings(splitted_text_from_pdf: List) -> Any:
     """
     embeddings = HuggingFaceHubEmbeddings(
         repo_id="sentence-transformers/all-mpnet-base-v2",
-        task="feature-extraction",
         huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
     )
-    documents = FAISS.from_texts(texts=splitted_text_from_pdf, embedding=embeddings)
-    return documents
+    vectorstore = FAISS.from_texts(texts=splitted_text_from_pdf, embedding=embeddings)
+    vectorstore.save_local("vector_db")
+    persisted_vectorstore = FAISS.load_local("vector_db", embeddings)
+    return persisted_vectorstore
 
 
 def create_chain(query: str, embeddings: Any) -> None:

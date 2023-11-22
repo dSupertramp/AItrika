@@ -20,8 +20,10 @@ def create_embeddings_openai(splitted_text_from_pdf: List) -> Any:
         Any: Embeddings
     """
     embeddings = OpenAIEmbeddings()
-    documents = FAISS.from_texts(texts=splitted_text_from_pdf, embedding=embeddings)
-    return documents
+    vectorstore = FAISS.from_texts(texts=splitted_text_from_pdf, embedding=embeddings)
+    vectorstore.save_local("vector_db")
+    persisted_vectorstore = FAISS.load_local("vector_db", embeddings)
+    return persisted_vectorstore
 
 
 def create_opeanai_chain(query: str, embeddings: Any) -> None:

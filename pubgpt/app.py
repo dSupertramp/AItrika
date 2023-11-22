@@ -13,7 +13,8 @@ from pdf_parser.utils import read_pdf, extract_pdf_content, split_pdf_content
 # from pdf_parser.openai import create_embeddings_openai, retriever_openai
 # from pdf_parser.cohere import create_embeddings_cohere, retriever_cohere
 # from pdf_parser.starcoder import create_embeddings, retriever
-from pdf_parser.falcon import create_embeddings, retriever
+# from pdf_parser.falcon import create_embeddings, retriever
+from pdf_parser.zephyr import create_embeddings, retriever
 
 
 ## LLM
