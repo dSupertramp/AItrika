@@ -9,34 +9,21 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def create_embeddings(splitted_text_from_pdf: List) -> Any:
+def create_embeddings(splitted_text: List) -> Any:
     """
     Create embeddings from chunks for Cohere.
 
     Args:
-        splitted_text_from_pdf (List): List of chunks
+        splitted_text (List): List of chunks
 
     Returns:
         Any: Embeddings
     """
     embeddings = CohereEmbeddings()
-    vectorstore = FAISS.from_texts(texts=splitted_text_from_pdf, embedding=embeddings)
+    vectorstore = FAISS.from_texts(texts=splitted_text, embedding=embeddings)
     vectorstore.save_local("vector_db")
     persisted_vectorstore = FAISS.load_local("vector_db", embeddings)
     return persisted_vectorstore
-
-
-def create_chain(query: str, embeddings: Any) -> None:
-    """
-    Create chain for Cohere.
-
-    Args:
-        query (str): Query
-        embeddings (Any): Embeddings
-    """
-    chain = load_qa_chain(llm=Cohere(), chain_type="stuff")
-    docs = embeddings.similarity_search(query)
-    chain.run(input_documents=docs, question=query)
 
 
 def retriver(query: str, embeddings: Any) -> str:

@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 from Bio import Entrez, Medline
 import pandas as pd
 import numpy as np
@@ -8,7 +8,7 @@ from xml.etree import ElementTree
 from utils.utils import create_id_folder
 
 
-def search_on_pubmed(pubmed_id: str) -> list:
+def search_with_pubmed_id(pubmed_id: str) -> List[str]:
     """
     Search on PubMed using a PubMed ID.
 
@@ -31,6 +31,22 @@ def search_on_pubmed(pubmed_id: str) -> list:
     return records
 
 
+def search_with_title(title: str) -> str:
+    """
+    Search PubMed for a PubMed ID using the title of the paper.
+
+    Args:
+        title (str): Title of the paper
+
+    Returns:
+        str: PubMed ID of the article
+    """
+    Entrez.email = "your-email@example.com"
+    handle = Entrez.esearch(db="pubmed", term=title, retmax=1)
+    record = Entrez.read(handle)
+    return record["IdList"][0]
+
+
 def parse_article(pubmed_id: str) -> Tuple[str, str, str, str]:
     """
     Parse the article.
@@ -42,7 +58,7 @@ def parse_article(pubmed_id: str) -> Tuple[str, str, str, str]:
         Tuple[str, str, str, str]: PubMed ID, title, abstract, title+abstract
     """
     create_id_folder(pubmed_id=pubmed_id)
-    for record in search_on_pubmed(pubmed_id=pubmed_id):
+    for record in search_with_pubmed_id(pubmed_id=pubmed_id):
         title = record.get("TI", "")
         abstract = record.get("AB", "")
         pubmed_id = record.get("PMID", "")
@@ -63,7 +79,7 @@ def extract_mesh_terms(pubmed_id: str) -> pd.DataFrame:
         pd.DataFrame: DataFrame with MeSH terms
     """
     create_id_folder(pubmed_id=pubmed_id)
-    for record in search_on_pubmed(pubmed_id=pubmed_id):
+    for record in search_with_pubmed_id(pubmed_id=pubmed_id):
         mesh_terms = record.get("MH", "")
     df = pd.DataFrame(data=zip(mesh_terms), columns=["element"])
     df.to_csv(f"output/{pubmed_id}/mesh_terms.csv", encoding="utf-8", index=False)
@@ -77,10 +93,10 @@ def extract_other_terms(pubmed_id: str) -> pd.DataFrame:
         pubmed_id (str): PubMed ID
 
     Returns:
-        pd.DataFrame: DataFrame with other terms
+        DataFrame: DataFrame with other terms
     """
     create_id_folder(pubmed_id=pubmed_id)
-    for record in search_on_pubmed(pubmed_id=pubmed_id):
+    for record in search_with_pubmed_id(pubmed_id=pubmed_id):
         other_terms = record.get("OT", "")
     df = pd.DataFrame(data=zip(other_terms), columns=["element"])
     df.to_csv(f"output/{pubmed_id}/other_terms.csv", encoding="utf-8", index=False)
@@ -94,7 +110,7 @@ def extract_genes_and_diseases(pubmed_id: str) -> Tuple[pd.DataFrame, pd.DataFra
         pubmed_id (str): PubMed ID
 
     Returns:
-        Tuple[pd.DataFrame, pd.DataFrame]: DataFrame with genes and DataFrame with diseases
+        Tuple[DataFrame, DataFrame]: DataFrame with genes and DataFrame with diseases
     """
     create_id_folder(pubmed_id=pubmed_id)
     url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=gene,disease"
@@ -151,7 +167,16 @@ def extract_genes_and_diseases(pubmed_id: str) -> Tuple[pd.DataFrame, pd.DataFra
     return gene_df, disease_df, pairs
 
 
-def extract_chemicals(pubmed_id: str):
+def extract_chemicals(pubmed_id: str) -> pd.DataFrame:
+    """
+    Extract chemicals from article.
+
+    Args:
+        pubmed_id (str): PubMed ID
+
+    Returns:
+        Dataframe: DataFrame with chemicals
+    """
     create_id_folder(pubmed_id=pubmed_id)
     url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=chemical"
     response = requests.get(url)
@@ -197,7 +222,16 @@ def extract_chemicals(pubmed_id: str):
     return df
 
 
-def extract_mutations(pubmed_id: str):
+def extract_mutations(pubmed_id: str) -> pd.DataFrame:
+    """
+    Extract mutations from article.
+
+    Args:
+        pubmed_id (str): PubMed ID
+
+    Returns:
+        DataFrame: DataFrame with mutations
+    """
     create_id_folder(pubmed_id=pubmed_id)
     url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=mutation"
     response = requests.get(url)
@@ -243,7 +277,16 @@ def extract_mutations(pubmed_id: str):
     return df
 
 
-def extract_species(pubmed_id: str):
+def extract_species(pubmed_id: str) -> pd.DataFrame:
+    """
+    Extract species from article.
+
+    Args:
+        pubmed_id (str): PubMed ID
+
+    Returns:
+        DataFrame: DataFrame with species
+    """
     create_id_folder(pubmed_id=pubmed_id)
     url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=species"
     response = requests.get(url)

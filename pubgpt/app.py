@@ -1,31 +1,23 @@
 import streamlit as st
 
-from online_parser.article_parser import (
+from parser.article_parser import (
     parse_article,
-    extract_genes_and_diseases,
     extract_mesh_terms,
     extract_other_terms,
+    extract_genes_and_diseases,
+    extract_chemicals,
+    extract_mutations,
+    extract_species,
 )
-from pdf_parser.utils import read_pdf, extract_pdf_content, split_pdf_content
 
 
-## PDF PARSER
-# from pdf_parser.openai import create_embeddings_openai, retriever_openai
-# from pdf_parser.cohere import create_embeddings_cohere, retriever_cohere
-# from pdf_parser.starcoder import create_embeddings, retriever
-# from pdf_parser.falcon import create_embeddings, retriever
-from pdf_parser.zephyr import create_embeddings, retriever
+# from llm.zephyr import create_embeddings, retriever, get_associations
+# from llm.openai import create_embeddings, get_associations
+from llm.falcon import create_embeddings, retriever, get_associations
 
 
-## LLM
-# from llm.openai import get_associations, summarize
-# from llm_parser.cohere import get_associations, summarize
-# from llm_parser.starcoder import get_associations, summarize
-# from llm_parser.falcon import get_associations, summarize
-# from llm_parser.llama2 import get_associations, summarize
-from llm_parser.ollama import get_associations, summarize
+from llm.utils import read_document, read_pdf
 
-# from llm_parser.falcon import get_associations, summarize
 
 st.set_page_config(page_title="PubGPT", initial_sidebar_state="auto")
 
@@ -44,77 +36,116 @@ def convert_df(df):
     return df.to_csv().encode("utf-8")
 
 
-def online_parser():
-    st.markdown("""## Online parser""")
-    pubmed_id = st.text_input("PubMed ID", "32819603")
-    parse_paper = st.button("Parse paper")
-    if parse_paper:
-        paper_id, title, abstract, document = parse_article(pubmed_id=pubmed_id)
-        st.write(f"Paper ID: {paper_id}")
-        st.write(f"Title: {title}")
-        st.write(f"Abstract: {abstract}")
-        gene_df, disease_df, pairs = extract_genes_and_diseases(pubmed_id=pubmed_id)
-        mesh_terms = extract_mesh_terms(pubmed_id=pubmed_id)
-        other_terms = extract_other_terms(pubmed_id=pubmed_id)
-        first_row = st.columns(2)
-        first_row[0].markdown("### Genes")
-        first_row[0].dataframe(gene_df)
-        st.download_button(
-            label="Download genes as CSV",
-            data=convert_df(df=gene_df),
-            file_name=f"{pubmed_id}_genes.csv",
-        )
-        first_row[1].markdown("### Diseases")
-        first_row[1].dataframe(disease_df)
-        st.download_button(
-            label="Download diseases as CSV",
-            data=convert_df(df=disease_df),
-            file_name=f"{pubmed_id}_diseases.csv",
-        )
+def parse_paper(pubmed_id):
+    paper_id, title, abstract, document = parse_article(pubmed_id=pubmed_id)
+    st.markdown(f"**Paper ID**: {paper_id}")
+    st.markdown(f"**Title**: {title}")
+    st.markdown(f"**Abstract**: {abstract}")
 
-        second_row = st.columns(2)
-        if mesh_terms is not None:
-            second_row[0].markdown("### MeSH terms")
-            second_row[0].dataframe(mesh_terms)
-            st.download_button(
-                label="Download MeSH terms as CSV",
-                data=convert_df(df=mesh_terms),
-                file_name=f"{pubmed_id}_mesh_terms.csv",
-            )
+    gene_df, disease_df, pairs = extract_genes_and_diseases(pubmed_id=pubmed_id)
+    mesh_terms = extract_mesh_terms(pubmed_id=pubmed_id)
+    other_terms = extract_other_terms(pubmed_id=pubmed_id)
+    chemicals_terms = extract_chemicals(pubmed_id=pubmed_id)
+    mutations_terms = extract_mutations(pubmed_id=pubmed_id)
+    species_terms = extract_species(pubmed_id=pubmed_id)
 
-        if other_terms is not None:
-            second_row[1].markdown("### Other terms")
-            second_row[1].dataframe(other_terms)
-            st.download_button(
-                label="Download other terms as CSV",
-                data=convert_df(df=other_terms),
-                file_name=f"{pubmed_id}_other_terms.csv",
-            )
-    extract_associations = st.button("Extract associations between genes and diseases")
+    ##* FIRST ROW
+    first_row = st.columns(2)
+    first_row[0].markdown("### Genes")
+    first_row[0].dataframe(
+        gene_df,
+        hide_index=True,
+    )
+    first_row[1].markdown("### Diseases")
+    first_row[1].dataframe(
+        disease_df,
+        hide_index=True,
+    )
+
+    ##* SECOND ROW
+    second_row = st.columns(2)
+    second_row[0].markdown("### MeSH")
+    second_row[0].dataframe(
+        mesh_terms,
+        hide_index=True,
+    )
+    second_row[1].markdown("### Chemicals")
+    second_row[1].dataframe(
+        chemicals_terms,
+        hide_index=True,
+    )
+
+    ##* THIRD ROW
+    third_row = st.columns(2)
+    third_row[0].markdown("### Mutations")
+    third_row[0].dataframe(
+        mutations_terms,
+        hide_index=True,
+    )
+    third_row[1].markdown("### Species")
+    third_row[1].dataframe(
+        species_terms,
+        hide_index=True,
+    )
+    st.markdown("### Other terms")
+    st.dataframe(
+        other_terms,
+        hide_index=True,
+    )
+
+
+def query_document(query, pubmed_id):
+    paper_id, title, abstract, document = parse_article(pubmed_id=pubmed_id)
+    document_content = read_document(
+        document=document, chunk_size=1000, chunk_overlap=200
+    )
+    embeddings_query = create_embeddings(splitted_text=document_content)
+    result = retriever(query=query, embeddings=embeddings_query)
+    st.write(result)
+
+
+def extract_associations(pubmed_id):
     st.warning("May produce incorrect informations", icon="⚠️")
-    if extract_associations:
-        paper_id, title, abstract, document = parse_article(pubmed_id=pubmed_id)
-        gene_df, disease_df, pairs = extract_genes_and_diseases(pubmed_id=pubmed_id)
-        result = get_associations(document=document, pubmed_id=pubmed_id, pairs=pairs)
-        st.write(result)
+    paper_id, title, abstract, document = parse_article(pubmed_id=pubmed_id)
+    gene_df, disease_df, pairs = extract_genes_and_diseases(pubmed_id=pubmed_id)
+    embeddings_associations = create_embeddings(splitted_text=document)
+    result = get_associations(pairs=pairs, embeddings=embeddings_associations)
+    st.write(result)
+
+
+def online_parser():
+    pubmed_id = st.text_input("PubMed ID", "32819603")
+    query = st.text_input(
+        "Insert a query here:",
+        "Es: Is BRCA2 associated with breast cancer?",
+    )
+    row = st.columns(3)
+    parse_paper_button = row[0].button("Parse paper")
+    query_doc_button = row[1].button("Query document")
+    extract_associations_button = row[2].button("Extract associations")
+    if parse_paper_button:
+        parse_paper(pubmed_id)
+    if query_doc_button:
+        query_document(query=query, pubmed_id=pubmed_id)
+    if extract_associations_button:
+        extract_associations(pubmed_id)
 
 
 def local_parser():
     st.markdown("""## Local parser""")
     uploaded_file = st.file_uploader("Choose a file")
     if uploaded_file:
-        pdf = read_pdf(uploaded_file)
-        pdf_content = extract_pdf_content(pdf=pdf)
-        splitted_text_from_pdf = split_pdf_content(
-            pdf_content=pdf_content, chunk_size=1000, chunk_overlap=200
+        pdf_content = read_pdf(
+            pdf_path=uploaded_file, chunk_size=1000, chunk_overlap=200
         )
-        embeddings = create_embeddings(splitted_text_from_pdf=splitted_text_from_pdf)
-        query = st.text_input(
+        embeddings_local_parser = create_embeddings(splitted_text=pdf_content)
+        query_for_pdf = st.text_input(
             "Insert query here:",
             "Es: Is BRCA1 associated with breast cancer?",
         )
-        if st.button("Query document"):
-            st.write(retriever(query=query, embeddings=embeddings))
+        submit_query_for_pdf = st.button("Query PDF")
+        if submit_query_for_pdf:
+            st.write(retriever(query=query_for_pdf, embeddings=embeddings_local_parser))
 
 
 if __name__ == "__main__":
