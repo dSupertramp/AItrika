@@ -1,7 +1,6 @@
 from langchain.embeddings import HuggingFaceHubEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
-from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import HuggingFaceHub
 from typing import List, Any
 from dotenv import load_dotenv
@@ -30,25 +29,6 @@ def create_embeddings(splitted_text: List) -> Any:
     vectorstore.save_local("vector_db")
     persisted_vectorstore = FAISS.load_local("vector_db", embeddings)
     return persisted_vectorstore
-
-
-def create_chain(query: str, embeddings: Any) -> None:
-    """
-    Create chain for Starcoder.
-
-    Args:
-        query (str): Query
-        embeddings (Any): Embeddings
-    """
-    chain = load_qa_chain(
-        llm=HuggingFaceHub(
-            repo_id="bigcode/starcoder",
-            huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
-        ),
-        chain_type="stuff",
-    )
-    docs = embeddings.similarity_search(query)
-    chain.run(input_documents=docs, question=query)
 
 
 def retriever(query: str, embeddings: Any) -> str:

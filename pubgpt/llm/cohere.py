@@ -1,7 +1,6 @@
 from langchain.embeddings import CohereEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
-from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import Cohere
 from typing import List, Any
 from dotenv import load_dotenv

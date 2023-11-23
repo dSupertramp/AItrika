@@ -1,7 +1,6 @@
 from langchain.embeddings import HuggingFaceHubEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
-from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import HuggingFaceHub
 from typing import List, Tuple
 from dotenv import load_dotenv

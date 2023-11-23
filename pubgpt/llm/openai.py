@@ -1,7 +1,6 @@
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
-from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 from typing import List, Tuple
 from dotenv import load_dotenv
@@ -25,19 +24,6 @@ def create_embeddings(splitted_text: List) -> OpenAIEmbeddings:
     vectorstore.save_local("vector_db")
     persisted_vectorstore = FAISS.load_local("vector_db", embeddings)
     return persisted_vectorstore
-
-
-def create_opeanai_chain(query: str, embeddings: OpenAIEmbeddings) -> None:
-    """
-    Create chain for OpenAI.
-
-    Args:
-        query (str): Query
-        embeddings (OpenAIEmbeddings): Embeddings
-    """
-    chain = load_qa_chain(llm=OpenAI(), chain_type="stuff")
-    docs = embeddings.similarity_search(query)
-    chain.run(input_documents=docs, question=query)
 
 
 def retriever(query: str, embeddings: OpenAIEmbeddings) -> str:
