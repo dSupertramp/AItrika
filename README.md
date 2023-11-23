@@ -29,9 +29,9 @@ PubGPT is licensed under the MIT License. See the LICENSE file for more details.
 - [ ] Improve code
 - [ ] Add the extraction of more informations
 - [ ] Create Python package
-- [x] Add docstrings
 - [ ] Create documentation
 - [ ] Add a fine-tuned model
+- [x] Add docstrings
 - [x] Add more LLMs for associations extraction
 - [x] Add webapp
 - [x] Add LangChain for PDFs
