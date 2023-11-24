@@ -36,6 +36,26 @@ def convert_df(df):
     return df.to_csv().encode("utf-8")
 
 
+def sidebar():
+    st.sidebar.title("LLM selector")
+    llm_choice = st.sidebar.selectbox(
+        "Choose an LLM",
+        ("OpenAI", "Falcon-7b", "Zephyr-7b-Alpha", "Cohere", "Starcoder"),
+        index=None,
+    )
+    api_keys_mapping = {
+        "OpenAI": ("OpenAI API Key", "OpenAI API Key"),
+        "Cohere": ("Cohere API Key", "Cohere API Key"),
+        "Falcon-7b": ("HuggingFace Hub API Key", "HuggingFace Hub API Key"),
+        "Starcoder": ("HuggingFace Hub API Key", "HuggingFace Hub API Key"),
+        "Zephyr-7b-Alpha": ("HuggingFace Hub API Key", "HuggingFace Hub API Key"),
+    }
+
+    if llm_choice in api_keys_mapping:
+        label, placeholder = api_keys_mapping[llm_choice]
+        st.sidebar.text_input(label=label, placeholder=placeholder)
+
+
 def parse_paper(pubmed_id):
     paper_id, title, abstract, document = parse_article(pubmed_id=pubmed_id)
     st.markdown(f"**Paper ID**: {paper_id}")
@@ -116,8 +136,8 @@ def extract_associations(pubmed_id):
 def online_parser():
     pubmed_id = st.text_input("PubMed ID", "32819603")
     query = st.text_input(
-        "Insert a query here:",
-        "Es: Is BRCA2 associated with breast cancer?",
+        label="Insert a query here:",
+        placeholder="Es: Is BRCA2 associated with breast cancer?",
     )
     row = st.columns(3)
     parse_paper_button = row[0].button("Parse paper")
@@ -140,8 +160,8 @@ def local_parser():
         )
         embeddings_local_parser = create_embeddings(splitted_text=pdf_content)
         query_for_pdf = st.text_input(
-            "Insert query here:",
-            "Es: Is BRCA1 associated with breast cancer?",
+            label="Insert query here:",
+            placeholder="Es: Is BRCA1 associated with breast cancer?",
         )
         submit_query_for_pdf = st.button("Query PDF")
         if submit_query_for_pdf:
@@ -149,5 +169,6 @@ def local_parser():
 
 
 if __name__ == "__main__":
+    sidebar()
     online_parser()
     local_parser()
