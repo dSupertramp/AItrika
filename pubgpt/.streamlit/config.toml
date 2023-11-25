@@ -3,3 +3,5 @@ base="dark"
 primaryColor="#4bc3ff"
 backgroundColor="#252d37"
 font="monospace"
+[server]
+runOnSave = true
