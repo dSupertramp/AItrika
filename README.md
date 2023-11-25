@@ -28,7 +28,7 @@ After that, you can install poetry with the command `pip install poetry` and the
 To run the webapp, use the command:
 
 ```
-cd pubgpt
+cd pubgpt/
 streamlit run app.py
 ```
 
