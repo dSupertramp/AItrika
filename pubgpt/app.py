@@ -53,7 +53,11 @@ def sidebar():
 
     if llm_choice in api_keys_mapping:
         label, placeholder = api_keys_mapping[llm_choice]
-        st.sidebar.text_input(label=label, placeholder=placeholder)
+        api_key = st.sidebar.text_input(label=label, placeholder=placeholder)
+        select_llm = st.sidebar.button("Select LLM")
+        if llm_choice and api_key and select_llm:
+            st.sidebar.write(llm_choice)
+            st.sidebar.write(api_key)
 
 
 def parse_paper(pubmed_id):

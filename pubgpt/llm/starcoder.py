@@ -59,6 +59,16 @@ def retriever(query: str, embeddings: Any) -> str:
 def get_associations(
     pairs: List[Tuple[str, str]], embeddings: HuggingFaceHubEmbeddings
 ) -> str:
+    """
+    Get associations from Starcoder.
+
+    Args:
+        pairs (List[Tuple[str, str]]): Pairs Gene-Disease
+        embeddings (HuggingFaceHubEmbeddings): Embeddings
+
+    Returns:
+        str: Response
+    """
     pre_prompt_pairs: list = []
     for index, item in enumerate(pairs, 1):
         pre_prompt_pairs.append(

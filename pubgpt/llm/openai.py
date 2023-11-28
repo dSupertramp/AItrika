@@ -48,6 +48,16 @@ def retriever(query: str, embeddings: OpenAIEmbeddings) -> str:
 
 
 def get_associations(pairs: List[Tuple[str, str]], embeddings: OpenAIEmbeddings) -> str:
+    """
+    Get associations from OpenAI.
+
+    Args:
+        pairs (List[Tuple[str, str]]): Pairs Gene-Disease
+        embeddings (OpenAI): Embeddings
+
+    Returns:
+        str: Response
+    """
     pre_prompt_pairs: list = []
     for index, item in enumerate(pairs, 1):
         pre_prompt_pairs.append(

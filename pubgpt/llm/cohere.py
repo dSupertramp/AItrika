@@ -48,6 +48,16 @@ def retriver(query: str, embeddings: Any) -> str:
 
 
 def get_associations(pairs: List[Tuple[str, str]], embeddings: CohereEmbeddings) -> str:
+    """
+    Get associations from Cohere.
+
+    Args:
+        pairs (List[Tuple[str, str]]): Pairs Gene-Disease
+        embeddings (CohereEmbeddings): Embeddings
+
+    Returns:
+        str: Response
+    """
     pre_prompt_pairs: list = []
     for index, item in enumerate(pairs, 1):
         pre_prompt_pairs.append(

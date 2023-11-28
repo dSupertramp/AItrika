@@ -5,3 +5,6 @@ backgroundColor="#252d37"
 font="monospace"
 [server]
 runOnSave = true
+[logger]
+level = "info"
+messageFormat = "%(asctime)s %(message)s"
