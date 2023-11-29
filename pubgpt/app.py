@@ -177,4 +177,4 @@ def local_parser():
 if __name__ == "__main__":
     sidebar()
     online_parser()
-    local_parser()
+    # local_parser()

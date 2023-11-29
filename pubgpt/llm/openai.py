@@ -4,7 +4,7 @@ from langchain.chains import RetrievalQA
 from langchain.llms import OpenAI
 from typing import List, Tuple
 from dotenv import load_dotenv
-from .pre_prompt import pre_prompt
+from .prompts import pre_prompt, associations_prompt
 
 load_dotenv()
 
@@ -64,17 +64,7 @@ def get_associations(pairs: List[Tuple[str, str]], embeddings: OpenAIEmbeddings)
             f"{index}) {item[0][0].strip()} associated with {item[1][0].strip()}?"
         )
     pre_prompt_pairs = "\n".join(pre_prompt_pairs)
-    query = f"""
-According to the text provided, can you tell me if:
-{pre_prompt_pairs.strip()}\n
-As result, provide me a CSV with:
-- Boolean result (only 'Yes' or 'No')
-- The entire part before the sentence "is associated with"
-- The entire part after the sentence "is associated with"
-For instance:
-'Yes,X,Y'
-Also, remove the numbers list (like 1)) from the CSV.
-    """.strip()
+    query = associations_prompt.format(pairs=pre_prompt_pairs.strip())
     prompt = pre_prompt.format(query=query)
     retriever = embeddings.as_retriever(search_type="similarity")
     result = RetrievalQA.from_chain_type(
