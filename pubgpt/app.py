@@ -11,15 +11,16 @@ from parser.article_parser import (
 )
 
 
-# from llm.zephyr import create_embeddings, retriever, get_associations
+from llm.zephyr import create_embeddings, retriever, get_associations
+
 # from llm.openai import create_embeddings, get_associations
-from llm.falcon import create_embeddings, retriever, get_associations
+# from llm.falcon import create_embeddings, retriever, get_associations
 
 
 from llm.utils import read_document, read_pdf
 
 
-st.set_page_config(page_title="PubGPT", initial_sidebar_state="auto")
+st.set_page_config(page_title="PubGPT", initial_sidebar_state="auto", page_icon="💉")
 
 hide_streamlit_style = """
             <style>
@@ -58,6 +59,7 @@ def sidebar():
         if llm_choice and api_key and select_llm:
             st.sidebar.write(llm_choice)
             st.sidebar.write(api_key)
+            st.sidebar.info("LLM set!", icon="ℹ️")
 
 
 def parse_paper(pubmed_id):

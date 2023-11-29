@@ -1,8 +1,8 @@
 [theme]
 base="dark"
-primaryColor="#4bc3ff"
+primaryColor="#435164"
 backgroundColor="#252d37"
-font="monospace"
+textColor="#ffffff"
 [server]
 runOnSave = true
 [logger]
