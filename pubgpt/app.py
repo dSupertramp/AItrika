@@ -11,10 +11,10 @@ from parser.article_parser import (
 )
 
 
-from llm.zephyr import create_embeddings, retriever, get_associations
-
+# from llm.zephyr import create_embeddings, retriever, get_associations
 # from llm.openai import create_embeddings, get_associations
 # from llm.falcon import create_embeddings, retriever, get_associations
+from llm.groq import create_embeddings, retriever, get_associations
 
 
 from llm.utils import read_document, read_pdf
@@ -41,7 +41,14 @@ def sidebar():
     st.sidebar.title("LLM selector")
     llm_choice = st.sidebar.selectbox(
         "Choose an LLM",
-        ("OpenAI", "Falcon-7b", "Zephyr-7b-Alpha", "Cohere", "Starcoder"),
+        (
+            "OpenAI",
+            "Falcon-7b",
+            "Zephyr-7b-Alpha",
+            "Cohere",
+            "Starcoder",
+            "Groq Mistral",
+        ),
         index=None,
     )
     api_keys_mapping = {
@@ -50,14 +57,15 @@ def sidebar():
         "Falcon-7b": ("HuggingFace Hub API Key", "HuggingFace Hub API Key"),
         "Starcoder": ("HuggingFace Hub API Key", "HuggingFace Hub API Key"),
         "Zephyr-7b-Alpha": ("HuggingFace Hub API Key", "HuggingFace Hub API Key"),
+        "Groq Mistral": ("Groq API Key", "Groq API Key"),
     }
-
     if llm_choice in api_keys_mapping:
         label, placeholder = api_keys_mapping[llm_choice]
         api_key = st.sidebar.text_input(label=label, placeholder=placeholder)
         select_llm = st.sidebar.button("Select LLM")
         if llm_choice and api_key and select_llm:
             st.sidebar.info("LLM set!", icon="ℹ️")
+            st.sidebar.text(f"LLM Selected: {llm_choice}")
 
 
 def parse_paper(pubmed_id):
