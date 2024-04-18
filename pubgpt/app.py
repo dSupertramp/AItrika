@@ -13,8 +13,9 @@ from parser.article_parser import (
 
 # from llm.zephyr import create_embeddings, retriever, get_associations
 # from llm.openai import create_embeddings, get_associations
-# from llm.falcon import create_embeddings, retriever, get_associations
-from llm.groq import create_embeddings, retriever, get_associations
+from llm.falcon import create_embeddings, retriever, get_associations
+
+# from llm.groq import create_embeddings, retriever, get_associations
 
 
 from llm.utils import read_document, read_pdf
