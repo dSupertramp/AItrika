@@ -21,6 +21,7 @@ huggingface-hub = "^0.19.4"
 groq = "^0.4.2"
 langchain-groq = "^0.0.1"
 langchain-community = "^0.0.28"
+llama-index = "^0.10.33"
 
 
 
