@@ -1,39 +1,19 @@
 from PyPDF2 import PdfReader
-from langchain.text_splitter import CharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from typing import List
 
 
-def read_document(document: str, chunk_size: int, chunk_overlap: int) -> List:
+def read_document(pdf_path: str, chunk_size: int, chunk_overlap: int) -> List[str]:
     """
-    Read and split from string.
-
-    Args:
-        document (str): Article text
-        chunk_size (int): Dimension of each chunk
-        chunk_overlap (int): Dimension of the overlap for each chunk
-
-    Returns:
-        List[str]: List of chunks (splitted document)
-    """
-    text_splitter = CharacterTextSplitter(
-        separator="\n",
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap,
-        length_function=len,
-    )
-    docs = text_splitter.split_text(document)
-    return docs
-
-
-def read_pdf(pdf_path: str, chunk_size: int, chunk_overlap: int) -> List[str]:
-    """
-    Read a and split from PDF.
+    Read and split into chunks a PDF content.
 
     Args:
         pdf_path (str): PDF path
+        chunk_size (int): Size of each chunk
+        chunk_overlap (int): Overlap size for each chunk
 
     Returns:
-        List[str]: List of chunks (splitted document)
+        List[str]: Chunks
     """
     doc_reader = PdfReader(pdf_path)
     raw_text: str = ""
@@ -41,10 +21,10 @@ def read_pdf(pdf_path: str, chunk_size: int, chunk_overlap: int) -> List[str]:
         text = page.extract_text()
         if text:
             raw_text += text
-    text_splitter = CharacterTextSplitter(
-        separator="\n",
+    text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
+        separator="\n",
         length_function=len,
     )
     return text_splitter.split_text(raw_text)

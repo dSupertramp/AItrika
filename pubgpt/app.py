@@ -18,7 +18,7 @@ from llm.falcon import create_embeddings, retriever, get_associations
 # from llm.groq import create_embeddings, retriever, get_associations
 
 
-from llm.utils import read_document, read_pdf
+from llm.utils import read_document
 
 
 st.set_page_config(page_title="PubGPT", initial_sidebar_state="auto", page_icon="💉")
@@ -168,7 +168,7 @@ def local_parser():
     st.markdown("""## Local parser""")
     uploaded_file = st.file_uploader("Choose a file")
     if uploaded_file:
-        pdf_content = read_pdf(
+        pdf_content = read_document(
             pdf_path=uploaded_file, chunk_size=1000, chunk_overlap=200
         )
         embeddings_local_parser = create_embeddings(splitted_text=pdf_content)

@@ -5,6 +5,7 @@ from langchain.llms import Cohere
 from typing import List, Any, Tuple
 from dotenv import load_dotenv
 from .prompts import pre_prompt, associations_prompt
+import os
 
 load_dotenv()
 
@@ -20,10 +21,13 @@ def create_embeddings(splitted_text: List) -> CohereEmbeddings:
         Any: Embeddings
     """
     embeddings = CohereEmbeddings()
-    vectorstore = FAISS.from_texts(texts=splitted_text, embedding=embeddings)
-    vectorstore.save_local("vector_db")
-    persisted_vectorstore = FAISS.load_local("vector_db", embeddings)
-    return persisted_vectorstore
+    if os.path.exists("vector_db"):
+        vectorstore = FAISS.load_local("vector_db", embeddings)
+        return vectorstore
+    else:
+        vectorstore = FAISS.from_texts(texts=splitted_text, embedding=embeddings)
+        vectorstore.save_local("vector_db")
+        return vectorstore
 
 
 def retriver(query: str, embeddings: Any) -> str:

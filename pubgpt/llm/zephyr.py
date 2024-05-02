@@ -24,10 +24,13 @@ def create_embeddings(splitted_text: List) -> HuggingFaceHubEmbeddings:
         repo_id="sentence-transformers/all-mpnet-base-v2",
         huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
     )
-    vectorstore = FAISS.from_texts(texts=splitted_text, embedding=embeddings)
-    vectorstore.save_local("vector_db")
-    persisted_vectorstore = FAISS.load_local("vector_db", embeddings)
-    return persisted_vectorstore
+    if os.path.exists("vector_db"):
+        vectorstore = FAISS.load_local("vector_db", embeddings)
+        return vectorstore
+    else:
+        vectorstore = FAISS.from_texts(texts=splitted_text, embedding=embeddings)
+        vectorstore.save_local("vector_db")
+        return vectorstore
 
 
 def retriever(query: str, embeddings: HuggingFaceHubEmbeddings) -> str:
