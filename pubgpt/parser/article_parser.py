@@ -115,7 +115,6 @@ def extract_genes_and_diseases(pubmed_id: str) -> Tuple[pd.DataFrame, pd.DataFra
     create_id_folder(pubmed_id=pubmed_id)
     url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=gene,disease"
     response = requests.get(url)
-    time.sleep(0.5)
     doc = ElementTree.fromstring(response.content)
     tree = ElementTree.ElementTree(doc)
     root = tree.getroot()
@@ -180,7 +179,6 @@ def extract_chemicals(pubmed_id: str) -> pd.DataFrame:
     create_id_folder(pubmed_id=pubmed_id)
     url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=chemical"
     response = requests.get(url)
-    time.sleep(0.5)
     doc = ElementTree.fromstring(response.content)
     tree = ElementTree.ElementTree(doc)
     root = tree.getroot()
@@ -235,7 +233,6 @@ def extract_mutations(pubmed_id: str) -> pd.DataFrame:
     create_id_folder(pubmed_id=pubmed_id)
     url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=mutation"
     response = requests.get(url)
-    time.sleep(0.5)
     doc = ElementTree.fromstring(response.content)
     tree = ElementTree.ElementTree(doc)
     root = tree.getroot()
@@ -290,7 +287,6 @@ def extract_species(pubmed_id: str) -> pd.DataFrame:
     create_id_folder(pubmed_id=pubmed_id)
     url = f"https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/biocxml?pmids={pubmed_id}&concepts=species"
     response = requests.get(url)
-    time.sleep(0.5)
     doc = ElementTree.fromstring(response.content)
     tree = ElementTree.ElementTree(doc)
     root = tree.getroot()

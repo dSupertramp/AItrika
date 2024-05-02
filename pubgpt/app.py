@@ -11,11 +11,10 @@ from parser.article_parser import (
 )
 
 
-# from llm.zephyr import create_embeddings, retriever, get_associations
-# from llm.openai import create_embeddings, get_associations
-from llm.falcon import create_embeddings, retriever, get_associations
+from llm.zephyr import create_embeddings, retriever, get_associations
 
-# from llm.groq import create_embeddings, retriever, get_associations
+# from llm.openai import create_embeddings, get_associations
+# from llm.falcon import create_embeddings, retriever, get_associations
 
 
 from llm.utils import read_document
@@ -147,7 +146,7 @@ def extract_associations(pubmed_id):
 
 
 def online_parser():
-    pubmed_id = st.text_input("PubMed ID", "32819603")
+    pubmed_id = st.text_input("PubMed ID", "23747889")
     query = st.text_input(
         label="Insert a query here:",
         placeholder="Es: Is BRCA2 associated with breast cancer?",
