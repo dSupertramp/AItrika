@@ -25,6 +25,10 @@ First of all, create a virtual environment with the command `python3 -m venv ven
 
 After that, you can install poetry with the command `pip install poetry` and then run `poetry install`.
 
+## 📦 Set API Keys
+
+In order to set API keys, type your keys into the `env.example` file and rename it to `.env`
+
 ## 🔍 Usage
 
 You can easily get informations of a paper by passing a PubMed ID:
