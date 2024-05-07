@@ -12,7 +12,7 @@ from llm.llm import LLM
 from prompts.prompts import associations_prompt
 
 
-class CuraBase:
+class AItrikaBase:
     def __init__(self):
         self.record = None
         self.data = None
@@ -124,7 +124,7 @@ class CuraBase:
         return llm.query_model(prompt)
 
 
-class OnlineCura(CuraBase):
+class OnlineAItrika(AItrikaBase):
     def __init__(self, pubmed_id: str) -> None:
         super().__init__()
         self.pubmed_id = pubmed_id
@@ -141,7 +141,7 @@ class OnlineCura(CuraBase):
             return ""
 
 
-class LocalCura(CuraBase):
+class LocalAItrika(AItrikaBase):
     def __init__(self, pdf_path: str) -> None:
         super().__init__()
         self.pdf_path = pdf_path

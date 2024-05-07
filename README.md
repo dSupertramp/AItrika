@@ -1,12 +1,12 @@
-# Cura
+# AItrika
 
-![Cura](images/logo.png)
+![AItrika](images/logo.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Enhance your knowledge in medical research.
 
-Cura is a tool that can extract lots of relevant informations inside medical papers in an easy way:
+AItrika is a tool that can extract lots of relevant informations inside medical papers in an easy way:
 
 - Abstract
 - Full text (when available)
@@ -34,18 +34,18 @@ In order to set API keys, type your keys into the `env.example` file and rename 
 You can easily get informations of a paper by passing a PubMed ID:
 
 ```python
-from engine.cura import OnlineCura
-cura_engine = OnlineCura(pubmed_id=pubmed_id)
-title = cura_engine.get_title()
+from engine.aitrika import OnlineAItrika
+aitrika_engine = OnlineAItrika(pubmed_id=pubmed_id)
+title = aitrika_engine.get_title()
 print(title)
 ```
 
 Or you can parse a local pdf:
 
 ```python
-from engine.cura import LocalCura
-cura_engine = LocalCura(pdf_path = pdf_path)
-title = cura_engine.get_title()
+from engine.aitrika import LocalAItrika
+aitrika_engine = LocalAItrika(pdf_path = pdf_path)
+title = aitrika_engine.get_title()
 print(title)
 ```
 
@@ -59,7 +59,7 @@ You can get other informations, like the associations between genes and diseases
 ## Prepare the documents
 documents = generate_documents(content=abstract)
 llm = GroqLLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))
-associations = cura_engine.associations(llm=llm)
+associations = aitrika_engine.associations(llm=llm)
 print(associations)
 ```
 
@@ -74,7 +74,7 @@ Before using an LLM, make sure to set your API key.
 
 ## License
 
-Cura is licensed under the MIT License. See the LICENSE file for more details.
+AItrika is licensed under the MIT License. See the LICENSE file for more details.
 
 ## TODO
 

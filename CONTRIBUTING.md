@@ -1,4 +1,4 @@
-# How can you contribute to Cura? 💉📄
+# How can you contribute to AItrika? 💉📄
 
 Really thanks for your help.
 

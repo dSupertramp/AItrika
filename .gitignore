@@ -8,10 +8,10 @@ ENV
 .env
 
 # embeddings
-cura/embeddings
+aitrika/embeddings
 
 # vectorstores
-cura/vectorstores
+aitrika/vectorstores
 
 # pycache
 __pycache__

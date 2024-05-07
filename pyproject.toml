@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "cura"
+name = "aitrika"
 version = "0.1.0"
 description = "Enhance your knowledge in medical research."
 authors = ["Danilo Palumbo"]
