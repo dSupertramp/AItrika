@@ -73,3 +73,8 @@ gene_id,gene_name,disease_id,disease_name,is_associated
 ## License
 
 Cura is licensed under the MIT License. See the LICENSE file for more details.
+
+## TODO
+
+- [ ] Create documentation
+- [ ] Add docstrings
