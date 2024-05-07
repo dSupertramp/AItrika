@@ -8,11 +8,11 @@ from llama_index.core import (
     Document,
 )
 import os
-from llm.llm import LLM
+from llm.base_llm import BaseLLM
 from yaspin import yaspin
 
 
-class HuggingFaceLLM(LLM):
+class HuggingFaceLLM(BaseLLM):
     model_name: str = "HuggingFaceH4/zephyr-7b-alpha"
     embeddings: str = "BAAI/bge-small-en-v1.5"
     chunk_size: int = 1024

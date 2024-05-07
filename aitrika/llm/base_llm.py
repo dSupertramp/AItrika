@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class LLM(ABC):
+class BaseLLM(ABC):
     @abstractmethod
     def query_model(self, query: str) -> str:
         pass

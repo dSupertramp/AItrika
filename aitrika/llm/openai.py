@@ -1,5 +1,5 @@
-from llama_index.llms.neutrino import Neutrino
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.llms.openai import OpenAI
+from llama_index.embeddings.openai import OpenAIEmbeddings
 from llama_index.core import (
     VectorStoreIndex,
     Settings,
@@ -13,9 +13,10 @@ from llm.base_llm import BaseLLM
 from yaspin import yaspin
 
 
-class NeutrinoLLM(BaseLLM):
+class OpenAILLM(BaseLLM):
     load_dotenv()
-    embeddings: str = "BAAI/bge-small-en-v1.5"
+    model_name = "gpt-3.5-turbo"
+    emdedding = "text-embedding-3-small"
     chunk_size: int = 1024
     chunk_overlap: int = 80
 
@@ -25,18 +26,18 @@ class NeutrinoLLM(BaseLLM):
 
     @yaspin()
     def _build_index(self):
-        llm = Neutrino(token=self.api_key)
-        embed_model = HuggingFaceEmbedding(
+        llm = OpenAI(model=self.model_name, token=self.api_key)
+        embed_model = OpenAIEmbeddings(
             model_name=self.embeddings,
-            cache_folder="embeddings/huggingface",
+            cache_folder="embeddings/openai",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
         Settings.chunk_size = self.chunk_size
         Settings.chunk_overlap = self.chunk_overlap
 
-        if os.path.exists("neutrino"):
-            storage_context = StorageContext.from_defaults(persist_dir="neutrino")
+        if os.path.exists("openai"):
+            storage_context = StorageContext.from_defaults(persist_dir="openai")
             index = load_index_from_storage(storage_context=storage_context)
         else:
             storage_context = StorageContext.from_defaults()
@@ -45,7 +46,7 @@ class NeutrinoLLM(BaseLLM):
                 storage_context=storage_context,
                 show_progress=False,
             )
-            index.storage_context.persist(persist_dir="neutrino")
+            index.storage_context.persist(persist_dir="openai")
         self.index = index
 
     @yaspin()

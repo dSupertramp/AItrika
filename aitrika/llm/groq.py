@@ -8,11 +8,11 @@ from llama_index.core import (
     Document,
 )
 import os
-from llm.llm import LLM
+from llm.base_llm import BaseLLM
 from yaspin import yaspin
 
 
-class GroqLLM(LLM):
+class GroqLLM(BaseLLM):
     model_name: str = "gemma-7b-it"
     embeddings: str = "BAAI/bge-small-en-v1.5"
     chunk_size: int = 1024
