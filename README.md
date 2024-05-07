@@ -56,11 +56,11 @@ Breast cancer genes: beyond BRCA1 and BRCA2.
 You can get other informations, like the associations between genes and diseases:
 
 ```python
-  ## Prepare the documents
-  documents = generate_documents(content=abstract)
-  llm = GroqLLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))
-  associations = cura_engine.associations(llm=llm)
-  print(associations)
+## Prepare the documents
+documents = generate_documents(content=abstract)
+llm = GroqLLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))
+associations = cura_engine.associations(llm=llm)
+print(associations)
 ```
 
 ```
