@@ -1,4 +1,4 @@
-# AItrika
+# AItrika (formerly PubGPT)
 
 ![AItrika](images/logo.png)
 
