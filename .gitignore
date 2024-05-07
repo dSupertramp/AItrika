@@ -1,0 +1,17 @@
+# virtualenvs
+env
+ENV
+venv
+ENV
+
+# api keys
+.env
+
+# embeddings
+cura/embeddings
+
+# vectorstores
+cura/vectorstores
+
+# pycache
+__pycache__
