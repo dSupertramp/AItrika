@@ -53,7 +53,7 @@ print(title)
 Breast cancer genes: beyond BRCA1 and BRCA2.
 ```
 
-You can get other informations, like the associations between genes and diseases:
+You can get other informations, like the associations between genes and diseases using a RAG (Retrieval Augmented Generation):
 
 ```python
 ## Prepare the documents
@@ -69,6 +69,8 @@ gene_id,gene_name,disease_id,disease_name,is_associated
 672,BRCA1,MESH:D009386,Neoplastic Syndromes Hereditary,True
 ...
 ```
+
+Before using an LLM, make sure to set your API key.
 
 ## License
 
