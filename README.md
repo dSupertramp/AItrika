@@ -12,7 +12,7 @@ AItrika is a tool that can extract lots of relevant informations inside medical 
 - Full text (when available)
 - Genes
 - Diseases
-- Associations between genes and diseases (powered by LLMs and Llamaindex)
+- Associations between genes and diseases
 - MeSH terms
 - Other terms
 
@@ -53,24 +53,61 @@ print(title)
 Breast cancer genes: beyond BRCA1 and BRCA2.
 ```
 
-You can get other informations, like the associations between genes and diseases using a RAG (Retrieval Augmented Generation):
+You can get other informations, like the associations between genes and diseases:
+
+```python
+associations = aitrika_engine.associations()
+```
+
+```
+[
+  {
+    "gene": "BRIP1",
+    "disease": "Breast Neoplasms"
+  },
+  {
+    "gene": "PTEN",
+    "disease": "Breast Neoplasms"
+  },
+  {
+    "gene": "CHEK2",
+    "disease": "Breast Neoplasms"
+  },
+]
+...
+```
+
+Or you can get a nice-formatted DataFrame:
+
+```python
+associations = aitrika_engine.associations(dataframe = True)
+```
+
+```
+      gene                          disease
+0    BRIP1                 Breast Neoplasms
+1     PTEN                 Breast Neoplasms
+2    CHEK2                 Breast Neoplasms
+...
+```
+
+With the power of RAG, you can query your document:
 
 ```python
 ## Prepare the documents
 documents = generate_documents(content=abstract)
+
+## Set the LLM
 llm = GroqLLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))
-associations = aitrika_engine.associations(llm=llm)
-print(associations)
+
+## Query your document
+query = "Is BRCA1 associated with breast cancer?"
+print(llm.query_model(query=query))
 ```
 
 ```
-gene_id,gene_name,disease_id,disease_name,is_associated
-672,BRCA1,MESH:D001943,Breast Neoplasms,True
-672,BRCA1,MESH:D009386,Neoplastic Syndromes Hereditary,True
-...
+The provided text suggests that BRCA1 is associated with breast cancer, as it is listed among the high-penetrance genes identified in family linkage studies as responsible for inherited syndromes of breast cancer.
 ```
-
-Before using an LLM, make sure to set your API key.
 
 ## License
 
