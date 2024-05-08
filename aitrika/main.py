@@ -10,10 +10,15 @@ if __name__ == "__main__":
     pubmed_id = 23747889
     aitrika_engine = OnlineAItrika(pubmed_id=pubmed_id)
     abstract = aitrika_engine.abstract()
-    print(abstract)
+    associations = aitrika_engine.associations()
+    print(associations)
 
     ## Prepare the documents
     documents = generate_documents(content=abstract)
+
+    ## Set the LLM
     llm = GroqLLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))
-    associations = aitrika_engine.associations(llm=llm)
-    print(associations)
+
+    ## Query your document
+    query = "Is BRCA1 associated with breast cancer?"
+    print(llm.query_model(query=query))

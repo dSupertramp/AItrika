@@ -8,7 +8,7 @@ import re
 import itertools
 from typing import List, Tuple
 from llama_index.core import PromptTemplate
-from llm.llm import LLM
+from llm.base_llm import BaseLLM
 from prompts.prompts import associations_prompt
 
 
@@ -25,7 +25,7 @@ class AItrikaBase:
         self.record = Medline.read(handle)
 
     def _data_knowledge(self):
-        url = f"https://www.ncbi.nlm.nih.gov/research/pubtator3-api/publications/export/biocjson?pmids={self.pubmed_id}&full=true&concepts=gene,disease,chemical,mutation,species"
+        url = f"https://www.ncbi.nlm.nih.gov/research/pubtator3-api/publications/export/biocjson?pmids={self.pubmed_id}&full=true"
         response = requests.get(url).json()
         annotations, informations = [], []
         for item in response["PubTator3"]:
@@ -45,6 +45,11 @@ class AItrikaBase:
             data = [dict(t) for t in {tuple(d.items()) for d in informations}]
             data = json.dumps(data)
         self.data = data
+
+    def _extract_full_response(self):
+        url = f"https://www.ncbi.nlm.nih.gov/research/pubtator3-api/publications/export/biocjson?pmids={self.pubmed_id}&full=true"
+        response = requests.get(url).json()
+        return response
 
     def get_pubmed_id(self) -> str:
         return self.record.get("PMID", "")
@@ -103,25 +108,21 @@ class AItrikaBase:
         else:
             return df.to_json()
 
-    def _get_gene_disease_pairs(self) -> List[Tuple[str]]:
-        genes_df = self.genes(dataframe=True)
-        diseases_df = self.diseases(dataframe=True)
-        gene_pairs = list(zip(genes_df["name"], genes_df["identifier"]))
-        disease_pairs = list(zip(diseases_df["name"], diseases_df["identifier"]))
-        pairs = list(itertools.product(gene_pairs, disease_pairs))
-        return pairs
-
-    def associations(self, llm: LLM) -> str:
-        pre_prompt_pairs: list = []
-        for pair in self._get_gene_disease_pairs():
-            pre_prompt_pairs.append(
-                f"Is the gene {pair[0][0].strip()} (ID: {pair[0][1]}) associated with the disease {pair[1][0].strip()} (ID: {pair[1][1]})?"
-            )
-        pre_prompt_pairs = "\n".join(pre_prompt_pairs)
-        prompt = PromptTemplate(template=associations_prompt).format(
-            pairs=pre_prompt_pairs
-        )
-        return llm.query_model(prompt)
+    def associations(self, dataframe: bool = False):
+        relations, associations = [], []
+        data = self._extract_full_response()
+        for item in data["PubTator3"]:
+            relations.extend(item["relations_display"])
+        for item in relations:
+            name = item["name"]
+            parts = name.split("|")
+            disease = parts[1].replace("@DISEASE_", "").replace("_", " ")
+            gene = parts[2].replace("@GENE_", "")
+            associations.append({"gene": gene, "disease": disease})
+        if dataframe:
+            return pd.DataFrame(associations)
+        else:
+            return associations
 
 
 class OnlineAItrika(AItrikaBase):
