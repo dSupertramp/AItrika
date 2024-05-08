@@ -100,7 +100,7 @@ class AItrikaBase:
         """
         return self.record.get("OAB", "")
 
-    def genes(self, dataframe: bool = False) -> pd.DataFrame | json:
+    def genes(self, dataframe: bool = False):
         """
         Extract genes.
 
@@ -118,7 +118,7 @@ class AItrikaBase:
         else:
             return df.to_json()
 
-    def diseases(self, dataframe: bool = False) -> pd.DataFrame | json:
+    def diseases(self, dataframe: bool = False):
         """
         Extract diseases.
 
@@ -136,7 +136,7 @@ class AItrikaBase:
         else:
             return df.to_json()
 
-    def species(self, dataframe: bool = False) -> pd.DataFrame | json:
+    def species(self, dataframe: bool = False):
         """
         Extract species.
 
@@ -154,7 +154,7 @@ class AItrikaBase:
         else:
             return df.to_json()
 
-    def chemicals(self, dataframe: bool = False) -> pd.DataFrame | json:
+    def chemicals(self, dataframe: bool = False):
         """
         Extract chemicals.
 
@@ -172,7 +172,7 @@ class AItrikaBase:
         else:
             return df.to_json()
 
-    def mutations(self, dataframe: bool = False) -> pd.DataFrame | json:
+    def mutations(self, dataframe: bool = False):
         """
         Extract mutations.
 
@@ -190,7 +190,7 @@ class AItrikaBase:
         else:
             return df.to_json()
 
-    def associations(self, dataframe: bool = False) -> pd.DataFrame | json:
+    def associations(self, dataframe: bool = False):
         """
         Extract associations between genes and diseases.
 
