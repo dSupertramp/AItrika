@@ -5,11 +5,8 @@ import json
 from io import StringIO
 from PyPDF2 import PdfReader
 import re
-import itertools
-from typing import List, Tuple
-from llama_index.core import PromptTemplate
+from prompts.prompts import results_prompt
 from llm.base_llm import BaseLLM
-from prompts.prompts import associations_prompt
 
 
 class AItrikaBase:
@@ -123,6 +120,9 @@ class AItrikaBase:
             return pd.DataFrame(associations)
         else:
             return associations
+
+    def results(self, llm: BaseLLM):
+        return llm.query_model(query=results_prompt)
 
 
 class OnlineAItrika(AItrikaBase):

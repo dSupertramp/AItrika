@@ -22,3 +22,7 @@ if __name__ == "__main__":
     ## Query your document
     query = "Is BRCA1 associated with breast cancer?"
     print(llm.query_model(query=query))
+
+    ## Extract results
+    results = aitrika_engine.extract_results(llm=llm)
+    print(results)
