@@ -16,6 +16,8 @@ yaspin = "^3.0.2"
 python-dotenv = "^1.0.1"
 mkdocs = "^1.6.0"
 mkdocs-material = "^9.5.21"
+mkdocstrings = "^0.25.1"
+mkdocstrings-python = "^1.10.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -26,3 +28,4 @@ pytest = "^7.3.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+

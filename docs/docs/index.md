@@ -1,17 +1,19 @@
-# Welcome to MkDocs
+# AItrika (formerly PubGPT)
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+![AItrika](../assets/logo.png)
 
-## Commands
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+Enhance your knowledge in medical research.
 
-## Project layout
+AItrika is a tool that can extract lots of relevant informations inside medical papers in an easy way:
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+- Abstract
+- Full text (when available)
+- Genes
+- Diseases
+- Associations between genes and diseases
+- MeSH terms
+- Other terms
+
+And so on!

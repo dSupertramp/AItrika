@@ -1,4 +1,7 @@
 site_name: AItrika
+plugins:
+  - mkdocstrings:
+      default_handler: python
 theme:
   logo:
   name: material
