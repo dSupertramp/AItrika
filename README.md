@@ -102,7 +102,7 @@ llm = GroqLLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))
 
 ## Query your document
 query = "Is BRCA1 associated with breast cancer?"
-print(llm.query_model(query=query))
+print(llm.query(query=query))
 ```
 
 ```

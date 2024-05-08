@@ -13,7 +13,7 @@ if __name__ == "__main__":
     associations = aitrika_engine.associations()
     print(associations)
 
-    ## Prepare the documents
+    ## Prepare the documents (you can use full-text if available)
     documents = generate_documents(content=abstract)
 
     ## Set the LLM
@@ -21,8 +21,8 @@ if __name__ == "__main__":
 
     ## Query your document
     query = "Is BRCA1 associated with breast cancer?"
-    print(llm.query_model(query=query))
+    print(llm.query(query=query))
 
     ## Extract results
-    results = aitrika_engine.extract_results(llm=llm)
+    results = aitrika_engine.results(llm=llm)
     print(results)

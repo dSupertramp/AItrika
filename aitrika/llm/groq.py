@@ -50,7 +50,7 @@ class GroqLLM(BaseLLM):
         self.index = index
 
     @yaspin()
-    def query_model(self, query: str):
+    def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()
         response = query_engine.query(query)

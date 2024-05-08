@@ -122,7 +122,7 @@ class AItrikaBase:
             return associations
 
     def results(self, llm: BaseLLM):
-        return llm.query_model(query=results_prompt)
+        return llm.query(query=results_prompt)
 
 
 class OnlineAItrika(AItrikaBase):
