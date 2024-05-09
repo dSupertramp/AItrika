@@ -3,7 +3,7 @@ plugins:
   - mkdocstrings:
       default_handler: python
 theme:
-  logo:
+  logo: assets/icon.png
   name: material
   palette:
     primary: blue grey
