@@ -5,6 +5,7 @@ import json
 from io import StringIO
 from PyPDF2 import PdfReader
 import re
+import spacy
 from prompts.prompts import results_prompt
 from llm.base_llm import BaseLLM
 
@@ -281,29 +282,58 @@ class LocalAItrika(AItrikaBase):
         """
         Extract title and authors from PDF.
         """
+
+        def _detect_authors(strings):
+            nlp = spacy.load("en_core_web_sm")
+            for s in strings:
+                doc = nlp(s)
+                names = [ent.text for ent in doc.ents if ent.label_ == "PERSON"]
+                if names:
+                    return s
+            return None
+
+        def _detect_title(strings):
+            author_string = _detect_authors(strings)
+            abstract_string = next(
+                (s for s in strings if s.lower().startswith("abstract")), None
+            )
+            special_strings = [s for s in strings if s.startswith(("[", "{", "("))]
+            title_strings = [
+                s
+                for s in strings
+                if s not in [author_string, abstract_string] + special_strings
+            ]
+            return title_strings[0] if title_strings else None
+
         with open(self.pdf_path, "rb") as f:
             reader = PdfReader(f)
             first_page = reader.pages[0].extract_text()
             lines = first_page.split("\n")
             pre_header = [line.strip() for line in lines if line.strip()]
-            header = pre_header[1:3]
-            title = re.sub(r"\b\d+\b", "", header[0]).strip()
-            authors = re.sub(r"\d+", "", header[1]).strip().split(",")
-            authors = [author.replace("*", "") for author in authors]
-            authors = [
-                (
-                    author.replace(" and ", "").replace("and", "").strip()
-                    if (
-                        author.startswith("and ")
-                        or author.startswith("and")
-                        or author.startswith(" and")
-                    )
-                    else author.strip()
-                )
-                for author in authors
-                if author.strip()
-            ]
+            original_header = pre_header[:]  ## Copy of pre_header
+            pre_header = [re.sub(r"\d+", "", s) for s in pre_header]  ## Remove numbers
+
+            # Perform author and title detection on pre_header
+            authors = _detect_authors(pre_header)
+            title = _detect_title(pre_header)
+
+            # Extract the actual title and authors from the original list
+            original_title = original_header[pre_header.index(title)]
+            original_authors = original_header[pre_header.index(authors)]
+
+            ## Title
+            title = re.sub(r"\b\d+\b", "", original_title)  ## Remove numbers and strip
+            title = title.strip()
+
+            ## Authors
+            authors = (
+                re.sub(r"\d+", "", original_authors).strip().split(",")
+            )  ## Remove numbers
+            authors = [author.replace("*", "") for author in authors]  ## Remove *
             authors = ", ".join(authors)
+            authors = re.sub(r"\b(and)\b", "", authors)  ## Remove 'and word'
+            authors = re.sub(r",\s+", ", ", authors)  ## Remove extra spaces after 'and'
+            authors = authors.strip()
             self.title = title
             self.authors = authors
 

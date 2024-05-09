@@ -17,7 +17,12 @@ class HuggingFaceLLM(BaseLLM):
     chunk_size: int = 1024
     chunk_overlap: int = 80
 
-    def __init__(self, documents: Document, model_endpoint: str, api_key: str):
+    def __init__(
+        self,
+        documents: Document,
+        api_key: str,
+        model_endpoint: str = "microsoft/Phi-3-mini-4k-instruct",
+    ):
         self.documents = documents
         self.model_endpoint = model_endpoint
         self.api_key = api_key

@@ -17,7 +17,9 @@ class GroqLLM(BaseLLM):
     chunk_size: int = 1024
     chunk_overlap: int = 80
 
-    def __init__(self, documents: Document, model_name: str, api_key: str):
+    def __init__(
+        self, documents: Document, api_key: str, model_name: str = "llama3-8b-8192"
+    ):
         self.documents = documents
         self.model_name = model_name
         self.api_key = api_key
