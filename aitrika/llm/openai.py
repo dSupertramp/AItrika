@@ -36,8 +36,10 @@ class OpenAILLM(BaseLLM):
         Settings.chunk_size = self.chunk_size
         Settings.chunk_overlap = self.chunk_overlap
 
-        if os.path.exists("openai"):
-            storage_context = StorageContext.from_defaults(persist_dir="openai")
+        if os.path.exists("vectorstores/openai"):
+            storage_context = StorageContext.from_defaults(
+                persist_dir="vectorstores/openai"
+            )
             index = load_index_from_storage(storage_context=storage_context)
         else:
             storage_context = StorageContext.from_defaults()
@@ -46,7 +48,7 @@ class OpenAILLM(BaseLLM):
                 storage_context=storage_context,
                 show_progress=False,
             )
-            index.storage_context.persist(persist_dir="openai")
+            index.storage_context.persist(persist_dir="vectorstores/openai")
         self.index = index
 
     @yaspin()

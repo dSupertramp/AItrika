@@ -1,5 +1,5 @@
 from engine.aitrika import OnlineAItrika, LocalAItrika
-from llm.groq import GroqLLM
+from llm.huggingface import HuggingFaceLLM
 from utils.text_parser import generate_documents
 from dotenv import load_dotenv
 import os
@@ -17,12 +17,17 @@ if __name__ == "__main__":
     documents = generate_documents(content=abstract)
 
     ## Set the LLM
-    llm = GroqLLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))
+    model_endpoint = "microsoft/Phi-3-mini-4k-instruct"
+    llm = HuggingFaceLLM(
+        model_endpoint=model_endpoint,
+        documents=documents,
+        api_key=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
+    )
 
     ## Query your document
     query = "Is BRCA1 associated with breast cancer?"
     print(llm.query(query=query))
 
-    ## Extract results
+    ## Extract paper results
     results = aitrika_engine.results(llm=llm)
     print(results)

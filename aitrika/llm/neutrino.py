@@ -35,8 +35,10 @@ class NeutrinoLLM(BaseLLM):
         Settings.chunk_size = self.chunk_size
         Settings.chunk_overlap = self.chunk_overlap
 
-        if os.path.exists("neutrino"):
-            storage_context = StorageContext.from_defaults(persist_dir="neutrino")
+        if os.path.exists("vectorstores/neutrino"):
+            storage_context = StorageContext.from_defaults(
+                persist_dir="vectorstores/neutrino"
+            )
             index = load_index_from_storage(storage_context=storage_context)
         else:
             storage_context = StorageContext.from_defaults()
@@ -45,7 +47,7 @@ class NeutrinoLLM(BaseLLM):
                 storage_context=storage_context,
                 show_progress=False,
             )
-            index.storage_context.persist(persist_dir="neutrino")
+            index.storage_context.persist(persist_dir="vectorstores/neutrino")
         self.index = index
 
     @yaspin()

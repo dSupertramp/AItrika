@@ -13,13 +13,13 @@ from yaspin import yaspin
 
 
 class GroqLLM(BaseLLM):
-    model_name: str = "gemma-7b-it"
     embeddings: str = "BAAI/bge-small-en-v1.5"
     chunk_size: int = 1024
     chunk_overlap: int = 80
 
-    def __init__(self, documents: Document, api_key: str):
+    def __init__(self, documents: Document, model_name: str, api_key: str):
         self.documents = documents
+        self.model_name = model_name
         self.api_key = api_key
 
     @yaspin()
