@@ -1,5 +1,6 @@
 from llama_index.llms.huggingface import HuggingFaceInferenceAPI
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.core.node_parser import SimpleNodeParser
 from llama_index.core import (
     VectorStoreIndex,
     Settings,
@@ -7,6 +8,7 @@ from llama_index.core import (
     load_index_from_storage,
     Document,
 )
+
 import os
 from llm.base_llm import BaseLLM
 from yaspin import yaspin
@@ -47,12 +49,14 @@ class HuggingFaceLLM(BaseLLM):
                 persist_dir="vectorstores/huggingface"
             )
             index = load_index_from_storage(storage_context=storage_context)
+            parser = SimpleNodeParser()
+            new_nodes = parser.get_nodes_from_documents(self.documents)
+            index.insert_nodes(new_nodes)
+            index = load_index_from_storage(storage_context=storage_context)
         else:
             storage_context = StorageContext.from_defaults()
-            index = VectorStoreIndex.from_documents(
-                documents=self.documents,
-                storage_context=storage_context,
-                show_progress=False,
+            index = VectorStoreIndex(
+                nodes=self.documents, storage_context=storage_context
             )
             index.storage_context.persist(persist_dir="vectorstores/huggingface")
         self.index = index

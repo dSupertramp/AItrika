@@ -1,5 +1,6 @@
 from llama_index.llms.neutrino import Neutrino
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.core.node_parser import SimpleNodeParser
 from llama_index.core import (
     VectorStoreIndex,
     Settings,
@@ -40,12 +41,14 @@ class NeutrinoLLM(BaseLLM):
                 persist_dir="vectorstores/neutrino"
             )
             index = load_index_from_storage(storage_context=storage_context)
+            parser = SimpleNodeParser()
+            new_nodes = parser.get_nodes_from_documents(self.documents)
+            index.insert_nodes(new_nodes)
+            index = load_index_from_storage(storage_context=storage_context)
         else:
             storage_context = StorageContext.from_defaults()
-            index = VectorStoreIndex.from_documents(
-                documents=self.documents,
-                storage_context=storage_context,
-                show_progress=False,
+            index = VectorStoreIndex(
+                nodes=self.documents, storage_context=storage_context
             )
             index.storage_context.persist(persist_dir="vectorstores/neutrino")
         self.index = index

@@ -6,7 +6,7 @@ from io import StringIO
 from PyPDF2 import PdfReader
 import re
 import spacy
-from prompts.prompts import results_prompt
+from prompts.prompts import results_prompt, bibliography_prompt
 from llm.base_llm import BaseLLM
 
 
@@ -230,6 +230,18 @@ class AItrikaBase:
         """
         return llm.query(query=results_prompt)
 
+    def bibliography(self, llm: BaseLLM) -> str:
+        """
+        Extract bibliography.
+
+        Args:
+            llm (BaseLLM): Provided LLM
+
+        Returns:
+            str: Results
+        """
+        return llm.query(query=bibliography_prompt)
+
 
 class OnlineAItrika(AItrikaBase):
     """
@@ -276,9 +288,12 @@ class LocalAItrika(AItrikaBase):
         self.authors = None
         self.pubmed_id = None
         self._extract_title_and_authors()
-        self._retrieve_pubmed_id()
-        self._paper_knowledge()
-        self._data_knowledge()
+        try:
+            self._retrieve_pubmed_id()
+            self._paper_knowledge()
+            self._data_knowledge()
+        except Exception:
+            pass
 
     def _extract_title_and_authors(self):
         """

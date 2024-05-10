@@ -1,5 +1,6 @@
 from llama_index.llms.groq import Groq
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.core.node_parser import SimpleNodeParser
 from llama_index.core import (
     VectorStoreIndex,
     Settings,
@@ -18,7 +19,7 @@ class GroqLLM(BaseLLM):
     chunk_overlap: int = 80
 
     def __init__(
-        self, documents: Document, api_key: str, model_name: str = "llama3-8b-8192"
+        self, documents: Document, api_key: str, model_name: str = "llama3-70b-8192"
     ):
         self.documents = documents
         self.model_name = model_name
@@ -41,12 +42,14 @@ class GroqLLM(BaseLLM):
                 persist_dir="vectorstores/groq"
             )
             index = load_index_from_storage(storage_context=storage_context)
+            parser = SimpleNodeParser()
+            new_nodes = parser.get_nodes_from_documents(self.documents)
+            index.insert_nodes(new_nodes)
+            index = load_index_from_storage(storage_context=storage_context)
         else:
             storage_context = StorageContext.from_defaults()
-            index = VectorStoreIndex.from_documents(
-                documents=self.documents,
-                storage_context=storage_context,
-                show_progress=False,
+            index = VectorStoreIndex(
+                nodes=self.documents, storage_context=storage_context
             )
             index.storage_context.persist(persist_dir="vectorstores/groq")
         self.index = index
