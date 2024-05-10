@@ -35,6 +35,8 @@ class AItrikaBase:
         """
         url = f"https://www.ncbi.nlm.nih.gov/research/pubtator3-api/publications/export/biocjson?pmids={self.pubmed_id}&full=true"
         response = requests.get(url).json()
+        if response == {"detail": "Could not retrieve publications"}:
+            raise ValueError("Resource not found.")
         annotations, informations = [], []
         for item in response["PubTator3"]:
             for passage in item["passages"]:
