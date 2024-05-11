@@ -2,8 +2,13 @@
 
 results_prompt = """
 In the given text, extract the results and format it as a digest. 
-Split each entry into main concepts using a dash (-). 
+Split each entry into main concepts using a dash (-) and each main concept in a new line.
 Put each entry on a new line.
+
+Structure the output like this:
+** RESULTS **
+<Output>
+</Output>
 """
 
 
@@ -17,4 +22,41 @@ In the given text, identify the references or bibliography section and extract t
 - Volume and issue numbers (if applicable)
 - Page numbers (if applicable)
 - DOI or URL (if applicable)
+
+Structure the output like this:
+** BIBLIOGRAPHY **
+<Output>
+</Output>
+"""
+
+
+methods_prompt = """
+In the given text, extract the methods used.
+Split each entry into main concepts using a dash (-) and each main concept in a new line.
+Put each entry on a new line.
+
+Structure the output like this:
+** METHODS **
+<Output>
+</Output>
+"""
+
+
+introduction_prompt = """
+In the given text, extract the introductin and format it as a digest.
+
+Structure the output like this:
+** INTRODUCTION **
+<Output>
+</Output>
+"""
+
+
+acknowledgments_prompt = """
+In the given text, extract the acknowledgements and format it as a digest.
+
+Structure the output like this:
+** ACKNOWLEDGEMENTS **
+<Output>
+</Output>
 """

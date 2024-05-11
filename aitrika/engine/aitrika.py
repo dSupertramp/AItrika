@@ -6,7 +6,13 @@ from io import StringIO
 from PyPDF2 import PdfReader
 import re
 import spacy
-from prompts.prompts import results_prompt, bibliography_prompt
+from prompts.prompts import (
+    results_prompt,
+    bibliography_prompt,
+    methods_prompt,
+    introduction_prompt,
+    acknowledgments_prompt,
+)
 from llm.base_llm import BaseLLM
 
 
@@ -242,13 +248,49 @@ class AItrikaBase:
         """
         return llm.query(query=bibliography_prompt)
 
+    def methods(self, llm: BaseLLM) -> str:
+        """
+        Extract methods.
+
+        Args:
+            llm (BaseLLM): Provided LLM
+
+        Returns:
+            str: Results
+        """
+        return llm.query(query=methods_prompt)
+
+    def introduction(self, llm: BaseLLM) -> str:
+        """
+        Extract introduction.
+
+        Args:
+            llm (BaseLLM): Provided LLM
+
+        Returns:
+            str: Results
+        """
+        return llm.query(query=introduction_prompt)
+
+    def acknowledgements(self, llm: BaseLLM) -> str:
+        """
+        Extract acknowledgements.
+
+        Args:
+            llm (BaseLLM): Provided LLM
+
+        Returns:
+            str: Results
+        """
+        return llm.query(query=acknowledgments_prompt)
+
 
 class OnlineAItrika(AItrikaBase):
     """
     AItrika engine for online search.
 
     Args:
-        AItrikaBase (_type_): Base AItrika
+        AItrikaBase (): Base AItrika
     """
 
     def __init__(self, pubmed_id: str) -> None:
@@ -278,7 +320,7 @@ class LocalAItrika(AItrikaBase):
     Local AItrika engine for local search.
 
     Args:
-        AItrikaBase (_type_): Base AItrika
+        AItrikaBase (): Base AItrika
     """
 
     def __init__(self, pdf_path: str) -> None:
@@ -300,24 +342,42 @@ class LocalAItrika(AItrikaBase):
         Extract title and authors from PDF.
         """
 
-        def _detect_authors(strings):
+        def _detect_authors(text: str) -> str:
+            """
+            Detect authors inside the text.
+
+            Args:
+                text (str): Input text
+
+            Returns:
+                str: Authors
+            """
             nlp = spacy.load("en_core_web_sm")
-            for s in strings:
+            for s in text:
                 doc = nlp(s)
                 names = [ent.text for ent in doc.ents if ent.label_ == "PERSON"]
                 if names:
                     return s
             return None
 
-        def _detect_title(strings):
-            author_string = _detect_authors(strings)
+        def _detect_title(text: str) -> str:
+            """
+            Detect title inside the text.
+
+            Args:
+                text (str): Input text
+
+            Returns:
+                str: Title
+            """
+            author_string = _detect_authors(text)
             abstract_string = next(
-                (s for s in strings if s.lower().startswith("abstract")), None
+                (s for s in text if s.lower().startswith("abstract")), None
             )
-            special_strings = [s for s in strings if s.startswith(("[", "{", "("))]
+            special_strings = [s for s in text if s.startswith(("[", "{", "("))]
             title_strings = [
                 s
-                for s in strings
+                for s in text
                 if s not in [author_string, abstract_string] + special_strings
             ]
             return title_strings[0] if title_strings else None
@@ -354,9 +414,12 @@ class LocalAItrika(AItrikaBase):
             self.title = title
             self.authors = authors
 
-    def _retrieve_pubmed_id(self):
+    def _retrieve_pubmed_id(self) -> int:
         """
-        Retrieve PubMed ID from PDF.
+        Retrieve PubMed ID based on title and authors.
+
+        Returns:
+            int: PubMed ID
         """
         query = f"({self.title}) AND ({self.authors})[Author]"
         Entrez.email = "mail@mail.com"

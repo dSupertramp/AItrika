@@ -21,13 +21,14 @@ And so on!
 ## 📦 Install
 
 To install everything, you need `poetry`.
+
 First of all, create a virtual environment with the command `python3 -m venv venv_name` and activate it with `source venv_name\bin\activate`.
 
 After that, you can install poetry with the command `pip install poetry` and then run `poetry install`.
 
 ## 🔑 Set API Keys
 
-In order to set API keys, type your keys into the `env.example` file and rename it to `.env`
+In order to set API keys, insert your keys into the `env.example` file and rename it to `.env`.
 
 ## 🔍 Usage
 
@@ -77,7 +78,7 @@ associations = aitrika_engine.associations()
 ...
 ```
 
-Or you can get a nice-formatted DataFrame:
+Or you can get a nice formatted DataFrame:
 
 ```python
 associations = aitrika_engine.associations(dataframe = True)
