@@ -21,7 +21,6 @@ class OllamaLLM(BaseLLM):
 
     def __init__(self, documents: Document):
         self.documents = documents
-        # self.api_key = api_key
 
     @yaspin()
     def _build_index(self):
