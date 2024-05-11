@@ -11,7 +11,6 @@ from llama_index.core import (
 
 import os
 from llm.base_llm import BaseLLM
-from yaspin import yaspin
 
 
 class HuggingFaceLLM(BaseLLM):
@@ -29,7 +28,6 @@ class HuggingFaceLLM(BaseLLM):
         self.model_endpoint = model_endpoint
         self.api_key = api_key
 
-    @yaspin()
     def _build_index(self):
         llm = HuggingFaceInferenceAPI(
             model_name=self.model_endpoint, token=self.api_key
@@ -61,7 +59,6 @@ class HuggingFaceLLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/huggingface")
         self.index = index
 
-    @yaspin()
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()

@@ -11,7 +11,6 @@ from llama_index.core import (
 from dotenv import load_dotenv
 import os
 from llm.base_llm import BaseLLM
-from yaspin import yaspin
 
 
 class NeutrinoLLM(BaseLLM):
@@ -24,7 +23,6 @@ class NeutrinoLLM(BaseLLM):
         self.documents = documents
         self.api_key = api_key
 
-    @yaspin()
     def _build_index(self):
         llm = Neutrino(token=self.api_key)
         embed_model = HuggingFaceEmbedding(
@@ -53,7 +51,6 @@ class NeutrinoLLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/neutrino")
         self.index = index
 
-    @yaspin()
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()

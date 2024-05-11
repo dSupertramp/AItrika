@@ -10,7 +10,6 @@ from llama_index.core import (
 )
 import os
 from llm.base_llm import BaseLLM
-from yaspin import yaspin
 
 
 class GroqLLM(BaseLLM):
@@ -25,7 +24,6 @@ class GroqLLM(BaseLLM):
         self.model_name = model_name
         self.api_key = api_key
 
-    @yaspin()
     def _build_index(self):
         llm = Groq(model=self.model_name, api_key=self.api_key)
         embed_model = HuggingFaceEmbedding(
@@ -54,7 +52,6 @@ class GroqLLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/groq")
         self.index = index
 
-    @yaspin()
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()

@@ -10,7 +10,6 @@ from llama_index.core import (
 )
 import os
 from llm.base_llm import BaseLLM
-from yaspin import yaspin
 
 
 class OllamaLLM(BaseLLM):
@@ -22,7 +21,6 @@ class OllamaLLM(BaseLLM):
     def __init__(self, documents: Document):
         self.documents = documents
 
-    @yaspin()
     def _build_index(self):
         llm = Ollama(model=self.model_name, request_timeout=120.0)
         embed_model = HuggingFaceEmbedding(
@@ -51,7 +49,6 @@ class OllamaLLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/ollama")
         self.index = index
 
-    @yaspin()
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()

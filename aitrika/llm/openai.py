@@ -11,7 +11,6 @@ from llama_index.core import (
 from dotenv import load_dotenv
 import os
 from llm.base_llm import BaseLLM
-from yaspin import yaspin
 
 
 class OpenAILLM(BaseLLM):
@@ -25,7 +24,6 @@ class OpenAILLM(BaseLLM):
         self.documents = documents
         self.api_key = api_key
 
-    @yaspin()
     def _build_index(self):
         llm = OpenAI(model=self.model_name, token=self.api_key)
         embed_model = OpenAIEmbeddings(
@@ -54,7 +52,6 @@ class OpenAILLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/openai")
         self.index = index
 
-    @yaspin()
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()
