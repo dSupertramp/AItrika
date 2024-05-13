@@ -10,6 +10,7 @@ from llama_index.core import (
 )
 import os
 from llm.base_llm import BaseLLM
+from utils.loader import loader
 
 
 class GroqLLM(BaseLLM):
@@ -22,6 +23,8 @@ class GroqLLM(BaseLLM):
     ):
         self.documents = documents
         self.model_name = model_name
+        if not api_key:
+            raise ValueError("API key is required for Groq.")
         self.api_key = api_key
 
     def _build_index(self):
@@ -52,6 +55,7 @@ class GroqLLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/groq")
         self.index = index
 
+    @loader(text="Querying")
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()

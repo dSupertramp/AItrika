@@ -8,19 +8,20 @@ from llama_index.core import (
     load_index_from_storage,
     Document,
 )
-from dotenv import load_dotenv
 import os
 from llm.base_llm import BaseLLM
+from utils.loader import loader
 
 
 class NeutrinoLLM(BaseLLM):
-    load_dotenv()
     embeddings: str = "BAAI/bge-small-en-v1.5"
     chunk_size: int = 1024
     chunk_overlap: int = 80
 
     def __init__(self, documents: Document, api_key: str):
         self.documents = documents
+        if not api_key:
+            raise ValueError("API key is required for Neutrino.")
         self.api_key = api_key
 
     def _build_index(self):
@@ -51,6 +52,7 @@ class NeutrinoLLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/neutrino")
         self.index = index
 
+    @loader(text="Querying")
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()

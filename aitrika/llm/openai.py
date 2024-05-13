@@ -8,13 +8,12 @@ from llama_index.core import (
     load_index_from_storage,
     Document,
 )
-from dotenv import load_dotenv
 import os
 from llm.base_llm import BaseLLM
+from utils.loader import loader
 
 
 class OpenAILLM(BaseLLM):
-    load_dotenv()
     model_name = "gpt-3.5-turbo"
     emdedding = "text-embedding-3-small"
     chunk_size: int = 1024
@@ -22,6 +21,8 @@ class OpenAILLM(BaseLLM):
 
     def __init__(self, documents: Document, api_key: str):
         self.documents = documents
+        if not api_key:
+            raise ValueError("API key is required for OpenAI.")
         self.api_key = api_key
 
     def _build_index(self):
@@ -52,6 +53,7 @@ class OpenAILLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/openai")
         self.index = index
 
+    @loader(text="Querying")
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()

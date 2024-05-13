@@ -10,6 +10,7 @@ from llama_index.core import (
 )
 import os
 from llm.base_llm import BaseLLM
+from utils.loader import loader
 
 
 class OllamaLLM(BaseLLM):
@@ -49,6 +50,7 @@ class OllamaLLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/ollama")
         self.index = index
 
+    @loader(text="Querying")
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()

@@ -8,9 +8,9 @@ from llama_index.core import (
     load_index_from_storage,
     Document,
 )
-
 import os
 from llm.base_llm import BaseLLM
+from utils.loader import loader
 
 
 class HuggingFaceLLM(BaseLLM):
@@ -26,6 +26,8 @@ class HuggingFaceLLM(BaseLLM):
     ):
         self.documents = documents
         self.model_endpoint = model_endpoint
+        if not api_key:
+            raise ValueError("API key is required for HuggingFace.")
         self.api_key = api_key
 
     def _build_index(self):
@@ -59,6 +61,7 @@ class HuggingFaceLLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/huggingface")
         self.index = index
 
+    @loader(text="Querying")
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()
