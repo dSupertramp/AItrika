@@ -12,9 +12,12 @@ AItrika is a tool that can extract lots of relevant informations inside medical 
 - Full text (when available)
 - Genes
 - Diseases
+- Mutations
 - Associations between genes and diseases
 - MeSH terms
 - Other terms
+- Results
+- Bibliography
 
 And so on!
 
