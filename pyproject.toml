@@ -23,6 +23,7 @@ llama-index-llms-huggingface = "^0.1.5"
 spacy = "^3.7.4"
 en_core_web_sm = {url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz"}
 llama-index = "^0.10.36"
+streamlit = "^1.34.0"
 
 
 
