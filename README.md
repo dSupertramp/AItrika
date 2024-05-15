@@ -130,3 +130,4 @@ AItrika is licensed under the MIT License. See the LICENSE file for more details
 
 - [ ] Create documentation
 - [ ] Add docstrings
+- [ ] Create Python package
