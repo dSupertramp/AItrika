@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aitrika"
-version = "0.3.5.4"
+version = "0.3.5.5"
 description = "Enhance your knowledge in medical research."
 authors = ["Danilo Palumbo"]
 license = "MIT"
@@ -24,7 +24,6 @@ llama-index-llms-anyscale = "^0.1.4"
 spacy = "^3.7.4"
 llama-index = "^0.10.36"
 streamlit = "^1.34.0"
-
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
