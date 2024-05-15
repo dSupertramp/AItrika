@@ -21,6 +21,15 @@ AItrika (formerly PubGPT) is a tool that can extract lots of relevant informatio
 
 And so on!
 
+## 🚀 Run the demo app
+
+You can try AItrika with the Streamlit app by running:
+
+```
+cd aitrika/
+streamlit run app.py
+```
+
 ## 📦 Install
 
 To install everything, you need `poetry`.
@@ -111,15 +120,6 @@ print(llm.query(query=query))
 
 ```
 The provided text suggests that BRCA1 is associated with breast cancer, as it is listed among the high-penetrance genes identified in family linkage studies as responsible for inherited syndromes of breast cancer.
-```
-
-## Run the app
-
-You can try AItrika with the Streamlit app by running:
-
-```
-cd aitrika/
-streamlit run app.py
 ```
 
 ## License
