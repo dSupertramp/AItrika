@@ -20,7 +20,7 @@ st.title("AItrika")
 
 uploaded_file = st.file_uploader("Choose your .pdf file", type="pdf")
 if uploaded_file is not None:
-    pdf_path = "data/" + uploaded_file.name
+    pdf_path = "aitrika/data/" + uploaded_file.name
     engine = LocalAItrika(pdf_path=pdf_path)
     documents = generate_documents(content=engine.full_text())
     llm = GroqLLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))

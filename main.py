@@ -1,3 +1,7 @@
+"""
+Main script for demo.
+"""
+
 from aitrika.engine.aitrika import OnlineAItrika
 from aitrika.llm.huggingface import HuggingFaceLLM
 from aitrika.utils.text_parser import generate_documents
