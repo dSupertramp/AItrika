@@ -5,7 +5,6 @@ import json
 from io import StringIO
 from PyPDF2 import PdfReader
 import re
-import spacy
 from prompts.prompts import (
     results_prompt,
     bibliography_prompt,

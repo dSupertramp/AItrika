@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aitrika"
-version = "0.3.5"
+version = "0.3.5.1"
 description = "Enhance your knowledge in medical research."
 authors = ["Danilo Palumbo"]
 license = "MIT"
