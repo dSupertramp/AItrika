@@ -74,8 +74,8 @@ class AItrikaBase:
         response = requests.get(url).json()
         return response
 
-    @loader(text="Extracting PubMed ID: ")
-    def get_pubmed_id(self) -> str:
+    @loader(text="Extracting PubMed ID")
+    def extract_pubmed_id(self) -> str:
         """
         Extract PubMed ID.
 
@@ -85,7 +85,7 @@ class AItrikaBase:
         return self.record.get("PMID", "")
 
     @loader(text="Extracting title")
-    def get_title(self) -> str:
+    def extract_title(self) -> str:
         """
         Extract title.
 
@@ -95,7 +95,7 @@ class AItrikaBase:
         return self.record.get("TI", "")
 
     @loader(text="Extracting abstract")
-    def abstract(self) -> str:
+    def extract_abstract(self) -> str:
         """
         Extract abstract.
 
@@ -105,7 +105,7 @@ class AItrikaBase:
         return self.record.get("AB", "")
 
     @loader(text="Extracting other abstract")
-    def other_abstract(self) -> str:
+    def extract_other_abstract(self) -> str:
         """
         Extract other abstract (if available).
 
@@ -115,7 +115,7 @@ class AItrikaBase:
         return self.record.get("OAB", "")
 
     @loader(text="Extracting genes")
-    def genes(self, dataframe: bool = False):
+    def extract_genes(self, dataframe: bool = False):
         """
         Extract genes.
 
@@ -134,7 +134,7 @@ class AItrikaBase:
             return df.to_json()
 
     @loader(text="Extracting diseases")
-    def diseases(self, dataframe: bool = False):
+    def extract_diseases(self, dataframe: bool = False):
         """
         Extract diseases.
 
@@ -153,7 +153,7 @@ class AItrikaBase:
             return df.to_json()
 
     @loader(text="Extracting species")
-    def species(self, dataframe: bool = False):
+    def extract_species(self, dataframe: bool = False):
         """
         Extract species.
 
@@ -172,7 +172,7 @@ class AItrikaBase:
             return df.to_json()
 
     @loader(text="Extracting chemicals")
-    def chemicals(self, dataframe: bool = False):
+    def extract_chemicals(self, dataframe: bool = False):
         """
         Extract chemicals.
 
@@ -191,7 +191,7 @@ class AItrikaBase:
             return df.to_json()
 
     @loader(text="Extracting mutations")
-    def mutations(self, dataframe: bool = False):
+    def extract_mutations(self, dataframe: bool = False):
         """
         Extract mutations.
 
@@ -210,7 +210,7 @@ class AItrikaBase:
             return df.to_json()
 
     @loader(text="Extracting associations between genes and diseases")
-    def associations(self, dataframe: bool = False):
+    def extract_associations(self, dataframe: bool = False):
         """
         Extract associations between genes and diseases.
 
@@ -235,8 +235,29 @@ class AItrikaBase:
         else:
             return associations
 
+    @loader(text="Extracting authors")
+    def extract_authors(self):
+        """
+        Extract authors.
+
+        Returns:
+            str: Authors
+        """
+        raw_authors = self._extract_full_response()["PubTator3"][0]["authors"]
+        return ", ".join(raw_authors)
+
+    @loader(text="Extracting journal")
+    def extract_journal(self):
+        """
+        Extract journal.
+
+        Returns:
+            str: Journal
+        """
+        return self._extract_full_response()["PubTator3"][0]["journal"]
+
     @loader(text="Extracting results")
-    def results(self, llm: BaseLLM) -> str:
+    def extract_results(self, llm: BaseLLM) -> str:
         """
         Extract results.
 
@@ -249,7 +270,7 @@ class AItrikaBase:
         return llm.query(query=results_prompt)
 
     @loader(text="Extracting bibliography")
-    def bibliography(self, llm: BaseLLM) -> str:
+    def extract_bibliography(self, llm: BaseLLM) -> str:
         """
         Extract bibliography.
 
@@ -262,7 +283,7 @@ class AItrikaBase:
         return llm.query(query=bibliography_prompt)
 
     @loader(text="Extracting methods")
-    def methods(self, llm: BaseLLM) -> str:
+    def extract_methods(self, llm: BaseLLM) -> str:
         """
         Extract methods.
 
@@ -275,7 +296,7 @@ class AItrikaBase:
         return llm.query(query=methods_prompt)
 
     @loader(text="Extracting introduction")
-    def introduction(self, llm: BaseLLM) -> str:
+    def extract_introduction(self, llm: BaseLLM) -> str:
         """
         Extract introduction.
 
@@ -288,7 +309,7 @@ class AItrikaBase:
         return llm.query(query=introduction_prompt)
 
     @loader(text="Extracting acknowledgements")
-    def acknowledgements(self, llm: BaseLLM) -> str:
+    def extract_acknowledgements(self, llm: BaseLLM) -> str:
         """
         Extract acknowledgements.
 
@@ -316,7 +337,7 @@ class OnlineAItrika(AItrikaBase):
         self._data_knowledge()
 
     @loader(text="Extracting full text")
-    def full_text(self) -> str:
+    def extract_full_text(self) -> str:
         """
         Extract full text (if available):
 
@@ -452,7 +473,7 @@ class LocalAItrika(AItrikaBase):
         self.pubmed_id = records["PMID"]
 
     @loader(text="Extracting full text")
-    def full_text(self) -> str:
+    def extract_full_text(self) -> str:
         """
         Extract full text parsed from PDF.
 

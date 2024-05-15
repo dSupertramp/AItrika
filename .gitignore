@@ -17,4 +17,5 @@ vectorstores
 __pycache__
 
 # tmp files
-aitrika/tmp.py
+tmp.py
+tmp.ipynb

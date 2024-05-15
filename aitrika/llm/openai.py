@@ -10,7 +10,6 @@ from llama_index.core import (
 )
 import os
 from aitrika.llm.base_llm import BaseLLM
-from aitrika.utils.loader import loader
 
 
 class OpenAILLM(BaseLLM):
@@ -18,6 +17,8 @@ class OpenAILLM(BaseLLM):
     emdedding = "text-embedding-3-small"
     chunk_size: int = 1024
     chunk_overlap: int = 80
+    context_window: int = 2048
+    num_output: int = 256
 
     def __init__(self, documents: Document, api_key: str):
         self.documents = documents
@@ -35,6 +36,8 @@ class OpenAILLM(BaseLLM):
         Settings.embed_model = embed_model
         Settings.chunk_size = self.chunk_size
         Settings.chunk_overlap = self.chunk_overlap
+        Settings.context_window = self.context_window
+        Settings.num_output = self.num_output
 
         if os.path.exists("vectorstores/openai"):
             storage_context = StorageContext.from_defaults(
@@ -53,7 +56,6 @@ class OpenAILLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/openai")
         self.index = index
 
-    @loader(text="Querying")
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()

@@ -10,14 +10,15 @@ from llama_index.core import (
 )
 import os
 from aitrika.llm.base_llm import BaseLLM
-from aitrika.utils.loader import loader
 
 
 class OllamaLLM(BaseLLM):
     model_name: str = "phi3"
-    embeddings: str = "BAAI/bge-small-en-v1.5"
+    embeddings: str = "BAAI/bge-base-en-v1.5"
     chunk_size: int = 1024
     chunk_overlap: int = 80
+    context_window: int = 2048
+    num_output: int = 256
 
     def __init__(self, documents: Document):
         self.documents = documents
@@ -32,6 +33,8 @@ class OllamaLLM(BaseLLM):
         Settings.embed_model = embed_model
         Settings.chunk_size = self.chunk_size
         Settings.chunk_overlap = self.chunk_overlap
+        Settings.context_window = self.context_window
+        Settings.num_output = self.num_output
 
         if os.path.exists("vectorstores/ollama"):
             storage_context = StorageContext.from_defaults(
@@ -50,7 +53,6 @@ class OllamaLLM(BaseLLM):
             index.storage_context.persist(persist_dir="vectorstores/ollama")
         self.index = index
 
-    @loader(text="Querying")
     def query(self, query: str):
         self._build_index()
         query_engine = self.index.as_query_engine()
