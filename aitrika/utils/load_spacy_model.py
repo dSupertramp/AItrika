@@ -1,7 +1,7 @@
 import spacy
 
 
-def load_spacy_model() -> spacy:
+def load_spacy_model():
     """
     Load the spaCy model. Download it if not installed.
 
