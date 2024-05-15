@@ -15,6 +15,7 @@ from prompts.prompts import (
 )
 from llm.base_llm import BaseLLM
 from utils.loader import loader
+from utils.load_spacy_model import load_spacy_model
 
 
 class AItrikaBase:
@@ -369,7 +370,7 @@ class LocalAItrika(AItrikaBase):
             Returns:
                 str: Authors
             """
-            nlp = spacy.load("en_core_web_sm")
+            nlp = load_spacy_model()
             for s in text:
                 doc = nlp(s)
                 names = [ent.text for ent in doc.ents if ent.label_ == "PERSON"]
