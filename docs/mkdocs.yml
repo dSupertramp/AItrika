@@ -12,3 +12,8 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github-alt
+
+repo_url: https://github.com/dSupertramp/AItrika
+repo_name: dSupertramp/AItrika

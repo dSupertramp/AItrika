@@ -164,7 +164,7 @@
         
   
   <span class="md-ellipsis">
-    AItrika (formerly PubGPT)
+    AItrika
   </span>
   
 
@@ -263,6 +263,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#groq" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groq
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -315,6 +324,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#groq" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groq
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -335,8 +353,8 @@
 In order to use LLMs, you need respective keys.
 Open-weights models uses by default HuggingFace's emdebbing model called <code>BAAI/bge-small-en-v1.5</code>.</p>
 <h2 id="openai">OpenAI</h2>
-<p>In order to use OpenAI models, you need to have an OpenAI API key. You can get
-one <a href="https://platform.openai.com/account/api-keys">here</a>.</p>
+<p>In order to use OpenAI models, you need to have an OpenAI API key.
+You can get one <a href="https://platform.openai.com/account/api-keys">here</a>.</p>
 <p>Once you have an API key,you can use it like this:</p>
 <pre><code class="language-python">llm = OpenAILLM(
     model_endpoint=model_endpoint,
@@ -345,13 +363,24 @@ one <a href="https://platform.openai.com/account/api-keys">here</a>.</p>
 )
 </code></pre>
 <h2 id="huggingface">HuggingFace</h2>
-<p>In order to use HuggingFace models, you need to have a HuggingFace API Key and the model endpoint for the inference.</p>
+<p>In order to use HuggingFace models, you need to have a HuggingFace API Key and the model endpoint (default is <code>microsoft/Phi-3-mini-4k-instruct</code>).</p>
 <p>Once you have an API key and the model endpoint, you can use it like this:</p>
 <pre><code class="language-python">model_endpoint = &quot;microsoft/Phi-3-mini-4k-instruct&quot;
 llm = HuggingFaceLLM(
     model_endpoint=model_endpoint,
     documents=documents,
     api_key=os.getenv(&quot;HUGGINGFACEHUB_API_TOKEN&quot;),
+)
+</code></pre>
+<h2 id="groq">Groq</h2>
+<p>In order to use Groq models, you need to have a Groq API Key and the name of the model (default is <code>llama3-70b-8192</code>)
+You can get one <a href="https://platform.openai.com/account/api-keys">here</a>.</p>
+<p>Once you have an API key and the model endpoint, you can use it like this:</p>
+<pre><code class="language-python">model_name = &quot;llama3-70b-8192&quot;
+llm = GroqLLM(
+    model_name=model_name,
+    documents=documents,
+    api_key=os.getenv(&quot;GROQ_API_KEY&quot;),
 )
 </code></pre>
 

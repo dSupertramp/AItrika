@@ -6,7 +6,7 @@ Split each entry into main concepts using a dash (-) and each main concept in a 
 Put each entry on a new line.
 
 Structure the output like this:
-** RESULTS **
+** RESULTS ** \n
 <Output>
 </Output>
 """
@@ -24,7 +24,7 @@ In the given text, identify the references or bibliography section and extract t
 - DOI or URL (if applicable)
 
 Structure the output like this:
-** BIBLIOGRAPHY **
+** BIBLIOGRAPHY ** \n
 <Output>
 </Output>
 """
@@ -36,7 +36,7 @@ Split each entry into main concepts using a dash (-) and each main concept in a 
 Put each entry on a new line.
 
 Structure the output like this:
-** METHODS **
+** METHODS ** \n
 <Output>
 </Output>
 """
@@ -46,7 +46,7 @@ introduction_prompt = """
 In the given text, extract the introductin and format it as a digest.
 
 Structure the output like this:
-** INTRODUCTION **
+** INTRODUCTION ** \n
 <Output>
 </Output>
 """
@@ -56,7 +56,7 @@ acknowledgments_prompt = """
 In the given text, extract the acknowledgements and format it as a digest.
 
 Structure the output like this:
-** ACKNOWLEDGEMENTS **
+** ACKNOWLEDGEMENTS ** \n
 <Output>
 </Output>
 """

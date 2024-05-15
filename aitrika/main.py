@@ -16,10 +16,8 @@ if __name__ == "__main__":
     ## Prepare the documents (you can use full-text if available)
     documents = generate_documents(content=abstract)
 
-    ## Set the LLM
-    model_endpoint = "microsoft/Phi-3-mini-4k-instruct"
+    ## Set the LLM (default for HuggingFace is microsoft/Phi-3-mini-4k-instruct")
     llm = HuggingFaceLLM(
-        model_endpoint=model_endpoint,
         documents=documents,
         api_key=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
     )
