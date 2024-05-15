@@ -11,9 +11,7 @@ def load_spacy_model():
     if not spacy.util.is_package("en_core_web_sm"):
         spacy.cli.download("en_core_web_sm")
         nlp = spacy.load("en_core_web_sm")
-        print(type(nlp))
         return nlp
     else:
         nlp = spacy.load("en_core_web_sm")
-        print(type(nlp))
         return nlp

@@ -1,6 +1,6 @@
-from engine.aitrika import OnlineAItrika, LocalAItrika
-from llm.huggingface import HuggingFaceLLM
-from utils.text_parser import generate_documents
+from aitrika.engine.aitrika import OnlineAItrika
+from aitrika.llm.huggingface import HuggingFaceLLM
+from aitrika.utils.text_parser import generate_documents
 from dotenv import load_dotenv
 import os
 

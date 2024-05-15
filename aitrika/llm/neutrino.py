@@ -9,8 +9,8 @@ from llama_index.core import (
     Document,
 )
 import os
-from llm.base_llm import BaseLLM
-from utils.loader import loader
+from aitrika.llm.base_llm import BaseLLM
+from aitrika.utils.loader import loader
 
 
 class NeutrinoLLM(BaseLLM):

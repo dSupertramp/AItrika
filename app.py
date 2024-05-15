@@ -4,8 +4,8 @@ Streamlit app for demo.
 
 import streamlit as st
 from aitrika.engine.aitrika import LocalAItrika
-from utils.text_parser import generate_documents
-from llm.groq import GroqLLM
+from aitrika.utils.text_parser import generate_documents
+from aitrika.llm.groq import GroqLLM
 from dotenv import load_dotenv
 import os
 

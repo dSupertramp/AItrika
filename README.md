@@ -26,8 +26,13 @@ And so on!
 You can try AItrika with the Streamlit app by running:
 
 ```
-cd aitrika/
 streamlit run app.py
+```
+
+Or you can use it a script by running:
+
+```
+python main.py
 ```
 
 ## 📦 Install
@@ -47,7 +52,7 @@ In order to set API keys, insert your keys into the `env.example` file and renam
 You can easily get informations of a paper by passing a PubMed ID:
 
 ```python
-from engine.aitrika import OnlineAItrika
+from aitrika.engine.aitrika import OnlineAItrika
 aitrika_engine = OnlineAItrika(pubmed_id=pubmed_id)
 title = aitrika_engine.get_title()
 print(title)
@@ -56,7 +61,7 @@ print(title)
 Or you can parse a local pdf:
 
 ```python
-from engine.aitrika import LocalAItrika
+from aitrika.engine.aitrika import LocalAItrika
 aitrika_engine = LocalAItrika(pdf_path = pdf_path)
 title = aitrika_engine.get_title()
 print(title)

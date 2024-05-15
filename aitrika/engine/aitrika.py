@@ -5,16 +5,16 @@ import json
 from io import StringIO
 from PyPDF2 import PdfReader
 import re
-from prompts.prompts import (
+from aitrika.prompts.prompts import (
     results_prompt,
     bibliography_prompt,
     methods_prompt,
     introduction_prompt,
     acknowledgments_prompt,
 )
-from llm.base_llm import BaseLLM
-from utils.loader import loader
-from utils.load_spacy_model import load_spacy_model
+from aitrika.utils.loader import loader
+from aitrika.utils.load_spacy_model import load_spacy_model
+from aitrika.llm.base_llm import BaseLLM
 
 
 class AItrikaBase:
