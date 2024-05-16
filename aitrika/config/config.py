@@ -1,4 +1,7 @@
-# DEFAULT_EMBEDDINGS: str = "BAAI/bge-base-en-v1.5"
+"""
+Default config.
+"""
+
 DEFAULT_EMBEDDINGS: str = "allenai/specter2_base"
 CHUNK_SIZE: int = 1024
 CHUNK_OVERLAP: int = 80
