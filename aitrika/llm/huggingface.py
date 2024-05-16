@@ -8,17 +8,13 @@ from llama_index.core import (
     load_index_from_storage,
     Document,
 )
+from llama_index.vector_stores.lancedb import LanceDBVectorStore
 import os
 from aitrika.llm.base_llm import BaseLLM
+from aitrika.config import config
 
 
 class HuggingFaceLLM(BaseLLM):
-    embeddings: str = "BAAI/bge-base-en-v1.5"
-    chunk_size: int = 1024
-    chunk_overlap: int = 80
-    context_window: int = 2048
-    num_output: int = 256
-
     def __init__(
         self,
         documents: Document,
@@ -36,19 +32,20 @@ class HuggingFaceLLM(BaseLLM):
             model_name=self.model_endpoint, token=self.api_key
         )
         embed_model = HuggingFaceEmbedding(
-            model_name=self.embeddings,
+            model_name=config.DEFAULT_EMBEDDINGS,
             cache_folder="embeddings/huggingface",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
-        Settings.chunk_size = self.chunk_size
-        Settings.chunk_overlap = self.chunk_overlap
-        Settings.context_window = self.context_window
-        Settings.num_output = self.num_output
+        Settings.chunk_size = config.CHUNK_SIZE
+        Settings.chunk_overlap = config.CHUNK_OVERLAP
+        Settings.context_window = config.CONTEXT_WINDOW
+        Settings.num_output = config.NUM_OUTPUT
 
         if os.path.exists("vectorstores/huggingface"):
+            vector_store = LanceDBVectorStore(uri="vectorstores/huggingface")
             storage_context = StorageContext.from_defaults(
-                persist_dir="vectorstores/huggingface"
+                vector_store=vector_store, persist_dir="vectorstores/huggingface"
             )
             index = load_index_from_storage(storage_context=storage_context)
             parser = SimpleNodeParser()
@@ -56,7 +53,8 @@ class HuggingFaceLLM(BaseLLM):
             index.insert_nodes(new_nodes)
             index = load_index_from_storage(storage_context=storage_context)
         else:
-            storage_context = StorageContext.from_defaults()
+            vector_store = LanceDBVectorStore(uri="vectorstores/huggingface")
+            storage_context = StorageContext.from_defaults(vector_store=vector_store)
             index = VectorStoreIndex(
                 nodes=self.documents, storage_context=storage_context
             )

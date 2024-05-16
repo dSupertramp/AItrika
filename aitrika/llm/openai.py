@@ -8,17 +8,15 @@ from llama_index.core import (
     load_index_from_storage,
     Document,
 )
+from llama_index.vector_stores.lancedb import LanceDBVectorStore
 import os
 from aitrika.llm.base_llm import BaseLLM
+from aitrika.config import config
 
 
 class OpenAILLM(BaseLLM):
     model_name = "gpt-3.5-turbo"
     emdedding = "text-embedding-3-small"
-    chunk_size: int = 1024
-    chunk_overlap: int = 80
-    context_window: int = 2048
-    num_output: int = 256
 
     def __init__(self, documents: Document, api_key: str):
         self.documents = documents
@@ -34,14 +32,15 @@ class OpenAILLM(BaseLLM):
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
-        Settings.chunk_size = self.chunk_size
-        Settings.chunk_overlap = self.chunk_overlap
-        Settings.context_window = self.context_window
-        Settings.num_output = self.num_output
+        Settings.chunk_size = config.CHUNK_SIZE
+        Settings.chunk_overlap = config.CHUNK_OVERLAP
+        Settings.context_window = config.CONTEXT_WINDOW
+        Settings.num_output = config.NUM_OUTPUT
 
         if os.path.exists("vectorstores/openai"):
+            vector_store = LanceDBVectorStore(uri="vectorstores/openai")
             storage_context = StorageContext.from_defaults(
-                persist_dir="vectorstores/openai"
+                vector_store=vector_store, persist_dir="vectorstores/openai"
             )
             index = load_index_from_storage(storage_context=storage_context)
             parser = SimpleNodeParser()
@@ -49,7 +48,8 @@ class OpenAILLM(BaseLLM):
             index.insert_nodes(new_nodes)
             index = load_index_from_storage(storage_context=storage_context)
         else:
-            storage_context = StorageContext.from_defaults()
+            vector_store = LanceDBVectorStore(uri="vectorstores/openai")
+            storage_context = StorageContext.from_defaults(vector_store=vector_store)
             index = VectorStoreIndex(
                 nodes=self.documents, storage_context=storage_context
             )
