@@ -25,7 +25,7 @@ class NeutrinoLLM(BaseLLM):
         llm = Neutrino(token=self.api_key)
         embed_model = HuggingFaceEmbedding(
             model_name=config.DEFAULT_EMBEDDINGS,
-            cache_folder="embeddings/huggingface",
+            cache_folder=f"embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model

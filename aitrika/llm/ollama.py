@@ -22,7 +22,7 @@ class OllamaLLM(BaseLLM):
         llm = Ollama(model=self.model_name, request_timeout=120.0)
         embed_model = HuggingFaceEmbedding(
             model_name=config.DEFAULT_EMBEDDINGS,
-            cache_folder="embeddings/huggingface",
+            cache_folder=f"embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model

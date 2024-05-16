@@ -1,5 +1,5 @@
 from llama_index.llms.openai import OpenAI
-from llama_index.embeddings.openai import OpenAIEmbeddings
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core.node_parser import SimpleNodeParser
 from llama_index.core import (
     VectorStoreIndex,
@@ -15,20 +15,20 @@ from aitrika.config import config
 
 
 class OpenAILLM(BaseLLM):
-    model_name = "gpt-3.5-turbo"
-    emdedding = "text-embedding-3-small"
-
-    def __init__(self, documents: Document, api_key: str):
+    def __init__(
+        self, documents: Document, api_key: str, model_name: str = "gpt-3.5-turbo"
+    ):
         self.documents = documents
+        self.model_name = model_name
         if not api_key:
             raise ValueError("API key is required for OpenAI.")
         self.api_key = api_key
 
     def _build_index(self):
         llm = OpenAI(model=self.model_name, token=self.api_key)
-        embed_model = OpenAIEmbeddings(
-            model_name=self.embeddings,
-            cache_folder="embeddings/openai",
+        embed_model = HuggingFaceEmbedding(
+            model_name=config.DEFAULT_EMBEDDINGS,
+            cache_folder=f"embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
