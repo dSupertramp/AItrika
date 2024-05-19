@@ -74,7 +74,7 @@ Breast cancer genes: beyond BRCA1 and BRCA2.
 You can get other informations, like the associations between genes and diseases:
 
 ```python
-associations = aitrika_engine.associations()
+associations = aitrika_engine.get_associations()
 ```
 
 ```
