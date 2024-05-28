@@ -3,6 +3,13 @@
 ![AItrika](images/logo.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![GitHub forks](https://img.shields.io/github/forks/dSupertramp/AItrika)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/dSupertramp/AItrika/main)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/dSupertramp/AItrika/main)
+
+
+![Static Badge](https://img.shields.io/badge/medical-content?logo=syringe&logoColor=cyan&color=cyan)
+
 
 Enhance your knowledge in medical research.
 
