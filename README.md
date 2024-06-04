@@ -134,6 +134,10 @@ print(llm.query(query=query))
 The provided text suggests that BRCA1 is associated with breast cancer, as it is listed among the high-penetrance genes identified in family linkage studies as responsible for inherited syndromes of breast cancer.
 ```
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=dSupertramp/AItrika&type=Date)](https://star-history.com/#dSupertramp/AItrika&Date)
+
 ## License
 
 AItrika is licensed under the MIT License. See the LICENSE file for more details.
