@@ -28,7 +28,7 @@ class GroqLLM(BaseLLM):
         llm = Groq(model=self.model_name, api_key=self.api_key)
         embed_model = HuggingFaceEmbedding(
             model_name=config.DEFAULT_EMBEDDINGS,
-            cache_folder=f"embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
+            cache_folder=f"aitrika/rag/embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
@@ -37,10 +37,10 @@ class GroqLLM(BaseLLM):
         Settings.context_window = config.CONTEXT_WINDOW
         Settings.num_output = config.NUM_OUTPUT
 
-        if os.path.exists("vectorstores/groq"):
-            vector_store = LanceDBVectorStore(uri="vectorstores/groq")
+        if os.path.exists("aitrika/rag/vectorstores/groq"):
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/groq")
             storage_context = StorageContext.from_defaults(
-                vector_store=vector_store, persist_dir="vectorstores/groq"
+                vector_store=vector_store, persist_dir="aitrika/rag/vectorstores/groq"
             )
             index = load_index_from_storage(storage_context=storage_context)
             parser = SimpleNodeParser()
@@ -48,12 +48,12 @@ class GroqLLM(BaseLLM):
             index.insert_nodes(new_nodes)
             index = load_index_from_storage(storage_context=storage_context)
         else:
-            vector_store = LanceDBVectorStore(uri="vectorstores/groq")
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/groq")
             storage_context = StorageContext.from_defaults(vector_store=vector_store)
             index = VectorStoreIndex(
                 nodes=self.documents, storage_context=storage_context
             )
-            index.storage_context.persist(persist_dir="vectorstores/groq")
+            index.storage_context.persist(persist_dir="aitrika/rag/vectorstores/groq")
         self.index = index
 
     def query(self, query: str):

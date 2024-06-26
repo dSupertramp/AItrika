@@ -31,7 +31,7 @@ class AnyscaleLLM(BaseLLM):
         llm = Anyscale(model=self.model_endpoint, api_key=self.api_key)
         embed_model = HuggingFaceEmbedding(
             model_name=config.DEFAULT_EMBEDDINGS,
-            cache_folder=f"embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
+            cache_folder=f"aitrika/rag/embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
@@ -40,10 +40,11 @@ class AnyscaleLLM(BaseLLM):
         Settings.context_window = config.CONTEXT_WINDOW
         Settings.num_output = config.NUM_OUTPUT
 
-        if os.path.exists("vectorstores/anyscale"):
-            vector_store = LanceDBVectorStore(uri="vectorstores/anyscale")
+        if os.path.exists("aitrika/rag/vectorstores/anyscale"):
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/anyscale")
             storage_context = StorageContext.from_defaults(
-                vector_store=vector_store, persist_dir="vectorstores/anyscale"
+                vector_store=vector_store,
+                persist_dir="aitrika/rag/vectorstores/anyscale",
             )
             index = load_index_from_storage(storage_context=storage_context)
             parser = SimpleNodeParser()
@@ -51,12 +52,14 @@ class AnyscaleLLM(BaseLLM):
             index.insert_nodes(new_nodes)
             index = load_index_from_storage(storage_context=storage_context)
         else:
-            vector_store = LanceDBVectorStore(uri="vectorstores/anyscale")
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/anyscale")
             storage_context = StorageContext.from_defaults(vector_store=vector_store)
             index = VectorStoreIndex(
                 nodes=self.documents, storage_context=storage_context
             )
-            index.storage_context.persist(persist_dir="vectorstores/anyscale")
+            index.storage_context.persist(
+                persist_dir="aitrika/rag/vectorstores/anyscale"
+            )
         self.index = index
 
     def query(self, query: str):

@@ -26,7 +26,7 @@ class OpenAILLM(BaseLLM):
         llm = OpenAI(model=self.model_name, token=self.api_key)
         embed_model = HuggingFaceEmbedding(
             model_name=config.DEFAULT_EMBEDDINGS,
-            cache_folder=f"embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
+            cache_folder=f"aitrika/rag/embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
@@ -35,10 +35,10 @@ class OpenAILLM(BaseLLM):
         Settings.context_window = config.CONTEXT_WINDOW
         Settings.num_output = config.NUM_OUTPUT
 
-        if os.path.exists("vectorstores/openai"):
-            vector_store = LanceDBVectorStore(uri="vectorstores/openai")
+        if os.path.exists("aitrika/rag/vectorstores/openai"):
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/openai")
             storage_context = StorageContext.from_defaults(
-                vector_store=vector_store, persist_dir="vectorstores/openai"
+                vector_store=vector_store, persist_dir="aitrika/rag/vectorstores/openai"
             )
             index = load_index_from_storage(storage_context=storage_context)
             parser = SimpleNodeParser()
@@ -46,12 +46,12 @@ class OpenAILLM(BaseLLM):
             index.insert_nodes(new_nodes)
             index = load_index_from_storage(storage_context=storage_context)
         else:
-            vector_store = LanceDBVectorStore(uri="vectorstores/openai")
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/openai")
             storage_context = StorageContext.from_defaults(vector_store=vector_store)
             index = VectorStoreIndex(
                 nodes=self.documents, storage_context=storage_context
             )
-            index.storage_context.persist(persist_dir="vectorstores/openai")
+            index.storage_context.persist(persist_dir="aitrika/rag/vectorstores/openai")
         self.index = index
 
     def query(self, query: str):

@@ -11,6 +11,12 @@ from aitrika.prompts.prompts import (
     methods_prompt,
     introduction_prompt,
     acknowledgments_prompt,
+    paper_results_prompt,
+    effect_sizes_prompt,
+    number_of_participants_prompt,
+    characteristics_of_participants_prompt,
+    interventions_prompt,
+    outcomes_prompt,
 )
 from aitrika.utils.loader import loader
 from aitrika.utils.load_spacy_model import load_spacy_model
@@ -320,6 +326,84 @@ class AItrikaBase:
             str: Results
         """
         return llm.query(query=acknowledgments_prompt)
+
+    @loader(text="Extracting paper results")
+    def extract_paper_results(self, llm: BaseLLM) -> str:
+        """
+        Extract paper results.
+
+        Args:
+            llm (BaseLLM): Provided LLM
+
+        Returns:
+            str: Results
+        """
+        return llm.query(query=paper_results_prompt)
+
+    @loader(text="Extracting effect sizes")
+    def extract_effect_sizes(self, llm: BaseLLM) -> str:
+        """
+        Extract effect sizes.
+
+        Args:
+            llm (BaseLLM): Provided LLM
+
+        Returns:
+            str: Results
+        """
+        return llm.query(query=effect_sizes_prompt)
+
+    @loader(text="Extracting number of participants")
+    def extract_number_of_participants(self, llm: BaseLLM) -> str:
+        """
+        Extract number_of_participants
+
+        Args:
+            llm (BaseLLM): Provided LLM
+
+        Returns:
+            str: Results
+        """
+        return llm.query(query=number_of_participants_prompt)
+
+    @loader(text="Extracting characteristics of participants")
+    def extract_characteristics_of_participants(self, llm: BaseLLM) -> str:
+        """
+        Extract characteristics of participants.
+
+        Args:
+            llm (BaseLLM): LLM
+
+        Returns:
+            str: Characteristics of participants separated by semicolon
+        """
+        return llm.query(query=characteristics_of_participants_prompt)
+
+    @loader(text="Extracting interventions")
+    def get_interventions(self, llm: BaseLLM) -> str:
+        """
+        Extract interventions.
+
+        Args:
+            llm (BaseLLM): LLM
+
+        Returns:
+            str: Interventions separated by semicolon
+        """
+        return llm.query(query=interventions_prompt)
+
+    @loader(text="Extracting outcomes")
+    def get_outcomes(self, llm: BaseLLM) -> str:
+        """
+        Extract outcomes.
+
+        Args:
+            llm (BaseLLM): LLM
+
+        Returns:
+            str: Outcomes separated by semicolon
+        """
+        return llm.query(query=outcomes_prompt)
 
 
 class OnlineAItrika(AItrikaBase):

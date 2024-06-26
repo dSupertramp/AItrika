@@ -22,7 +22,7 @@ class OllamaLLM(BaseLLM):
         llm = Ollama(model=self.model_name, request_timeout=120.0)
         embed_model = HuggingFaceEmbedding(
             model_name=config.DEFAULT_EMBEDDINGS,
-            cache_folder=f"embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
+            cache_folder=f"aitrika/rag/embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
@@ -31,10 +31,10 @@ class OllamaLLM(BaseLLM):
         Settings.context_window = config.CONTEXT_WINDOW
         Settings.num_output = config.NUM_OUTPUT
 
-        if os.path.exists("vectorstores/ollama"):
-            vector_store = LanceDBVectorStore(uri="vectorstores/ollama")
+        if os.path.exists("aitrika/rag/vectorstores/ollama"):
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/ollama")
             storage_context = StorageContext.from_defaults(
-                vector_store=vector_store, persist_dir="vectorstores/ollama"
+                vector_store=vector_store, persist_dir="aitrika/rag/vectorstores/ollama"
             )
             index = load_index_from_storage(storage_context=storage_context)
             parser = SimpleNodeParser()
@@ -42,12 +42,12 @@ class OllamaLLM(BaseLLM):
             index.insert_nodes(new_nodes)
             index = load_index_from_storage(storage_context=storage_context)
         else:
-            vector_store = LanceDBVectorStore(uri="vectorstores/ollama")
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/ollama")
             storage_context = StorageContext.from_defaults(vector_store=vector_store)
             index = VectorStoreIndex(
                 nodes=self.documents, storage_context=storage_context
             )
-            index.storage_context.persist(persist_dir="vectorstores/ollama")
+            index.storage_context.persist(persist_dir="aitrika/rag/vectorstores/ollama")
         self.index = index
 
     def query(self, query: str):

@@ -25,7 +25,7 @@ class NeutrinoLLM(BaseLLM):
         llm = Neutrino(token=self.api_key)
         embed_model = HuggingFaceEmbedding(
             model_name=config.DEFAULT_EMBEDDINGS,
-            cache_folder=f"embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
+            cache_folder=f"aitrika/rag/embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
@@ -34,10 +34,11 @@ class NeutrinoLLM(BaseLLM):
         Settings.context_window = config.CONTEXT_WINDOW
         Settings.num_output = config.NUM_OUTPUT
 
-        if os.path.exists("vectorstores/neutrino"):
-            vector_store = LanceDBVectorStore(uri="vectorstores/neutrino")
+        if os.path.exists("aitrika/rag/vectorstores/neutrino"):
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/neutrino")
             storage_context = StorageContext.from_defaults(
-                vector_store=vector_store, persist_dir="vectorstores/neutrino"
+                vector_store=vector_store,
+                persist_dir="aitrika/rag/vectorstores/neutrino",
             )
             index = load_index_from_storage(storage_context=storage_context)
             parser = SimpleNodeParser()
@@ -45,12 +46,14 @@ class NeutrinoLLM(BaseLLM):
             index.insert_nodes(new_nodes)
             index = load_index_from_storage(storage_context=storage_context)
         else:
-            vector_store = LanceDBVectorStore(uri="vectorstores/neutrino")
+            vector_store = LanceDBVectorStore(uri="aitrika/rag/vectorstores/neutrino")
             storage_context = StorageContext.from_defaults(vector_store=vector_store)
             index = VectorStoreIndex(
                 nodes=self.documents, storage_context=storage_context
             )
-            index.storage_context.persist(persist_dir="vectorstores/neutrino")
+            index.storage_context.persist(
+                persist_dir="aitrika/rag/vectorstores/neutrino"
+            )
         self.index = index
 
     def query(self, query: str):

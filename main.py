@@ -33,3 +33,7 @@ if __name__ == "__main__":
     ## Extract paper results
     results = engine.extract_results(llm=llm)
     print(results)
+
+    ## Extract number of participants
+    number_of_participants = engine.extract_number_of_participants(llm=llm)
+    print(number_of_participants)
