@@ -11,7 +11,7 @@ To make a contribution, follow the following steps:
 3. Do the changes on your fork
 4. Submit a pull request
 
-### 📦 Package manager
+## 📦 Package manager
 
 I use `poetry` as package manager.
 
@@ -19,7 +19,7 @@ I use `poetry` as package manager.
 poetry install
 ```
 
-### 🧹 Formatting
+## 🧹 Formatting
 
 I use `black` as formatter via VSCode.
 

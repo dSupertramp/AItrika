@@ -7,9 +7,7 @@
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/dSupertramp/AItrika/main)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/dSupertramp/AItrika/main)
 
-
 ![Static Badge](https://img.shields.io/badge/medical-content?logo=syringe&logoColor=cyan&color=cyan)
-
 
 Enhance your knowledge in medical research.
 
@@ -140,7 +138,7 @@ The provided text suggests that BRCA1 is associated with breast cancer, as it is
 
 ## License
 
-AItrika is licensed under the MIT License. See the LICENSE file for more details.
+AItrika is licensed under the Apache 2.0 License. See the LICENSE file for more details.
 
 ## TODO
 

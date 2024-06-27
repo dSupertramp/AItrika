@@ -3,6 +3,7 @@ env
 ENV
 venv
 ENV
+.venv
 
 # api keys
 .env
