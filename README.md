@@ -2,7 +2,7 @@
 
 ![AItrika](images/logo.png)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](https://opensource.org/licenses/Apache-2.0)
 ![GitHub forks](https://img.shields.io/github/forks/dSupertramp/AItrika)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/dSupertramp/AItrika/main)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/dSupertramp/AItrika/main)
@@ -142,6 +142,6 @@ AItrika is licensed under the Apache 2.0 License. See the LICENSE file for more 
 
 ## TODO
 
-- [ ] Create documentation
+- [x] Create documentation
 - [ ] Add docstrings
 - [ ] Create Python package
