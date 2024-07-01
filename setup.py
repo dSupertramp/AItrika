@@ -1,0 +1,35 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="AItrika",
+    version="0.3.7",
+    packages=find_packages(),
+    install_requires=[
+        "bio",
+        "pypdf2",
+        "yaspin",
+        "python-dotenv",
+        "llama-index",
+        "llama-index-llms-groq",
+        "llama-index-llms-ollama",
+        "llama-index-llms-huggingface",
+        "llama-index-llms-anyscale",
+        "llama-index-llms-anthropic",
+        "llama-index-embeddings-huggingface",
+        "llama-index-vector-stores-lancedb",
+        "spacy",
+        "streamlit",
+    ],
+    author="Danilo Palumbo",
+    author_email="salvatoredanilopalumbo@gmail.com",
+    description="Enhance your knowledge in medical research.",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    url="https://github.com/dsupertramp/AItrika",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires=">=3.10",
+)

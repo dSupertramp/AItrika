@@ -1,5 +1,5 @@
 """
-Default config for LLMs.
+Default config.
 """
 
 DEFAULT_EMBEDDINGS: str = "allenai/specter2_base"
@@ -9,3 +9,4 @@ CONTEXT_WINDOW: int = (
     2048  # Maximum number of tokens that the model can consider at one time
 )
 NUM_OUTPUT: int = 256  # Number of tokens that the model generates in one forward pass
+ENTREZ_EMAIL = "mail@mail.com"
