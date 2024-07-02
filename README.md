@@ -132,6 +132,25 @@ print(llm.query(query=query))
 The provided text suggests that BRCA1 is associated with breast cancer, as it is listed among the high-penetrance genes identified in family linkage studies as responsible for inherited syndromes of breast cancer.
 ```
 
+Or you can extract other informations:
+
+```python
+results = engine.extract_results(llm=llm)
+print(results)
+```
+
+```
+** RESULTS **
+
+- High-penetrance genes - BRCA1, BRCA2, PTEN, TP53 - responsible for inherited syndromes
+- Moderate-penetrance genes - CHEK2, ATM, BRIP1, PALB2, RAD51C - associated with moderate BC risk
+- Low-penetrance alleles - common alleles - associated with slightly increased or decreased risk of BC
+- Current clinical practice - high-penetrance genes - widely used
+- Future prospect - all familial breast cancer genes - to be included in genetic test
+- Research need - clinical management - of moderate and low-risk variants
+
+```
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=dSupertramp/AItrika&type=Date)](https://star-history.com/#dSupertramp/AItrika&Date)
@@ -144,3 +163,7 @@ AItrika is licensed under the Apache 2.0 License. See the LICENSE file for more 
 
 - [ ] Add docstrings
 - [ ] Create Python package
+
+```
+
+```
