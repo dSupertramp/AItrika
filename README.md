@@ -148,7 +148,6 @@ print(results)
 - Current clinical practice - high-penetrance genes - widely used
 - Future prospect - all familial breast cancer genes - to be included in genetic test
 - Research need - clinical management - of moderate and low-risk variants
-
 ```
 
 ## Star History
