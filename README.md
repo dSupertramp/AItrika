@@ -11,7 +11,7 @@
 
 Enhance your knowledge in medical research.
 
-AItrika (formerly PubGPT) is a tool that can extract lots of relevant informations inside medical papers in an easy way:
+AItrika (formerly **PubGPT** is a tool that can extract lots of relevant informations inside medical papers in an easy way:
 
 - Abstract
 - Full text (when available)
