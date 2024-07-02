@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List, Union
+from typing import Dict, List, Union
 import pandas as pd
 from Bio import Entrez, Medline
 import requests

@@ -14,7 +14,7 @@ from aitrika.prompts.prompts import (
 )
 
 
-class TextExtractor:
+class LLMExtractor:
     def extract_results(self, llm: BaseLLM) -> str:
         return llm.query(query=results_prompt)
 

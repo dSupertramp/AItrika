@@ -1,7 +1,7 @@
 from typing import Optional, Dict, List, Union
 import pandas as pd
 from aitrika.extractors.pubmed_extractor import PubMedExtractor
-from aitrika.extractors.text_extractor import TextExtractor
+from aitrika.extractors.llm_extractor import LLMExtractor
 from aitrika.utils.loader import loader
 from aitrika.llm.base_llm import BaseLLM
 
@@ -10,7 +10,7 @@ class AItrikaBase:
     def __init__(self, pubmed_id: Optional[str] = None):
         self.pubmed_id = pubmed_id
         self.pubmed_extractor = PubMedExtractor(pubmed_id) if pubmed_id else None
-        self.text_extractor = TextExtractor()
+        self.llm_extractor = LLMExtractor()
 
     @loader(text="Extracting PubMed ID")
     def extract_pubmed_id(self) -> str:
@@ -88,44 +88,44 @@ class AItrikaBase:
 
     @loader(text="Extracting results")
     def extract_results(self, llm: BaseLLM) -> str:
-        return self.text_extractor.extract_results(llm)
+        return self.llm_extractor.extract_results(llm)
 
     @loader(text="Extracting bibliography")
     def extract_bibliography(self, llm: BaseLLM) -> str:
-        return self.text_extractor.extract_bibliography(llm)
+        return self.llm_extractor.extract_bibliography(llm)
 
     @loader(text="Extracting methods")
     def extract_methods(self, llm: BaseLLM) -> str:
-        return self.text_extractor.extract_methods(llm)
+        return self.llm_extractor.extract_methods(llm)
 
     @loader(text="Extracting introduction")
     def extract_introduction(self, llm: BaseLLM) -> str:
-        return self.text_extractor.extract_introduction(llm)
+        return self.llm_extractor.extract_introduction(llm)
 
     @loader(text="Extracting acknowledgements")
     def extract_acknowledgements(self, llm: BaseLLM) -> str:
-        return self.text_extractor.extract_acknowledgements(llm)
+        return self.llm_extractor.extract_acknowledgements(llm)
 
     @loader(text="Extracting paper results")
     def extract_paper_results(self, llm: BaseLLM) -> str:
-        return self.text_extractor.extract_paper_results(llm)
+        return self.llm_extractor.extract_paper_results(llm)
 
     @loader(text="Extracting effect sizes")
     def extract_effect_sizes(self, llm: BaseLLM) -> str:
-        return self.text_extractor.extract_effect_sizes(llm)
+        return self.llm_extractor.extract_effect_sizes(llm)
 
     @loader(text="Extracting number of participants")
     def extract_number_of_participants(self, llm: BaseLLM) -> str:
-        return self.text_extractor.extract_number_of_participants(llm)
+        return self.llm_extractor.extract_number_of_participants(llm)
 
     @loader(text="Extracting characteristics of participants")
     def extract_characteristics_of_participants(self, llm: BaseLLM) -> str:
-        return self.text_extractor.extract_characteristics_of_participants(llm)
+        return self.llm_extractor.extract_characteristics_of_participants(llm)
 
     @loader(text="Extracting interventions")
     def get_interventions(self, llm: BaseLLM) -> str:
-        return self.text_extractor.get_interventions(llm)
+        return self.llm_extractor.get_interventions(llm)
 
     @loader(text="Extracting outcomes")
     def get_outcomes(self, llm: BaseLLM) -> str:
-        return self.text_extractor.get_outcomes(llm)
+        return self.llm_extractor.get_outcomes(llm)

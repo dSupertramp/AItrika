@@ -1,4 +1,3 @@
-from typing import Optional
 from aitrika.base.aitrika_base import AItrikaBase
 from aitrika.utils.loader import loader
 
