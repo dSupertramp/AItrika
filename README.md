@@ -142,6 +142,5 @@ AItrika is licensed under the Apache 2.0 License. See the LICENSE file for more 
 
 ## TODO
 
-- [x] Create documentation
 - [ ] Add docstrings
 - [ ] Create Python package
