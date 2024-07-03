@@ -3,10 +3,12 @@ from typing import Tuple
 from PyPDF2 import PdfReader
 from Bio import Entrez
 from aitrika.utils.load_spacy_model import load_spacy_model
-from aitrika.config import ENTREZ_EMAIL
+from aitrika.config.config import Config
 
 
 class PDFExtractor:
+    config = Config()
+
     def __init__(self, pdf_path: str):
         self.pdf_path = pdf_path
 
@@ -59,7 +61,7 @@ class PDFExtractor:
 
     def retrieve_pubmed_id(self, title: str, authors: str) -> str:
         query = f"({title}) AND ({authors})[Author]"
-        Entrez.email = ENTREZ_EMAIL
+        Entrez.email = self.config.ENTREZ_EMAIL
         handle = Entrez.esearch(
             db="pubmed", rettype="medline", retmode="text", term=query
         )

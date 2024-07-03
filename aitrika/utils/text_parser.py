@@ -1,7 +1,10 @@
 from llama_index.core import Document
 from llama_index.core.node_parser import SimpleNodeParser
 from typing import List
-from aitrika.config import config
+from aitrika.config.config import LLMConfig
+
+
+config = LLMConfig()
 
 
 def generate_documents(content: str) -> List:

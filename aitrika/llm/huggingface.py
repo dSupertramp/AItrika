@@ -11,10 +11,12 @@ from llama_index.core import (
 from llama_index.vector_stores.lancedb import LanceDBVectorStore
 import os
 from aitrika.llm.base_llm import BaseLLM
-from aitrika.config import config
+from aitrika.config.config import LLMConfig
 
 
 class HuggingFaceLLM(BaseLLM):
+    config = LLMConfig()
+
     def __init__(
         self,
         documents: Document,
@@ -32,15 +34,15 @@ class HuggingFaceLLM(BaseLLM):
             model_name=self.model_endpoint, token=self.api_key
         )
         embed_model = HuggingFaceEmbedding(
-            model_name=config.DEFAULT_EMBEDDINGS,
-            cache_folder=f"aitrika/rag/embeddings/{config.DEFAULT_EMBEDDINGS.replace('/','_')}",
+            model_name=self.config.DEFAULT_EMBEDDINGS,
+            cache_folder=f"aitrika/rag/embeddings/{self.config.DEFAULT_EMBEDDINGS.replace('/','_')}",
         )
         Settings.llm = llm
         Settings.embed_model = embed_model
-        Settings.chunk_size = config.CHUNK_SIZE
-        Settings.chunk_overlap = config.CHUNK_OVERLAP
-        Settings.context_window = config.CONTEXT_WINDOW
-        Settings.num_output = config.NUM_OUTPUT
+        Settings.chunk_size = self.config.CHUNK_SIZE
+        Settings.chunk_overlap = self.config.CHUNK_OVERLAP
+        Settings.context_window = self.config.CONTEXT_WINDOW
+        Settings.num_output = self.config.NUM_OUTPUT
 
         if os.path.exists("aitrika/rag/vectorstores/huggingface"):
             vector_store = LanceDBVectorStore(

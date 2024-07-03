@@ -74,7 +74,9 @@ Structure the output like this:
 All results as string (--- as separator)
 
 This is an example of output:
+** PAPER RESULTS ** \n
 "Result 1 --- Result 2 --- ... --- Result N"
+
 
 Don't provide any kind of additional explaination.
 If you don't find results, return "No results"
@@ -96,6 +98,7 @@ Structure the output like this:
 All effect with sizes as string (--- as separator)
 
 This is an example of output:
+** EFFECT SIZES ** \n
 "Effect 1: Size of effect 1 --- Effect 2: Size of effect 2 --- ... --- Effect N: Size of effect N"
 
 Don't provide any kind of additional explaination.
@@ -116,7 +119,8 @@ Before providing the final result, please think through the following steps:
 Structure the output like this:
 Number of participants without separator
 
-This is an example of the output:
+This is an example of output:
+** NUMBER OF PARTICIPANTS ** \n
 1500
 
 Once you have completed the thinking process, provide the number of participants in the format specified above.
@@ -135,7 +139,9 @@ Structure the output like this:
 All characteristics of the partecipants as string (--- as separator)
 
 This is an example of output:
+** CHARACTERISTICS OF PARTICIPANTS ** \n
 "Characteristic 1 --- Characteristic 2 --- ... --- Characteristic N"
+
 
 Don't provide any kind of additional explaination.
 If you don't find characteristics, return "No characteristics"
@@ -156,7 +162,9 @@ Structure the output like this:
 All interventions as string (--- as separator)
 
 This is an example of output:
+** INTERVENTIONS ** \n
 "Intervention 1 --- Intervention 2 --- ... --- Intervention N"
+
 
 Don't provide any kind of additional explaination.
 If you don't find interventions, return "No interventions"
@@ -177,6 +185,7 @@ Structure the output like this:
 All outcomes as string (--- as separator)
 
 This is an example of output:
+** OUTCOMES ** \n
 "Outcome 1 --- Outcome 2 --- ... --- Outcome N"
 
 Don't provide any kind of additional explaination.

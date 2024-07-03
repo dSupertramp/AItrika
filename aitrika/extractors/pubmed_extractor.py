@@ -4,17 +4,19 @@ from Bio import Entrez, Medline
 import requests
 import json
 from io import StringIO
-from aitrika.config import config
+from aitrika.config.config import Config
 
 
 class PubMedExtractor:
+    config = Config()
+
     def __init__(self, pubmed_id: str):
         self.pubmed_id = pubmed_id
         self.record = None
         self.data = None
 
     def fetch_paper_knowledge(self):
-        Entrez.email = config.ENTREZ_EMAIL
+        Entrez.email = self.config.ENTREZ_EMAIL
         handle = Entrez.efetch(
             db="pubmed", id=self.pubmed_id, rettype="medline", retmode="text"
         )

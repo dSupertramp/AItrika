@@ -1,12 +1,19 @@
 """
-Default config.
+Default configs.
 """
 
-DEFAULT_EMBEDDINGS: str = "allenai/specter2_base"
-CHUNK_SIZE: int = 1024  # Size of each chunk of text
-CHUNK_OVERLAP: int = 80  # Number of token that overlap between consecutive chunks
-CONTEXT_WINDOW: int = (
-    2048  # Maximum number of tokens that the model can consider at one time
-)
-NUM_OUTPUT: int = 256  # Number of tokens that the model generates in one forward pass
-ENTREZ_EMAIL = "mail@mail.com"
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class Config:
+    ENTREZ_EMAIL = "mail@mail.com"
+
+
+@dataclass(frozen=True)
+class LLMConfig:
+    DEFAULT_EMBEDDINGS = "allenai/specter2_base"
+    CHUNK_SIZE = 1024
+    CHUNK_OVERLAP = 80
+    CONTEXT_WINDOW = 2048
+    NUM_OUTPUT = 256
