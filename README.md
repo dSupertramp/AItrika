@@ -150,15 +150,25 @@ print(results)
 - Research need - clinical management - of moderate and low-risk variants
 ```
 
-## Star History
+## Support the Project
 
-[![Star History Chart](https://api.star-history.com/svg?repos=dSupertramp/AItrika&type=Date)](https://star-history.com/#dSupertramp/AItrika&Date)
+If you find this project useful, please consider supporting it:
+
+- 🌟 Star the project on GitHub
+- 🐛 Report bugs or suggest new features
+- 🤝 Contribute with pull requests
+- ☕️ [Buy me a coffee](https://www.buymeacoffee.com/dsupertramp) or consider a sponsor.
+
+### Commercial / Business use
+
+If you're using this project in a business or commercial context, please [contact me](salvatoredanilopalumbo@gmail.com). I'm available for consulting, custom development, or commercial licensing.
+
+Your support helps keep this project active and continuously improving. Thank you!
 
 ## License
 
 AItrika is licensed under the Apache 2.0 License. See the LICENSE file for more details.
 
-## TODO
+## Star History
 
-- [ ] Add docstrings
-- [ ] Create Python package
+[![Star History Chart](https://api.star-history.com/svg?repos=dSupertramp/AItrika&type=Date)](https://star-history.com/#dSupertramp/AItrika&Date)
