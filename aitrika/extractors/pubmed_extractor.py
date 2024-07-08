@@ -33,15 +33,19 @@ class PubMedExtractor:
                 annotations.extend(passage["annotations"])
             for annotation in annotations:
                 new_annotation = {
-                    "identifier": annotation["infons"]["identifier"],
-                    "text": annotation["text"],
-                    "type": annotation["infons"]["type"],
-                    "database": annotation["infons"]["database"],
-                    "normalized_id": annotation["infons"]["normalized_id"],
-                    "name": annotation["infons"]["name"],
-                    "biotype": annotation["infons"]["biotype"],
+                    "identifier": annotation["infons"].get("identifier"),
+                    "text": annotation.get("text"),
+                    "type": annotation["infons"].get("type"),
+                    "database": annotation["infons"].get("database"),
+                    "normalized_id": annotation["infons"].get("normalized_id"),
+                    "name": annotation["infons"].get("name"),
+                    "biotype": annotation["infons"].get("biotype"),
                 }
-                informations.append(new_annotation)
+                new_annotation = {
+                    k: v for k, v in new_annotation.items() if v is not None
+                }
+                if new_annotation:
+                    informations.append(new_annotation)
             data = [dict(t) for t in {tuple(d.items()) for d in informations}]
             data = json.dumps(data)
         self.data = data
