@@ -92,6 +92,7 @@ class PubMedExtractor:
     ) -> Union[pd.DataFrame, List[Dict]]:
         relations, associations = [], []
         data = self._extract_full_response()
+        print(data)
         for item in data["PubTator3"]:
             relations.extend(item["relations_display"])
         for item in relations:

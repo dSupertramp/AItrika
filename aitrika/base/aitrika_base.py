@@ -123,9 +123,9 @@ class AItrikaBase:
         return self.llm_extractor.extract_characteristics_of_participants(llm)
 
     @loader(text="Extracting interventions")
-    def get_interventions(self, llm: BaseLLM) -> str:
-        return self.llm_extractor.get_interventions(llm)
+    def extract_interventions(self, llm: BaseLLM) -> str:
+        return self.llm_extractor.extract_interventions(llm)
 
     @loader(text="Extracting outcomes")
-    def get_outcomes(self, llm: BaseLLM) -> str:
-        return self.llm_extractor.get_outcomes(llm)
+    def extract_outcomes(self, llm: BaseLLM) -> str:
+        return self.llm_extractor.extract_outcomes(llm)

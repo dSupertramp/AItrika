@@ -42,8 +42,8 @@ class LLMExtractor:
     def extract_characteristics_of_participants(self, llm: BaseLLM) -> str:
         return llm.query(query=characteristics_of_participants_prompt)
 
-    def get_interventions(self, llm: BaseLLM) -> str:
+    def extract_interventions(self, llm: BaseLLM) -> str:
         return llm.query(query=interventions_prompt)
 
-    def get_outcomes(self, llm: BaseLLM) -> str:
+    def extract_outcomes(self, llm: BaseLLM) -> str:
         return llm.query(query=outcomes_prompt)
