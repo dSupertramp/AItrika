@@ -14,7 +14,7 @@ def loader(text: str):
             with yaspin(text=text, color="cyan") as sp:
                 result = func(self, *args, **kwargs)
                 sp.ok("✔")
-                return result
+                return "\n" + result
 
         return wrapper
 
