@@ -161,7 +161,9 @@ If you find this project useful, please consider supporting it:
 
 ### Commercial / Business use
 
-If you're using this project in a business or commercial context, please [contact me](salvatoredanilopalumbo@gmail.com). I'm available for consulting, custom development, or commercial licensing.
+If you're using this project in a business or commercial context, please [contact me](salvatoredanilopalumbo@gmail.com). 
+
+I'm available for consulting, custom development, or commercial licensing.
 
 Your support helps keep this project active and continuously improving. Thank you!
 
