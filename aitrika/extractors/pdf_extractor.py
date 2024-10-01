@@ -20,21 +20,16 @@ class PDFExtractor:
             pre_header = [line.strip() for line in lines if line.strip()]
             original_header = pre_header[:]
             pre_header = [re.sub(r"\d+", "", s) for s in pre_header]
-
             authors = self._detect_authors(pre_header)
             title = self._detect_title(pre_header)
-
             original_title = original_header[pre_header.index(title)]
             original_authors = original_header[pre_header.index(authors)]
-
             title = re.sub(r"\b\d+\b", "", original_title).strip()
-
             authors = re.sub(r"\d+", "", original_authors).strip().split(",")
             authors = [author.replace("*", "") for author in authors]
             authors = ", ".join(authors)
             authors = re.sub(r"\b(and)\b", "", authors)
             authors = re.sub(r",\s+", ", ", authors).strip()
-
         return title, authors
 
     def _detect_authors(self, text: list) -> str:

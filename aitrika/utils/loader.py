@@ -3,7 +3,7 @@ from yaspin import yaspin
 
 def loader(text: str):
     """
-    Custom loader for terminal
+    Custom spinner for terminal.
 
     Args:
         text (str): Text to display
@@ -14,7 +14,7 @@ def loader(text: str):
             with yaspin(text=text, color="cyan") as sp:
                 result = func(self, *args, **kwargs)
                 sp.ok("✔")
-                return "\n" + result
+                return f"\n{result}"
 
         return wrapper
 

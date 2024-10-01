@@ -17,7 +17,9 @@ from aitrika.config.config import LLMConfig
 class OpenAILLM(BaseLLM):
     config = LLMConfig()
 
-    def __init__(self, documents: Document, api_key: str, model_name: str = "gpt-4o"):
+    def __init__(
+        self, documents: Document, api_key: str, model_name: str = "gpt-4o-mini"
+    ):
         self.documents = documents
         self.model_name = model_name
         if not api_key:

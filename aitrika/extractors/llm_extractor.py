@@ -3,51 +3,44 @@ from aitrika.utils.prompt_loader import load_prompt
 
 
 class LLMExtractor:
-    results_prompt = load_prompt("aitrika/prompts/results.tmpl")
-    bibliography_prompt = load_prompt("aitrika/prompts/bibliography.tmpl")
-    methods_prompt = load_prompt("aitrika/prompts/methods.tmpl")
-    introduction_prompt = load_prompt("aitrika/prompts/introduction.tmpl")
-    acknowledgments_prompt = load_prompt("aitrika/prompts/acknowledgments.tmpl")
-    paper_results_prompt = load_prompt("aitrika/prompts/paper_results.tmpl")
-    effect_sizes_prompt = load_prompt("aitrika/prompts/effect_sizes.tmpl")
-    number_of_participants_prompt = load_prompt(
-        "aitrika/prompts/number_of_participants.tmpl"
-    )
-    characteristics_of_participants_prompt = load_prompt(
-        "aitrika/prompts/characteristics_of_participants.tmpl"
-    )
-    interventions_prompt = load_prompt("aitrika/prompts/interventions.tmpl")
-    outcomes_prompt = load_prompt("aitrika/prompts/outcomes.tmpl")
+    def __init__(self):
+        pass
+
+    def _extract(self, llm: BaseLLM, template_path: str) -> str:
+        prompt = load_prompt(template_path)
+        return llm.query(query=prompt)
 
     def extract_results(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.results_prompt)
+        return self._extract(llm, "aitrika/prompts/results.tmpl")
 
     def extract_bibliography(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.bibliography_prompt)
+        return self._extract(llm, "aitrika/prompts/bibliography.tmpl")
 
     def extract_methods(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.methods_prompt)
+        return self._extract(llm, "aitrika/prompts/methods.tmpl")
 
     def extract_introduction(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.introduction_prompt)
+        return self._extract(llm, "aitrika/prompts/introduction.tmpl")
 
     def extract_acknowledgements(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.acknowledgments_prompt)
+        return self._extract(llm, "aitrika/prompts/acknowledgments.tmpl")
 
     def extract_paper_results(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.paper_results_prompt)
+        return self._extract(llm, "aitrika/prompts/paper_results.tmpl")
 
     def extract_effect_sizes(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.effect_sizes_prompt)
+        return self._extract(llm, "aitrika/prompts/effect_sizes.tmpl")
 
     def extract_number_of_participants(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.number_of_participants_prompt)
+        return self._extract(llm, "aitrika/prompts/number_of_participants.tmpl")
 
     def extract_characteristics_of_participants(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.characteristics_of_participants_prompt)
+        return self._extract(
+            llm, "aitrika/prompts/characteristics_of_participants.tmpl"
+        )
 
     def extract_interventions(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.interventions_prompt)
+        return self._extract(llm, "aitrika/prompts/interventions.tmpl")
 
     def extract_outcomes(self, llm: BaseLLM) -> str:
-        return llm.query(query=self.outcomes_prompt)
+        return self._extract(llm, "aitrika/prompts/outcomes.tmpl")

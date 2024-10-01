@@ -1,6 +1,6 @@
 def load_prompt(filename: str) -> str:
     """
-    Load the prompt.
+    Load the prompt from .tmpl files.
 
     Args:
         filename (str): Prompt from .tmpl file

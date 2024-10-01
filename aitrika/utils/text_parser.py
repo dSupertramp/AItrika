@@ -9,7 +9,7 @@ config = LLMConfig()
 
 def generate_documents(content: str) -> List:
     """
-    Generate input documents for Llamaindex.
+    Generate input documents for LlamaIndex.
 
     Args:
         content (str): Text

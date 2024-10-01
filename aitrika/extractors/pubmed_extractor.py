@@ -5,6 +5,7 @@ import requests
 import json
 from io import StringIO
 from aitrika.config.config import Config
+import time
 
 
 class PubMedExtractor:
@@ -93,6 +94,9 @@ class PubMedExtractor:
         relations, associations = [], []
         data = self._extract_full_response()
         print(data)
+        if data == {"detail": "Request was throttled. Expected available in 1 second."}:
+            print("Waiting for PubTator3")
+            time.sleep(10)
         for item in data["PubTator3"]:
             relations.extend(item["relations_display"])
         for item in relations:
