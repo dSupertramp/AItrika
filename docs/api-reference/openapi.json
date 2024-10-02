@@ -1,1 +1,225 @@
-{"openapi": "3.1.0", "info": {"title": "AItrika API", "description": "AItrika API", "version": "0.1.0"}, "paths": {"/associations": {"post": {"summary": "Get associations from a PubMed article", "description": "Extracts associations from a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the extracted associations.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.", "operationId": "get_associations_associations_post", "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/PubMedRequest"}}}, "required": true}, "responses": {"200": {"description": "Associations retrieved successfully", "content": {"application/json": {"schema": {}}}}, "422": {"description": "Invalid PubMed ID provided"}}}}, "/abstract": {"post": {"summary": "Get abstract of a PubMed article", "description": "Retrieves the abstract of a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the abstract of the article.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.", "operationId": "get_abstract_abstract_post", "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/PubMedRequest"}}}, "required": true}, "responses": {"200": {"description": "Abstract retrieved successfully", "content": {"application/json": {"schema": {}}}}, "422": {"description": "Invalid PubMed ID provided"}}}}, "/query": {"post": {"summary": "Query a PubMed article", "description": "Queries a PubMed article with a user-provided question.\n\nArgs:\n    request (QueryRequest): An object containing the PubMed ID and the query.\n\nReturns:\n    dict: A dictionary containing the result of the query.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid, the article is not found, or the query fails.", "operationId": "query_document_query_post", "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/QueryRequest"}}}, "required": true}, "responses": {"200": {"description": "Query result retrieved successfully", "content": {"application/json": {"schema": {}}}}, "422": {"description": "Invalid PubMed ID or query provided"}}}}, "/results": {"post": {"summary": "Get results from a PubMed article", "description": "Extracts results from a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the extracted results.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.", "operationId": "get_results_results_post", "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/PubMedRequest"}}}, "required": true}, "responses": {"200": {"description": "Results retrieved successfully", "content": {"application/json": {"schema": {}}}}, "422": {"description": "Invalid PubMed ID provided"}}}}, "/participants": {"post": {"summary": "Get number of participants from a PubMed article", "description": "Extracts the number of participants from a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the number of participants.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.", "operationId": "get_number_of_participants_participants_post", "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/PubMedRequest"}}}, "required": true}, "responses": {"200": {"description": "Number of participants retrieved successfully", "content": {"application/json": {"schema": {}}}}, "422": {"description": "Invalid PubMed ID provided"}}}}, "/outcomes": {"post": {"summary": "Get outcomes from a PubMed article", "description": "Extracts outcomes from a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the extracted outcomes.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.", "operationId": "get_outcomes_outcomes_post", "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/PubMedRequest"}}}, "required": true}, "responses": {"200": {"description": "Outcomes retrieved successfully", "content": {"application/json": {"schema": {}}}}, "422": {"description": "Invalid PubMed ID provided"}}}}}, "components": {"schemas": {"PubMedRequest": {"properties": {"pubmed_id": {"type": "integer", "title": "Pubmed Id"}}, "type": "object", "required": ["pubmed_id"], "title": "PubMedRequest"}, "QueryRequest": {"properties": {"pubmed_id": {"type": "integer", "title": "Pubmed Id"}, "query": {"type": "string", "title": "Query"}}, "type": "object", "required": ["pubmed_id", "query"], "title": "QueryRequest"}}}}
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AItrika API",
+    "description": "AItrika API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/associations": {
+      "post": {
+        "summary": "Get associations from a PubMed article",
+        "description": "Extracts associations from a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the extracted associations.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.",
+        "operationId": "get_associations_associations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PubMedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Associations retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid PubMed ID provided"
+          }
+        }
+      }
+    },
+    "/abstract": {
+      "post": {
+        "summary": "Get abstract of a PubMed article",
+        "description": "Retrieves the abstract of a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the abstract of the article.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.",
+        "operationId": "get_abstract_abstract_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PubMedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Abstract retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid PubMed ID provided"
+          }
+        }
+      }
+    },
+    "/query": {
+      "post": {
+        "summary": "Query a PubMed article",
+        "description": "Queries a PubMed article with a user-provided question.\n\nArgs:\n    request (QueryRequest): An object containing the PubMed ID and the query.\n\nReturns:\n    dict: A dictionary containing the result of the query.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid, the article is not found, or the query fails.",
+        "operationId": "query_document_query_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Query result retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid PubMed ID or query provided"
+          }
+        }
+      }
+    },
+    "/results": {
+      "post": {
+        "summary": "Get results from a PubMed article",
+        "description": "Extracts results from a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the extracted results.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.",
+        "operationId": "get_results_results_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PubMedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Results retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid PubMed ID provided"
+          }
+        }
+      }
+    },
+    "/participants": {
+      "post": {
+        "summary": "Get number of participants from a PubMed article",
+        "description": "Extracts the number of participants from a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the number of participants.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.",
+        "operationId": "get_number_of_participants_participants_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PubMedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Number of participants retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid PubMed ID provided"
+          }
+        }
+      }
+    },
+    "/outcomes": {
+      "post": {
+        "summary": "Get outcomes from a PubMed article",
+        "description": "Extracts outcomes from a PubMed article based on its ID.\n\nArgs:\n    request (PubMedRequest): An object containing the PubMed ID.\n\nReturns:\n    dict: A dictionary containing the extracted outcomes.\n\nRaises:\n    HTTPException: If the PubMed ID is invalid or the article is not found.",
+        "operationId": "get_outcomes_outcomes_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PubMedRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Outcomes retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid PubMed ID provided"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PubMedRequest": {
+        "properties": {
+          "pubmed_id": {
+            "type": "integer",
+            "title": "Pubmed Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pubmed_id"
+        ],
+        "title": "PubMedRequest"
+      },
+      "QueryRequest": {
+        "properties": {
+          "pubmed_id": {
+            "type": "integer",
+            "title": "Pubmed Id"
+          },
+          "query": {
+            "type": "string",
+            "title": "Query"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pubmed_id",
+          "query"
+        ],
+        "title": "QueryRequest"
+      }
+    }
+  }
+}
