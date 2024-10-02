@@ -60,7 +60,7 @@
     {
       "group": "Endpoints",
       "pages": [
-        "api-reference/endpoint/post"
+        "api-reference/endpoint/create"
       ]
     }
   ],
