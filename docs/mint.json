@@ -48,7 +48,8 @@
     {
       "group": "Installation",
       "pages": [
-        "installation/installation"
+        "installation/install",
+        "installation/set_api_key"
       ]
     },
     {
