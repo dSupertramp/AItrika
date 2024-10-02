@@ -14,15 +14,9 @@
       "to": "#07C983"
     }
   },
-  "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "salvatoredanilopalumbo@gmail.com"
-    }
-  ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Support",
+    "url": "salvatoredanilopalumbo@gmail.com"
   },
   "navigation": [
     {
@@ -51,11 +45,9 @@
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "API Endpoints",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/endpoint/associations"
       ]
     }
   ],
