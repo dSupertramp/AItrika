@@ -2,8 +2,8 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "AITrika",
   "logo": {
-    "dark": "/logo/logo.png",
-    "light": "/logo/logo.png"
+    "dark": "/logo/logo_aitrika.png",
+    "light": "/logo/logo_aitrika.png"
   },
   "favicon": "/favicon.svg",
   "colors": {
@@ -29,13 +29,6 @@
     {
       "name": "API",
       "url": "api"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
     }
   ],
   "navigation": [
