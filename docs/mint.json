@@ -1,5 +1,4 @@
 {
-  "$schema": "https://mintlify.com/schema.json",
   "name": "AITrika",
   "logo": {
     "dark": "/logo/logo_aitrika.png",
@@ -48,13 +47,15 @@
     {
       "group": "API Documentation",
       "pages": [
-        "api/introduction"
+        "api-reference/introduction"
       ]
     },
     {
-      "group": "API Endpoints",
+      "group": "Endpoint Examples",
       "pages": [
-        "api/endpoint/create"
+        "api-reference/endpoint/get",
+        "api-reference/endpoint/create",
+        "api-reference/endpoint/delete"
       ]
     }
   ],
