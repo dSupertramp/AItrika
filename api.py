@@ -9,7 +9,7 @@ import json
 import os
 import uvicorn
 
-app = FastAPI(description="AItrika API", version="0.1.0")
+app = FastAPI(title="AItrika API", description="AItrika API", version="0.1.0")
 load_dotenv()
 
 
@@ -37,7 +37,7 @@ def get_abstract(request: PubMedRequest):
 
 
 @app.post("/query")
-def query_document(request: QueryRequest):  # {{ edit_2 }}
+def query_document(request: QueryRequest):
     engine = OnlineAItrika(pubmed_id=request.pubmed_id)
     abstract = engine.extract_abstract()
     documents = generate_documents(content=abstract)
@@ -45,7 +45,7 @@ def query_document(request: QueryRequest):  # {{ edit_2 }}
         documents=documents,
         api_key=os.getenv("GROQ_API_KEY"),
     )
-    result = llm.query(query=request.query)  # {{ edit_3 }}
+    result = llm.query(query=request.query)
     return {"result": result}
 
 
