@@ -4,11 +4,12 @@ from aitrika.online.online_aitrika import OnlineAItrika
 from aitrika.llm.groq import GroqLLM
 from aitrika.utils.text_parser import generate_documents
 from dotenv import load_dotenv
+from fastapi.openapi.utils import get_openapi
+import json
 import os
 import uvicorn
 
-app = FastAPI()
-
+app = FastAPI(description="AItrika API", version="0.1.0")
 load_dotenv()
 
 
@@ -82,4 +83,16 @@ def get_outcomes(request: PubMedRequest):
 
 
 if __name__ == "__main__":
+    with open("docs/api/openapi.json", "w") as f:
+        json.dump(
+            get_openapi(
+                title=app.title,
+                version=app.version,
+                openapi_version=app.openapi_version,
+                description=app.description,
+                routes=app.routes,
+                # openapi_prefix=app.openapi_prefix,
+            ),
+            f,
+        )
     uvicorn.run(app, host="0.0.0.0", port=8000)
