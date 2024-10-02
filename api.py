@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Body, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from aitrika.online.online_aitrika import OnlineAItrika
 from aitrika.llm.groq import GroqLLM
@@ -22,7 +23,14 @@ class QueryRequest(BaseModel):
     query: str
 
 
-@app.post("/associations", summary="Get associations from a PubMed article")
+@app.post(
+    "/associations",
+    summary="Get associations from a PubMed article",
+    responses={
+        200: {"description": "Associations retrieved successfully"},
+        422: {"description": "Invalid PubMed ID provided"},
+    },
+)
 def get_associations(request: PubMedRequest):
     """
     Extracts associations from a PubMed article based on its ID.
@@ -39,14 +47,21 @@ def get_associations(request: PubMedRequest):
     try:
         engine = OnlineAItrika(pubmed_id=request.pubmed_id)
         associations = engine.extract_associations()
-        return {"associations": associations}
+        return JSONResponse(content={"associations": associations}, status_code=200)
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception:
         raise HTTPException(status_code=500, detail="An unexpected error occurred")
 
 
-@app.post("/abstract", summary="Get abstract of a PubMed article")
+@app.post(
+    "/abstract",
+    summary="Get abstract of a PubMed article",
+    responses={
+        200: {"description": "Abstract retrieved successfully"},
+        422: {"description": "Invalid PubMed ID provided"},
+    },
+)
 def get_abstract(request: PubMedRequest):
     """
     Retrieves the abstract of a PubMed article based on its ID.
@@ -63,14 +78,21 @@ def get_abstract(request: PubMedRequest):
     try:
         engine = OnlineAItrika(pubmed_id=request.pubmed_id)
         abstract = engine.extract_abstract()
-        return {"abstract": abstract}
+        return JSONResponse(content={"abstract": abstract}, status_code=200)
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception:
         raise HTTPException(status_code=500, detail="An unexpected error occurred")
 
 
-@app.post("/query", summary="Query a PubMed article")
+@app.post(
+    "/query",
+    summary="Query a PubMed article",
+    responses={
+        200: {"description": "Query result retrieved successfully"},
+        422: {"description": "Invalid PubMed ID or query provided"},
+    },
+)
 def query_document(request: QueryRequest):
     """
     Queries a PubMed article with a user-provided question.
@@ -93,14 +115,21 @@ def query_document(request: QueryRequest):
             api_key=os.getenv("GROQ_API_KEY"),
         )
         result = llm.query(query=request.query)
-        return {"result": result}
+        return JSONResponse(content={"result": result}, status_code=200)
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception:
         raise HTTPException(status_code=500, detail="An unexpected error occurred")
 
 
-@app.post("/results", summary="Get results from a PubMed article")
+@app.post(
+    "/results",
+    summary="Get results from a PubMed article",
+    responses={
+        200: {"description": "Results retrieved successfully"},
+        422: {"description": "Invalid PubMed ID provided"},
+    },
+)
 def get_results(request: PubMedRequest):
     """
     Extracts results from a PubMed article based on its ID.
@@ -121,14 +150,21 @@ def get_results(request: PubMedRequest):
             api_key=os.getenv("GROQ_API_KEY"),
         )
         results = engine.extract_results(llm=llm)
-        return {"results": results}
+        return JSONResponse(content={"results": results}, status_code=200)
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception:
         raise HTTPException(status_code=500, detail="An unexpected error occurred")
 
 
-@app.post("/participants", summary="Get number of participants from a PubMed article")
+@app.post(
+    "/participants",
+    summary="Get number of participants from a PubMed article",
+    responses={
+        200: {"description": "Number of participants retrieved successfully"},
+        422: {"description": "Invalid PubMed ID provided"},
+    },
+)
 def get_number_of_participants(request: PubMedRequest):
     """
     Extracts the number of participants from a PubMed article based on its ID.
@@ -149,14 +185,23 @@ def get_number_of_participants(request: PubMedRequest):
             api_key=os.getenv("GROQ_API_KEY"),
         )
         number_of_participants = engine.extract_number_of_participants(llm=llm)
-        return {"number_of_participants": number_of_participants}
+        return JSONResponse(
+            content={"number_of_participants": number_of_participants}, status_code=200
+        )
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception:
         raise HTTPException(status_code=500, detail="An unexpected error occurred")
 
 
-@app.post("/outcomes", summary="Get outcomes from a PubMed article")
+@app.post(
+    "/outcomes",
+    summary="Get outcomes from a PubMed article",
+    responses={
+        200: {"description": "Outcomes retrieved successfully"},
+        422: {"description": "Invalid PubMed ID provided"},
+    },
+)
 def get_outcomes(request: PubMedRequest):
     """
     Extracts outcomes from a PubMed article based on its ID.
@@ -177,10 +222,10 @@ def get_outcomes(request: PubMedRequest):
             api_key=os.getenv("GROQ_API_KEY"),
         )
         outcomes = engine.extract_outcomes(llm=llm)
-        return {"outcomes": outcomes}
+        return JSONResponse(content={"outcomes": outcomes}, status_code=200)
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception:
         raise HTTPException(status_code=500, detail="An unexpected error occurred")
 
 
