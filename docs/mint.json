@@ -58,7 +58,7 @@
       ]
     },
     {
-      "group": "Endpoints",
+      "group": "API Endpoints",
       "pages": [
         "api/endpoint/create"
       ]
