@@ -47,7 +47,8 @@
     {
       "group": "API Endpoints",
       "pages": [
-        "api-reference/endpoint/associations"
+        "api-reference/endpoint/associations",
+        "api-reference/endpoint/abstract"
       ]
     }
   ],
