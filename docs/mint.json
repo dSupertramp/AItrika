@@ -25,12 +25,6 @@
     "name": "Dashboard",
     "url": "https://dashboard.mintlify.com"
   },
-  "tabs": [
-    {
-      "name": "API",
-      "url": "api"
-    }
-  ],
   "navigation": [
     {
       "group": "Get Started",
