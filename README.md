@@ -48,7 +48,7 @@ First of all, create a virtual environment with the command `python3 -m venv ven
 
 After that, you can install poetry with the command `pip install poetry` and then run `poetry install`.
 
-## 🔑 Set API Keys
+## 🔑 Set LLM API Keys
 
 In order to set API keys, insert your keys into the `env.example` file and rename it to `.env`.
 
@@ -150,6 +150,36 @@ print(results)
 - Research need - clinical management - of moderate and low-risk variants
 ```
 
+## 🚀 Run the API
+
+To run the AItrika API, follow these steps:
+
+1. Ensure you have set up your environment and installed all dependencies as described in the Installation section.
+
+2. Run the API server using the following command:
+
+```bash
+python api.py
+```
+
+The API will start running on http://0.0.0.0:8000. You can now make requests to the various endpoints:
+
+- /associations: Get associations from a PubMed article
+- /abstract: Get abstract of a PubMed article
+- /query: Query a PubMed article
+- /results: Get results from a PubMed article
+- /participants: Get number of participants from a PubMed article
+- /outcomes: Get outcomes from a PubMed article
+
+You can use tools like curl, Postman, or any HTTP client to interact with the API. For example:
+
+```bash
+curl -X POST "http://localhost:8000/abstract" -H "Content-Type: application/json" -d '{"pubmed_id": 12345678}'
+```
+
+The API documentation is automatically generated and saved to <code>docs/api-reference/openapi.json</code>.
+You can use this file with tools like Swagger UI for a more interactive API exploration experience.
+
 ## Support the Project
 
 If you find this project useful, please consider supporting it:
@@ -161,7 +191,7 @@ If you find this project useful, please consider supporting it:
 
 ### Commercial / Business use
 
-If you're using this project in a business or commercial context, please [contact me](salvatoredanilopalumbo@gmail.com). 
+If you're using this project in a business or commercial context, please [contact me](salvatoredanilopalumbo@gmail.com).
 
 I'm available for consulting, custom development, or commercial licensing.
 
