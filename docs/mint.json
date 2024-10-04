@@ -48,7 +48,11 @@
       "group": "API Endpoints",
       "pages": [
         "api-reference/endpoint/associations",
-        "api-reference/endpoint/abstract"
+        "api-reference/endpoint/abstract",
+        "api-reference/endpoint/query",
+        "api-reference/endpoint/results",
+        "api-reference/endpoint/participants",
+        "api-reference/endpoint/outcomes"
       ]
     }
   ],
