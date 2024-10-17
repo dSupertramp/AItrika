@@ -1,8 +1,8 @@
-from fastapi import FastAPI, Body, HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from aitrika.online.online_aitrika import OnlineAItrika
-from aitrika.llm.groq import GroqLLM
+from aitrika.llm.openai import OpenAILLM
 from aitrika.utils.text_parser import generate_documents
 from dotenv import load_dotenv
 from fastapi.openapi.utils import get_openapi
@@ -110,9 +110,9 @@ def query_document(request: QueryRequest):
         engine = OnlineAItrika(pubmed_id=request.pubmed_id)
         abstract = engine.extract_abstract()
         documents = generate_documents(content=abstract)
-        llm = GroqLLM(
+        llm = OpenAILLM(
             documents=documents,
-            api_key=os.getenv("GROQ_API_KEY"),
+            api_key=os.getenv("OPENAI_API_KEY"),
         )
         result = llm.query(query=request.query)
         return JSONResponse(content={"result": result}, status_code=200)
@@ -145,9 +145,9 @@ def get_results(request: PubMedRequest):
     """
     try:
         engine = OnlineAItrika(pubmed_id=request.pubmed_id)
-        llm = GroqLLM(
+        llm = OpenAILLM(
             documents=generate_documents(content=engine.extract_abstract()),
-            api_key=os.getenv("GROQ_API_KEY"),
+            api_key=os.getenv("OPENAI_API_KEY"),
         )
         results = engine.extract_results(llm=llm)
         return JSONResponse(content={"results": results}, status_code=200)
@@ -180,9 +180,9 @@ def get_number_of_participants(request: PubMedRequest):
     """
     try:
         engine = OnlineAItrika(pubmed_id=request.pubmed_id)
-        llm = GroqLLM(
+        llm = OpenAILLM(
             documents=generate_documents(content=engine.extract_abstract()),
-            api_key=os.getenv("GROQ_API_KEY"),
+            api_key=os.getenv("OPENAI_API_KEY"),
         )
         number_of_participants = engine.extract_number_of_participants(llm=llm)
         return JSONResponse(
@@ -217,9 +217,9 @@ def get_outcomes(request: PubMedRequest):
     """
     try:
         engine = OnlineAItrika(pubmed_id=request.pubmed_id)
-        llm = GroqLLM(
+        llm = OpenAILLM(
             documents=generate_documents(content=engine.extract_abstract()),
-            api_key=os.getenv("GROQ_API_KEY"),
+            api_key=os.getenv("OPENAI_API_KEY"),
         )
         outcomes = engine.extract_outcomes(llm=llm)
         return JSONResponse(content={"outcomes": outcomes}, status_code=200)
