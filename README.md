@@ -42,11 +42,31 @@ python main.py
 
 ## 📦 Install
 
-To install everything, you need `poetry`.
+To install everything, you need `uv`.
 
-First of all, create a virtual environment with the command `python3 -m venv venv_name` and activate it with `source venv_name\bin\activate`.
+First of all, install `uv` with the command:
 
-After that, you can install poetry with the command `pip install poetry` and then run `poetry install`.
+```
+python main.py
+```
+
+After that, create a virtual environment with the command:
+
+```
+uv venv venv_name
+```
+
+Activate the virtual env:
+
+```
+source venv_name/bin/activate
+```
+
+And install dependencies:
+
+```
+uv pip install -r requirements.in
+```
 
 ## 🔑 Set LLM API Keys
 
