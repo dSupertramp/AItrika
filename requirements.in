@@ -6,3 +6,6 @@ llama-index-embeddings-huggingface
 llama-index-vector-stores-lancedb 
 llama-index-vector-stores-qdrant 
 python-dotenv
+streamlit
+PyPDF2
+spacy

@@ -3,9 +3,9 @@ Streamlit app for demo.
 """
 
 import streamlit as st
-from aitrika.online.online_aitrika import OnlineAItrika
+from aitrika.engine.online_aitrika import OnlineAItrika
 from aitrika.utils.text_parser import generate_documents
-from aitrika.llm.groq import GroqLLM
+from aitrika.llm.openai import OpenAILLM
 from dotenv import load_dotenv
 import os
 import time
@@ -55,7 +55,7 @@ pubmed_id = st.text_input("Enter the PubMed ID", placeholder="23747889")
 if pubmed_id:
     engine = OnlineAItrika(pubmed_id=pubmed_id)
     documents = generate_documents(content=engine.extract_abstract())
-    llm = GroqLLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))
+    llm = OpenAILLM(documents=documents, api_key=os.getenv("GROQ_API_KEY"))
     with st.expander("Select the information that you want to extract: "):
         option = st.selectbox(
             " ",
@@ -135,7 +135,6 @@ if pubmed_id:
             methods = engine.extract_methods(llm=llm).split("---")
             formatted_methods = format_list_to_markdown(methods)
             st.markdown(formatted_methods)
-
         elif option == "Acknowledgements":
             st.markdown("## Acknowledgements")
             st.write(engine.extract_acknowledgements(llm=llm))
@@ -145,13 +144,11 @@ if pubmed_id:
         elif option == "Number of participants":
             st.markdown("## Number of participants")
             st.write(engine.extract_number_of_participants(llm=llm))
-
         elif option == "Paper results":
             st.markdown("## Paper results")
             paper_results = engine.extract_paper_results(llm=llm).split("---")
             formatted_paper_results = format_list_to_markdown(paper_results)
             st.markdown(formatted_paper_results)
-
         elif option == "Characteristics of participants":
             st.markdown("## Characteristics of participants")
             characteristics_of_participants = (

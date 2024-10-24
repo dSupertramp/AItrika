@@ -2,7 +2,7 @@
 Main script for demo.
 """
 
-from aitrika.online.online_aitrika import OnlineAItrika
+from aitrika.engine.online_aitrika import OnlineAItrika
 from aitrika.llm.openai import OpenAILLM
 from aitrika.utils.text_parser import generate_documents
 from dotenv import load_dotenv
